@@ -7,6 +7,17 @@
 #ifndef IMAGE_TOOLS_PGM_H
 #define IMAGE_TOOLS_PGM_H
 
+/**
+ * Thoses functions and structure are used to get modify and save a PGM.
+ * 
+ * Actually features :
+ * - Get a PGM_image from a file
+ * 
+ * To Do :
+ * - Manipulate the PGM_image
+ * - Save the PGM_image on a hard drive
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
