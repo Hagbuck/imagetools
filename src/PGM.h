@@ -26,6 +26,8 @@
 
 #define BUFFER_SIZE         200
 #define MAX_CHAR_PER_LINE   70
+#define FILE_MAX_SIZE       2048
+#define NUMBER_MAX_SIZE     7
 
 typedef struct PGM_image PGM_image;
 struct PGM_image
@@ -36,7 +38,8 @@ struct PGM_image
     int** pixels;
 };
 
-PGM_image* PGM_get_image_from_file(FILE * file);
+PGM_image* PGM_get_image_from_file(FILE* file);
+e__bool PGM_save_image_into_file(PGM_image* pgm, FILE* file);
 
 int get_first_int_from_string(char* buffer);
 int get_second_int_from_string(char* buffer);

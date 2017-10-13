@@ -15,7 +15,7 @@
  *
  * @return     The PGM_image
  */
-PGM_image* PGM_get_image_from_file(FILE * file)
+PGM_image* PGM_get_image_from_file(FILE* file)
 {
     if(file)
     {
@@ -81,6 +81,41 @@ PGM_image* PGM_get_image_from_file(FILE * file)
         return pgm;
     }
     exit(ERR_FILE_IS_NULL);
+}
+
+/**
+ * @brief      Transform a PGM_image into a string
+ *             And save it into a file
+ *
+ * @param      pgm   The pgm
+ * @param      file  The file
+ *
+ * @return     TRUE if the save success, FALSE otherwise
+ */
+e__bool PGM_save_image_into_file(PGM_image* pgm, FILE* file)
+{
+    char str_pgm[FILE_MAX_SIZE];        // A string which contain the pgm as a string
+    char str_number[NUMBER_MAX_SIZE];   // A string which contain a number, used to collect the pixel value
+
+    int width = pgm->width;
+    int height = pgm->height;
+
+    sprintf(str_pgm, "P2\n%d %d\n%d\n", width, height, pgm->v_max); // Add the headers values into the string
+
+    /**
+     * For each pixels
+     */
+    int i, j;
+    for(i = 0; i < height; ++i)
+    {
+        for(j = 0; j < width; ++j)
+        {
+            sprintf(str_number, "%d ", pgm->pixels[i][j]);  // Add the pixel value
+            strcat(str_pgm, str_number);
+        }
+        strcat(str_pgm, "\n");
+    }
+    return save_string_into_file(str_pgm, file);
 }
 
 /**
