@@ -93,9 +93,21 @@ PGM_P2_image* PGM_P2_get_image_from_file(FILE* file)
  */
 PGM_P2_image* PGM_P2_reversed_filter(PGM_P2_image *img)
 {
-    PGM_P2_image* reversed;
+    PGM_P2_image* reversed = PGM_P2_get_copy(img);
+    int i,j;
+    int pixel_value;
 
+    for(i = 0; i < reversed->height; ++i)
+    {
+        for(j = 0; j < reversed->width; ++j)
+        {
+            pixel_value = reversed->pixels[i][j];
+            pixel_value = reversed->v_max - pixel_value;
 
+            reversed->pixels[i][j] = pixel_value;
+        }
+    }
+    return reversed;
 }
 
 /**
