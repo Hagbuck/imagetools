@@ -38,8 +38,12 @@ struct PGM_P2_image
     int** pixels;
 };
 
+
 PGM_P2_image* PGM_P2_get_image_from_file(FILE* file);
+PGM_P2_image* PGM_P2_reversed_filter(PGM_P2_image *img);
 e__bool PGM_P2_save_image_into_file(PGM_P2_image* pgm, FILE* file);
+
+PGM_P2_image* PGM_P2_get_copy(PGM_P2_image* img);
 
 int get_first_int_from_string(char* buffer);
 int get_second_int_from_string(char* buffer);

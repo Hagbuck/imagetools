@@ -13,13 +13,15 @@
 int main(int argc, char *argv[])
 {
     FILE* file = get_file("img/test.pgm", "r");
-    FILE* output = get_file("img/out.pgm", "w");
+    FILE* output = get_file("img/copy.pgm", "w");
 
     PGM_P2_image* pgm = PGM_P2_get_image_from_file(file);
 
-    display_PGM_P2_image(pgm);
+    //display_PGM_P2_image(pgm);
+    
+    PGM_P2_image* copy = PGM_P2_get_copy(pgm);
 
-    PGM_save_image_into_file(pgm, output);
+    PGM_P2_save_image_into_file(copy, output);
 
     free_PGM_P2_image(pgm);
 

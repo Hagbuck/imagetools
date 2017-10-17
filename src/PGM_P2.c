@@ -4,7 +4,7 @@
  * Vuillemin Anthony
  */
 
-#include "PGM.h"
+#include "PGM_P2.h"
 
 /**
  * @brief      Get a PGM_P2_image from a PGM file
@@ -84,6 +84,21 @@ PGM_P2_image* PGM_P2_get_image_from_file(FILE* file)
 }
 
 /**
+ * @brief      Create a new PGM_P2_image based on img
+ *             with a reversed filter
+ *
+ * @param      img   The image
+ *
+ * @return     the new image reversed
+ */
+PGM_P2_image* PGM_P2_reversed_filter(PGM_P2_image *img)
+{
+    PGM_P2_image* reversed;
+
+
+}
+
+/**
  * @brief      Transform a PGM_P2_image into a string
  *             And save it into a file
  *
@@ -116,6 +131,35 @@ e__bool PGM_P2_save_image_into_file(PGM_P2_image* pgm, FILE* file)
         strcat(str_pgm, "\n");
     }
     return save_string_into_file(str_pgm, file);
+}
+
+/**
+ * @brief      copy a PGM_P2_image and return the new instance
+ *
+ * @param      img   The image
+ *
+ * @return     the copy of img
+ */
+PGM_P2_image* PGM_P2_get_copy(PGM_P2_image* img)
+{
+    PGM_P2_image* copy = malloc(sizeof(PGM_P2_image));
+    int i,j;
+
+    copy->height = img->height;
+    copy->width  = img->width;
+    copy->v_max  = img->v_max;
+
+    // Allocate the memory for a 2D array which will contain the pixels
+    copy->pixels = malloc(copy->height * sizeof(int*));
+    for(i = 0; i < copy->height; ++i)
+    {
+        copy->pixels[i] = malloc(copy->width * sizeof(int));
+        for(int j = 0; j < copy->width; ++j)
+        {
+            copy->pixels[i][j] = img->pixels[i][j];
+        }
+    }
+    return copy;
 }
 
 /**
