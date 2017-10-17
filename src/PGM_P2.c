@@ -135,6 +135,11 @@ PGM_P2_histogram* PGM_P2_get_histogram(PGM_P2_image *img)
     {
         for(j = 0; j < img->width; ++j)
         {
+            /**
+             * Each case of the array is a intensity
+             * So for each pixel
+             * Increment the intensity which match with this pixel intensity
+             */
             pixel_value = img->pixels[i][j];
 
             ++(histogram->intensity_value[pixel_value]);
@@ -237,45 +242,52 @@ PGM_P2_image* PGM_P2_get_PGM_P2_image_from_PGM_P2_histogram(PGM_P2_histogram* hi
 {
     if(histogram != NULL)
     {
-        PGM_P2_image* pgm = malloc(sizeof(PGM_P2_image*));
-        int i, j;
-        int max = histogram->intensity_value[0];
-
-        pgm->width = histogram->size; 
-        pgm->v_max = 1;
-
-        // Search the higher intensity
-        for(i = 1; i < histogram->size; ++i)
+        if(histogram->intensity_value != NULL && histogram->size > 0)
         {
-            int intensity = histogram->intensity_value[i];
-            if(histogram->intensity_value[i] > max)
-                max = intensity;
-        }
+            PGM_P2_image* pgm = malloc(sizeof(PGM_P2_image*));
+            int i, j;
+            int max = histogram->intensity_value[0];
 
-        pgm->height = max;
+            pgm->width = histogram->size;           // A col of the histogram will be a a col into the picture
+            pgm->v_max = 1;                         // Only need one color
 
-        // Allocate the memory for a 2D array which will contain the pixels
-        pgm->pixels = malloc(pgm->height * sizeof(int*));
-        for(i = 0; i < pgm->height; ++i)
-        {
-            pgm->pixels[i] = malloc(pgm->width * sizeof(int));
-        }
-
-        for(i = 0; i < pgm->height; ++i)
-        {
-            for(j = 0; j < pgm->width; ++j)
+            for(i = 1; i < histogram->size; ++i)                // Search the higher intensity
             {
-                if((pgm->height - i) > histogram->intensity_value[j])
+                int intensity = histogram->intensity_value[i];
+                if(histogram->intensity_value[i] > max)
+                    max = intensity;
+            }
+
+            pgm->height = max;                      // The line number is the same as the max value into the histogram
+
+            // Allocate the memory for a 2D array which will contain the pixels
+            pgm->pixels = malloc(pgm->height * sizeof(int*));
+            for(i = 0; i < pgm->height; ++i)
+            {
+                pgm->pixels[i] = malloc(pgm->width * sizeof(int));
+            }
+
+
+            for(i = 0; i < pgm->height; ++i)        // Foreach pixel
+            {
+                for(j = 0; j < pgm->width; ++j)
                 {
-                    pgm->pixels[i][j] = pgm->v_max;
-                }
-                else
-                {
-                    pgm->pixels[i][j] = 0;
+                    // For the j col
+                    // If the line number (the real line number) is under the intensity value
+                    // So the pixel should be empty (white)
+                    // Otherwithe, it should be black
+                    if((pgm->height - i) > histogram->intensity_value[j]) // If the pixel should be white
+                    {
+                        pgm->pixels[i][j] = pgm->v_max;
+                    }
+                    else                            // If the pixel pixel should be black
+                    {
+                        pgm->pixels[i][j] = 0;
+                    }
                 }
             }
+            return pgm;
         }
-        return pgm;
     }
     return NULL;
 }

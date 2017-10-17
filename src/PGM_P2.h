@@ -12,10 +12,10 @@
  * 
  * Actually features :
  * - Get a PGM_P2_image from a file
- * 
- * To Do :
- * - Manipulate the PGM_P2_image
  * - Save the PGM_P2_image on a hard drive
+ * - Get a copy of a PGM_P2 with a reversed filter
+ * - Get the histogram of an image
+ * - Save a Histogram as a PGM picture
  */
 
 #include <stdio.h>
