@@ -8,20 +8,20 @@
 #include <stdlib.h>
 
 #include "basic_tools.h"
-#include "PGM.h"
+#include "PGM_P2.h"
 
 int main(int argc, char *argv[])
 {
     FILE* file = get_file("img/test.pgm", "r");
     FILE* output = get_file("img/out.pgm", "w");
 
-    PGM_image* pgm = PGM_get_image_from_file(file);
+    PGM_P2_image* pgm = PGM_P2_get_image_from_file(file);
 
-    display_PGM_image(pgm);
+    display_PGM_P2_image(pgm);
 
     PGM_save_image_into_file(pgm, output);
 
-    free_PGM_image(pgm);
+    free_PGM_P2_image(pgm);
 
     fclose(file);
     fclose(output);

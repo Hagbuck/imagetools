@@ -108,3 +108,6 @@ sftp-config.json
 #OBJ FOLDER
 obj/
 obj/*
+
+#Images
+img/*
