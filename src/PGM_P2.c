@@ -101,13 +101,47 @@ PGM_P2_image* PGM_P2_reversed_filter(PGM_P2_image *img)
     {
         for(j = 0; j < reversed->width; ++j)
         {
-            pixel_value = reversed->pixels[i][j];
-            pixel_value = reversed->v_max - pixel_value;
+            pixel_value = reversed->pixels[i][j];           // Get the pixel value
+            pixel_value = reversed->v_max - pixel_value;    // Reverse pixel value
 
-            reversed->pixels[i][j] = pixel_value;
+            reversed->pixels[i][j] = pixel_value;           // Set the new pixel value
         }
     }
     return reversed;
+}
+
+/**
+ * @brief      Get the histogram of a PGM_P2_image
+ *
+ * @param      img   The image
+ *
+ * @return     The histogram of img
+ */
+PGM_P2_histogram* PGM_P2_get_histogram(PGM_P2_image *img)
+{
+    PGM_P2_histogram* histogram = malloc(sizeof(PGM_P2_histogram));
+    int i, j;
+    int pixel_value;
+
+    histogram->size = img->v_max + 1;       // We need 0 to v_max included [0;v_max]
+    histogram->intensity_value = malloc(histogram->size * sizeof(int)); // Allocate as many array space as the number of potentials pixels values in img 
+
+    for(i = 0; i < histogram->size; ++i)    // Set all intensity value to 0
+    {
+        histogram->intensity_value[i] = 0;
+    }
+
+    for(i = 0; i < img->height; ++i)    // Foreach pixel
+    {
+        for(j = 0; j < img->width; ++j)
+        {
+            pixel_value = img->pixels[i][j];
+
+            ++(histogram->intensity_value[pixel_value]);
+        }
+    }
+
+    return histogram;
 }
 
 /**
@@ -358,6 +392,17 @@ void free_PGM_P2_image(PGM_P2_image* pgm)
 }
 
 /**
+ * @brief      Delete a PGM_P2_histogram
+ *
+ * @param      histogram  The histogram
+ */
+void free_PGM_P2_histogram(PGM_P2_histogram* histogram)
+{
+    free(histogram->intensity_value);
+    free(histogram);
+}
+
+/**
  * @brief      Display the pgm in the terminal
  *
  * @param      pgm   The pgm
@@ -375,5 +420,21 @@ void display_PGM_P2_image(PGM_P2_image* pgm)
             printf("%d ", pgm->pixels[i][j]);
         }
         printf("\n");
+    }
+}
+
+/**
+ * @brief      Display an histogram in the terminak
+ *
+ * @param      histogram  The histogram
+ */
+void display_PGM_P2_histogram(PGM_P2_histogram* histogram)
+{
+    int i;
+
+    puts("Val : Int");
+    for(i = 0; i < histogram->size; ++i)
+    {
+        printf("> %d : %d\n", i, histogram->intensity_value[i]);
     }
 }

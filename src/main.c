@@ -16,17 +16,19 @@ int main(int argc, char *argv[])
     FILE* output = get_file("img/reversed.pgm", "w");
 
     PGM_P2_image* pgm = PGM_P2_get_image_from_file(file);
+    PGM_P2_histogram* hist_pgm = PGM_P2_get_histogram(pgm);
 
-    //display_PGM_P2_image(pgm);
+    display_PGM_P2_histogram(hist_pgm);
     
     PGM_P2_image* reversed = PGM_P2_reversed_filter(pgm);
 
     PGM_P2_save_image_into_file(reversed, output);
 
-    display_PGM_P2_image(reversed);
+    display_PGM_P2_image(pgm);
 
     free_PGM_P2_image(pgm);
     free_PGM_P2_image(reversed);
+    free_PGM_P2_histogram(hist_pgm);
 
     fclose(file);
     fclose(output);
