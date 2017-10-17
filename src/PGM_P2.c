@@ -176,7 +176,25 @@ e__bool PGM_P2_save_image_into_file(PGM_P2_image* pgm, FILE* file)
         }
         strcat(str_pgm, "\n");
     }
+
     return save_string_into_file(str_pgm, file);
+}
+
+/**
+ * @brief      Transform a PGM_P2_histogram into a PGM_P2_image
+ *             And save it into a file
+ *
+ * @param      histogram  The histogram
+ * @param      file       The file
+ *
+ * @return     { description_of_the_return_value }
+ */
+e__bool PGM_P2_save_histogram_as_PGM_P2_file(PGM_P2_histogram* histogram, FILE* file)
+{
+    PGM_P2_image* pgm_histogram = PGM_P2_get_PGM_P2_image_from_PGM_P2_histogram(histogram);
+    e__bool res = PGM_P2_save_image_into_file(pgm_histogram, file);
+    free_PGM_P2_image(pgm_histogram);
+    return res;
 }
 
 /**
@@ -206,6 +224,60 @@ PGM_P2_image* PGM_P2_get_copy(PGM_P2_image* img)
         }
     }
     return copy;
+}
+
+/**
+ * @brief      Transform a PGM_P2_histogram into a PGM_P2_image
+ *
+ * @param      histogram  The histogram
+ *
+ * @return     The PGM_P2_image which represent the Histogram
+ */
+PGM_P2_image* PGM_P2_get_PGM_P2_image_from_PGM_P2_histogram(PGM_P2_histogram* histogram)
+{
+    if(histogram != NULL)
+    {
+        PGM_P2_image* pgm = malloc(sizeof(PGM_P2_image*));
+        int i, j;
+        int max = histogram->intensity_value[0];
+
+        pgm->width = histogram->size; 
+        pgm->v_max = 1;
+
+        // Search the higher intensity
+        for(i = 1; i < histogram->size; ++i)
+        {
+            int intensity = histogram->intensity_value[i];
+            if(histogram->intensity_value[i] > max)
+                max = intensity;
+        }
+
+        pgm->height = max;
+
+        // Allocate the memory for a 2D array which will contain the pixels
+        pgm->pixels = malloc(pgm->height * sizeof(int*));
+        for(i = 0; i < pgm->height; ++i)
+        {
+            pgm->pixels[i] = malloc(pgm->width * sizeof(int));
+        }
+
+        for(i = 0; i < pgm->height; ++i)
+        {
+            for(j = 0; j < pgm->width; ++j)
+            {
+                if((pgm->height - i) > histogram->intensity_value[j])
+                {
+                    pgm->pixels[i][j] = pgm->v_max;
+                }
+                else
+                {
+                    pgm->pixels[i][j] = 0;
+                }
+            }
+        }
+        return pgm;
+    }
+    return NULL;
 }
 
 /**

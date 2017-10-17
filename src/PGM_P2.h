@@ -26,7 +26,7 @@
 
 #define BUFFER_SIZE         200
 #define MAX_CHAR_PER_LINE   70
-#define FILE_MAX_SIZE       2048
+#define FILE_MAX_SIZE       4096
 #define NUMBER_MAX_SIZE     7
 
 typedef struct PGM_P2_image PGM_P2_image;
@@ -50,8 +50,10 @@ PGM_P2_image*       PGM_P2_get_image_from_file(FILE* file);
 PGM_P2_image*       PGM_P2_reversed_filter(PGM_P2_image *img);
 PGM_P2_histogram*   PGM_P2_get_histogram(PGM_P2_image *img);
 e__bool             PGM_P2_save_image_into_file(PGM_P2_image* pgm, FILE* file);
+e__bool             PGM_P2_save_histogram_as_PGM_P2_file(PGM_P2_histogram* histogram, FILE* file);
 
 PGM_P2_image*       PGM_P2_get_copy(PGM_P2_image* img);
+PGM_P2_image*       PGM_P2_get_PGM_P2_image_from_PGM_P2_histogram(PGM_P2_histogram* histogram);
 
 int                 get_first_int_from_string(char* buffer);
 int                 get_second_int_from_string(char* buffer);
