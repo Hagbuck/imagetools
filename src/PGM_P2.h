@@ -27,6 +27,7 @@
 #define BUFFER_SIZE         200
 #define MAX_CHAR_PER_LINE   70
 #define FILE_MAX_SIZE       4096
+#define HEADER_PGM_SIZE     81 /* P2\n(3digits) + 70(width+height, max size for a line : 70) + 8 (7digits max + \n)*/
 #define NUMBER_MAX_SIZE     7
 
 typedef struct PGM_P2_image PGM_P2_image;

@@ -160,11 +160,14 @@ PGM_P2_histogram* PGM_P2_get_histogram(PGM_P2_image *img)
  */
 e__bool PGM_P2_save_image_into_file(PGM_P2_image* pgm, FILE* file)
 {
-    char str_pgm[FILE_MAX_SIZE];        // A string which contain the pgm as a string
-    char str_number[NUMBER_MAX_SIZE];   // A string which contain a number, used to collect the pixel value
-
     int width = pgm->width;
     int height = pgm->height;
+    // char str_pgm[FILE_MAX_SIZE];        // A string which contain the pgm as a string
+    // 
+    char* str_pgm = malloc((HEADER_PGM_SIZE * sizeof(char))   // Space for the header
+        + ((8 * width * height) + height) * sizeof(char));    // Space for pixels (8 for maximal int size + ' ' (7+1)) (+height for each '\n')
+
+    char str_number[NUMBER_MAX_SIZE];   // A string which contain a number, used to collect the pixel value
 
     sprintf(str_pgm, "P2\n%d %d\n%d\n", width, height, pgm->v_max); // Add the headers values into the string
 
