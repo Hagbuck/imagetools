@@ -43,4 +43,3 @@ e__bool save_string_into_file(char* str, FILE* file)
     }
     return FALSE;
 }
-
