@@ -261,7 +261,6 @@ e__bool PGM_P2_save_image_into_file(PGM_P2_image* pgm, FILE* file)
 
     /**
      * For each pixels
-     * THIS LOOP IS VERY SLOW !!!!!!!
      */
     int i, j, k;
     for(i = 0; i < height; ++i)
@@ -270,27 +269,15 @@ e__bool PGM_P2_save_image_into_file(PGM_P2_image* pgm, FILE* file)
         {
             sprintf(str_number, "%d ", pgm->pixels[i][j]);  // Add the pixel value
             k = 0;
-            while(str_number[k] != '\0')
+            while(str_number[k] != '\0')        // Add the pixel value into the str_pgm
             {
                 str_pgm[str_pgm_index] = str_number[k];
                 ++str_pgm_index;
                 ++k;
             }
-            // str_number[0] = '0';
-            // str_number[1] = '\0';
-          
-            // str_pgm[str_pgm_index] = '0';
-            // ++str_pgm_index;
-            // str_pgm[str_pgm_index] = '\0';
-            // ++str_pgm_index;
-            // str_pgm[str_pgm_index] = ' ';
-            // ++str_pgm_index;
-
-            // strcat(str_pgm, str_number);
         }
         str_pgm[str_pgm_index] = '\n';
         ++str_pgm_index;
-        // strcat(str_pgm, "\n");
     }
     return save_string_into_file(str_pgm, file);
 }

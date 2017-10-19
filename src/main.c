@@ -16,6 +16,7 @@ int main(int argc, char *argv[])
     // FILE* out_copy = get_file("img/lena_copy.pgm", "w");
     FILE* out_reversed = get_file("img/lena_reversed.pgm", "w");
     FILE* out_histo = get_file("img/lena_histogram.pgm", "w");
+    FILE* out_histo_reversed = get_file("img/lena_histogram_reversed.pgm", "w");
 
     puts("LOAD");
     PGM_P2_image* pgm = PGM_P2_get_image_from_file(file);
@@ -34,14 +35,21 @@ int main(int argc, char *argv[])
     puts("SAVE REVERSED");
     PGM_P2_save_image_into_file(pgm_reversed, out_reversed);
 
+    puts("GET HISTO REVERSED");
+    PGM_P2_histogram* hist_reversed_pgm = PGM_P2_get_histogram(pgm_reversed);
+
+    puts("SAVE HISTO REVERSED");
+    PGM_P2_save_histogram_as_PGM_P2_file(hist_pgm, out_histo_reversed);
 
     free_PGM_P2_image(pgm);
     free_PGM_P2_image(pgm_reversed);
     free_PGM_P2_histogram(hist_pgm);
+    free_PGM_P2_histogram(hist_reversed_pgm);
 
     fclose(file);
     // fclose(out_copy);
     fclose(out_reversed);
     fclose(out_histo);
+    fclose(out_histo_reversed);
     return 0;
 }
