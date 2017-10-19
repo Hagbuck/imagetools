@@ -56,11 +56,6 @@ e__bool             PGM_P2_save_histogram_as_PGM_P2_file(PGM_P2_histogram* histo
 PGM_P2_image*       PGM_P2_get_copy(PGM_P2_image* img);
 PGM_P2_image*       PGM_P2_get_PGM_P2_image_from_PGM_P2_histogram(PGM_P2_histogram* histogram);
 
-int                 get_first_int_from_string(char* buffer);
-int                 get_second_int_from_string(char* buffer);
-
-void                fill_picture_line_from_string(PGM_P2_image* pgm, int picture_line, char* buffer);
-
 e__bool             is_separator(char char_readed);
 
 void                free_PGM_P2_image(PGM_P2_image* pgm);

@@ -28,15 +28,12 @@ PGM_P2_image* PGM_P2_get_image_from_file(FILE* file)
         int picture_line_number = 0;    // The relative line number of picture line (The part with pixels values)
         int pixel_value;
         int i;
-
-        // BUG : ON LIT LIGNE PAR LIGNE OR UNE LIGNE DE PIXEL N EST PAS UNE LIGNE DANS LE FICHIER !!!!!!!
         
         char char_readed;
 
         do
         {
             char_readed = fgetc(file);
-            // printf("%c", char_readed);
 
             if(char_readed == '#')          // If this line is a commentary
             {
@@ -131,12 +128,10 @@ PGM_P2_image* PGM_P2_get_image_from_file(FILE* file)
                     /**
                      * All other line which are a part of the picture
                      */
-                    default:
-                        // fill_picture_line_from_string(pgm, picture_line_number, buffer);
-                        
+                    default:                        
                         for(i = 0; i < pgm->width; ++i)
                         {
-                            do
+                            while(is_separator(char_readed) == FALSE)
                             {
                                 char_readed = fgetc(file);
                                 if(is_separator(char_readed) == FALSE)
@@ -144,17 +139,20 @@ PGM_P2_image* PGM_P2_get_image_from_file(FILE* file)
                                     buffer[buffer_index] = char_readed;
                                     ++buffer_index;
                                 }
-                            }while(is_separator(char_readed) == FALSE);
+                            }
 
                             buffer[buffer_index] = '\0';
 
                             pixel_value = atoi(buffer);
-                            // printf("[%d,%d] %d", picture_line_number, i, pixel_value);
                             pgm->pixels[picture_line_number][i] = pixel_value;
 
-                            while(is_separator(char_readed = fgetc(file)) == FALSE);
-                            buffer_index = 0;
-                            buffer[buffer_index] = char_readed;
+                            while(is_separator(char_readed) == TRUE && char_readed != EOF)
+                            {
+                                char_readed = fgetc(file);
+                            }
+                            
+                            buffer[0] = char_readed;
+                            buffer_index = 1;
                         }
                         ++picture_line_number;
                     break;
@@ -387,160 +385,6 @@ PGM_P2_image* PGM_P2_get_PGM_P2_image_from_PGM_P2_histogram(PGM_P2_histogram* hi
         }
     }
     return NULL;
-}
-
-/**
- * @brief      Gets the first int from string.
- *             Read all character one by one
- *             Create a number with it
- *             Will stop when a character is not
- *             a number
- *
- * @param      buffer  The buffer
- *
- * @return     The first int from string.
- */
-int get_first_int_from_string(char* buffer)
-{
-    char str_int[MAX_CHAR_PER_LINE];    // A string which contain the number
-    char char_readed;                   // The actually character readed
-    int i = 0;                          // Index of the whole line ( buffer )
-    int index_str_int = 0;              // Index of the string which contain the number
-    
-    /**
-     * Read the buffer character per character
-     */
-    do
-    {
-        char_readed = buffer[i];
-        if(char_readed >= '0' && char_readed <= '9')    // If the char is a number 
-        {
-            str_int[index_str_int] = char_readed;       // Add the number at the end of str_int
-            ++index_str_int;                            // Adjust the index 
-        }
-        else if(is_separator(char_readed) == TRUE)      // If the char is a separator
-        {
-            str_int[index_str_int] = '\0';              // Add the EndLine character at the end of str_int
-        }                                               // And it will mark the end of the loop
-        else
-        {
-            printf("ERROR getting integer from string: %d\n", ERR_IMAGE_FILE_IS_INCORRECT);
-            exit(ERR_IMAGE_FILE_IS_INCORRECT);
-        }
-        ++i;                                            // Move the character readed by one place
-    }while(is_separator(char_readed) == FALSE);
-
-    return atoi(str_int);   // Return the number as a integer
-}
-
-/**
- * @brief      Gets the second int from string.
- *             Work exactly as the same as get_first_int_from_string
- *             But first we pass the first number
- *
- * @param      buffer  The buffer
- *
- * @return     The second int from string.
- */
-int get_second_int_from_string(char* buffer)
-{
-    char str_int[MAX_CHAR_PER_LINE];
-    char char_readed;
-    int i = 0;
-    int index_str_int = 0;
-
-    /**
-     * Pass first
-     */
-    while(buffer[i] != ' ')
-    {
-        ++i;
-    }
-    ++i;
-
-    do
-    {
-        char_readed = buffer[i];
-        if(char_readed >= '0' && char_readed <= '9')
-        {
-            str_int[index_str_int] = char_readed;
-            ++index_str_int;
-        }
-        else if(is_separator(char_readed) == TRUE)
-        {
-            str_int[index_str_int] = '\0';
-        }
-        else
-        {
-            printf("ERROR getting height : %d\n", ERR_IMAGE_FILE_IS_INCORRECT);
-            exit(ERR_IMAGE_FILE_IS_INCORRECT);
-        }
-        ++i;
-    }while(is_separator(char_readed) == FALSE);
-
-    return atoi(str_int);
-}
-
-/**
- * @brief      fill a line in the pixels array of a PGM_P2_image from a string who contain the pixels value
- *             Read each character. For each number separate by a separator.
- *             Add this number into the 2D array of the PGM_P2_image
- *
- * @param      pgm           The pgm
- * @param[in]  picture_line  The picture line
- * @param      buffer        A line who contain all the pixel value 
- */
-void fill_picture_line_from_string(PGM_P2_image* pgm, int picture_line, char* buffer)
-{
-    int i, j = 0;
-    char str_int[MAX_CHAR_PER_LINE];    // A string which contain the pixel value
-    int index_str_int;                  // Index of str_int
-    char char_readed;
-
-    /**
-     * Foreach pixel to add
-     */
-    for(i = 0; i < pgm->width; ++i)
-    {
-        /**
-         * Read into the buffer until it find a number
-         */
-        index_str_int = 0; // Go to the begin of the pixel value buffer
-        do
-        {
-            char_readed = buffer[j];
-
-            if(char_readed >= '0' && char_readed <= '9')    // If the char read is a number
-            {
-                str_int[index_str_int] = char_readed;       // We add it into the str_int
-                ++index_str_int;                            // Adjust the index
-                ++j;                                        // Go to the next char into the buffer 
-            }
-            else if(is_separator(char_readed) == TRUE)      // If the char is a separator
-            {
-                str_int[index_str_int] = '\0';              // We add the EndLine character at the end of str_int
-            }                                               // And it will ending the loop
-            else
-            {
-                printf("ERROR getting character \'%d\' : %d\n", char_readed, ERR_IMAGE_FILE_IS_INCORRECT);
-                exit(ERR_IMAGE_FILE_IS_INCORRECT);
-            }
-            
-        }while(is_separator(char_readed) == FALSE);
-
-        while(is_separator(buffer[++j]) == TRUE);       // Here we read until the new pixel value for pass all the useless separators
-
-
-        int pixel_value = atoi(str_int);                // Transform the string into an integer
-
-        if(pixel_value > pgm->v_max || pixel_value < 0 )// Check if the pixel value if correct
-        {
-            printf("ERROR pixel_value > v_max : %d\n", ERR_PIXEL_VALUE_INCORECT);
-            exit(ERR_PIXEL_VALUE_INCORECT);
-        }
-
-        pgm->pixels[picture_line][i] = pixel_value;     // Add the pixel value into the pixel array
-    }
 }
 
 /**
