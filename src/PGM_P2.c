@@ -21,23 +21,46 @@ PGM_P2_image* PGM_P2_get_image_from_file(FILE* file)
     {
         PGM_P2_image* pgm = malloc(sizeof(PGM_P2_image));
 
-        char buffer[BUFFER_SIZE];       // Contain the line readed.
+        char buffer[MAX_CHAR_PER_LINE];       // Contain the line readed.
+        int buffer_index;
 
         int line_number = 0;            // The real line number of the file   
         int picture_line_number = 0;    // The relative line number of picture line (The part with pixels values)
-
+        int pixel_value;
         int i;
 
-        while (fgets(buffer, BUFFER_SIZE, file) != NULL)
+        // BUG : ON LIT LIGNE PAR LIGNE OR UNE LIGNE DE PIXEL N EST PAS UNE LIGNE DANS LE FICHIER !!!!!!!
+        
+        char char_readed;
+
+        do
         {
-            if(buffer[0] != '#') // This line is not a commentary
+            char_readed = fgetc(file);
+            // printf("%c", char_readed);
+
+            if(char_readed == '#')          // If this line is a commentary
             {
+                while(fgetc(file) != '\n'); // Go to the next line
+            }
+            else if(char_readed != EOF)
+            {
+                buffer[0] = char_readed;
+                buffer_index = 1;
                 switch(line_number)
                 {
                     /**
                      * Checking the PGM Magic number
                      */
                     case 0:
+                        do
+                        {
+                            char_readed = fgetc(file);
+                            buffer[buffer_index] = char_readed;
+                            ++buffer_index;
+
+                        }while(char_readed != '\n');
+                        buffer[buffer_index] = '\0';
+
                         if(strcmp(buffer, "P2\n") != 0) // The magic number is not P2
                         {
                             printf("ERRO : %d\n", ERR_IMAGE_FILE_IS_INCORRECT);
@@ -49,8 +72,35 @@ PGM_P2_image* PGM_P2_get_image_from_file(FILE* file)
                      * Searching width and height
                      */
                     case 1:
-                        pgm->width = get_first_int_from_string(buffer);
-                        pgm->height = get_second_int_from_string(buffer);
+                        do
+                        {
+                            char_readed = fgetc(file);
+                            if(char_readed != ' ')
+                            {
+                                buffer[buffer_index] = char_readed;
+                                ++buffer_index;
+                            }
+                        }while(char_readed != ' ');
+                        buffer[buffer_index] = '\0';
+
+                        pgm->width = atoi(buffer);
+
+                        while((char_readed = fgetc(file)) == ' ');
+
+                        buffer_index = 1;
+                        buffer[0] = char_readed;
+                        do
+                        {
+                            char_readed = fgetc(file);
+                            if(is_separator(char_readed) == FALSE)
+                            {
+                                buffer[buffer_index] = char_readed;
+                                ++buffer_index;
+                            }
+                        }while(is_separator(char_readed) == FALSE);
+                        buffer[buffer_index] = '\0';
+
+                        pgm->height = atoi(buffer);
 
                         // Allocate the memory for a 2D array which will contain the pixels
                         pgm->pixels = malloc(pgm->height * sizeof(int*));
@@ -64,20 +114,56 @@ PGM_P2_image* PGM_P2_get_image_from_file(FILE* file)
                      * Searching Max value
                      */
                     case 2:
-                        pgm->v_max = get_first_int_from_string(buffer);
+                        do
+                        {
+                            char_readed = fgetc(file);
+                            if(char_readed != ' ')
+                            {
+                                buffer[buffer_index] = char_readed;
+                                ++buffer_index;
+                            }
+                        }while(char_readed != ' ');
+                        buffer[buffer_index] = '\0';
+
+                        pgm->v_max = atoi(buffer);
                     break;
 
                     /**
                      * All other line which are a part of the picture
                      */
                     default:
-                        fill_picture_line_from_string(pgm, picture_line_number, buffer);
+                        // fill_picture_line_from_string(pgm, picture_line_number, buffer);
+                        
+                        for(i = 0; i < pgm->width; ++i)
+                        {
+                            do
+                            {
+                                char_readed = fgetc(file);
+                                if(is_separator(char_readed) == FALSE)
+                                {
+                                    buffer[buffer_index] = char_readed;
+                                    ++buffer_index;
+                                }
+                            }while(is_separator(char_readed) == FALSE);
+
+                            buffer[buffer_index] = '\0';
+
+                            pixel_value = atoi(buffer);
+                            // printf("[%d,%d] %d", picture_line_number, i, pixel_value);
+                            pgm->pixels[picture_line_number][i] = pixel_value;
+
+                            while(is_separator(char_readed = fgetc(file)) == FALSE);
+                            buffer_index = 0;
+                            buffer[buffer_index] = char_readed;
+                        }
                         ++picture_line_number;
                     break;
                 }
                 ++line_number;
             }
-        }
+
+        }while(char_readed != EOF);
+
         return pgm;
     }
     exit(ERR_FILE_IS_NULL);
@@ -163,7 +249,7 @@ e__bool PGM_P2_save_image_into_file(PGM_P2_image* pgm, FILE* file)
     int width = pgm->width;
     int height = pgm->height;
     // char str_pgm[FILE_MAX_SIZE];        // A string which contain the pgm as a string
-    // 
+    
     char* str_pgm = malloc((HEADER_PGM_SIZE * sizeof(char))   // Space for the header
         + ((8 * width * height) + height) * sizeof(char));    // Space for pixels (8 for maximal int size + ' ' (7+1)) (+height for each '\n')
 
@@ -173,6 +259,7 @@ e__bool PGM_P2_save_image_into_file(PGM_P2_image* pgm, FILE* file)
 
     /**
      * For each pixels
+     * THIS LOOP IS VERY SLOW !!!!!!!
      */
     int i, j;
     for(i = 0; i < height; ++i)
@@ -458,7 +545,18 @@ void fill_picture_line_from_string(PGM_P2_image* pgm, int picture_line, char* bu
  */
 e__bool is_separator(char char_readed)
 {
-    if(char_readed == ' ' || char_readed == '\n' || char_readed == '\t' || char_readed == 'EOF' || char_readed == 'LF' || char_readed == 0)
+    // if(char_readed == ' ' || char_readed == '\n' || char_readed == '\t' || char_readed == 'EOF' || char_readed == 'LF' || char_readed == 0)
+    if(char_readed == ' ' 
+    || char_readed == '\n' 
+    || char_readed == '\t' 
+    || char_readed == EOF 
+    || char_readed == 'LF'
+    || char_readed == 'VT'
+    || char_readed == 'BS' 
+    || char_readed == 'CR' 
+    || char_readed == 'TAB' 
+    || char_readed == 'FF' 
+    || char_readed == 0)
         return TRUE;
     return FALSE;
 }

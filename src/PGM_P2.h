@@ -24,7 +24,7 @@
 
 #include "basic_tools.h"
 
-#define BUFFER_SIZE         200
+#define BUFFER_SIZE         2048
 #define MAX_CHAR_PER_LINE   70
 #define FILE_MAX_SIZE       4096
 #define HEADER_PGM_SIZE     81 /* P2\n(3digits) + 70(width+height, max size for a line : 70) + 8 (7digits max + \n)*/
