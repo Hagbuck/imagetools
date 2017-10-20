@@ -12,6 +12,7 @@
 
 #define LENA            "img/lena.ascii.pgm"
 #define LENA_REV        "img/lena.ascii_reversed.pgm"
+#define LENA_COPY       "img/lena.ascii_copy.pgm"
 #define LENA_HIST       "img/lena.ascii_histogram.pgm"
 #define LENA_HIST_REV   "img/lena.ascii_reversed_histogram.pgm"
 #define FEEP            "img/feep.pgm"
@@ -22,13 +23,23 @@
 int main(int argc, char *argv[])
 {
     FILE* file = get_file(LENA, "r");
+    FILE* out_copy = get_file(LENA_COPY, "w");
     FILE* out_reversed = get_file(LENA_REV, "w");
     FILE* out_histo = get_file(LENA_HIST, "w");
     FILE* out_histo_reversed = get_file(LENA_HIST_REV, "w");
 
+
+    char numb[NUMBER_MAX_SIZE] = "1523";
+    int val = get_int_from_str(numb);
+    printf("> %s : %d\n", numb, val);
+
+
     puts("LOAD");
     PGM_P2_image* pgm = PGM_P2_get_image_from_file(file);
 
+    puts("SAVE COPY");
+    PGM_P2_save_image_into_file(pgm, out_copy);
+    
     puts("GET HISTO");
     PGM_P2_histogram* hist_pgm = PGM_P2_get_histogram(pgm);
 
@@ -53,6 +64,7 @@ int main(int argc, char *argv[])
     free_PGM_P2_histogram(hist_reversed_pgm);
 
     fclose(file);
+    fclose(out_copy);
     fclose(out_reversed);
     fclose(out_histo);
     fclose(out_histo_reversed);

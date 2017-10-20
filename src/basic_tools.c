@@ -43,3 +43,55 @@ e__bool save_string_into_file(char* str, FILE* file)
     }
     return FALSE;
 }
+
+/**
+ * @brief      Transform the string into an integer
+ *
+ * @param      str      The string
+ * @param      integer  The integer
+ */
+void str_to_int(char* str, int* integer)
+{
+    int i = 0;
+    char c;
+    *integer = 0;
+
+    do
+    {
+        c = str[i];
+        if(c >= '0' && c <= '9')
+        {
+            ++i;
+            *integer += c - '0';
+            *integer *= 10;
+        }
+    }while(c != '\0' && i < NUMBER_MAX_SIZE);
+    *integer /= 10;
+}
+
+/**
+ * @brief      Transform a string into an integer
+ *
+ * @param      str   The string
+ *
+ * @return     The integer
+ */
+int get_int_from_str(char* str)
+{
+    int i = 0;
+    char c;
+    int integer = 0;
+
+    do
+    {
+        c = str[i];
+        if(c >= '0' && c <= '9')
+        {
+            ++i;
+            integer += c - '0';
+            integer *= 10;
+        }
+    }while(c != '\0' && i < NUMBER_MAX_SIZE);
+    integer /= 10;
+    return integer;
+}

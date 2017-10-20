@@ -18,10 +18,16 @@
 #define ERR_IMAGE_FILE_IS_INCORRECT 3
 #define ERR_PIXEL_VALUE_INCORECT    4
 
+
+#define NUMBER_MAX_SIZE             7
+
+
 typedef enum e__bool e__bool;
 enum e__bool{FALSE, TRUE};
 
-FILE * get_file(char* file_name, char* method);
+FILE*   get_file(char* file_name, char* method);
 e__bool save_string_into_file(char* str, FILE* file);
+void    str_to_int(char* str, int* integer);
+int     get_int_from_str(char* str);
 
 #endif
