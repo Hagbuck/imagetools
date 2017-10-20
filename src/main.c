@@ -17,22 +17,17 @@
 #define LENA_HIST_REV   "img/lena.ascii_reversed_histogram.pgm"
 #define FEEP            "img/feep.pgm"
 #define FEEP_REV        "img/feep_reversed.pgm"
+#define FEEP_COPY       "img/feep_copy.pgm"
 #define FEEP_HIST       "img/feep_histogram.pgm"
 #define FEEP_HIST_REV   "img/feep_reversed_histogram.pgm"
 
 int main(int argc, char *argv[])
 {
-    FILE* file = get_file(LENA, "r");
-    FILE* out_copy = get_file(LENA_COPY, "w");
-    FILE* out_reversed = get_file(LENA_REV, "w");
-    FILE* out_histo = get_file(LENA_HIST, "w");
-    FILE* out_histo_reversed = get_file(LENA_HIST_REV, "w");
-
-
-    char numb[NUMBER_MAX_SIZE] = "1523";
-    int val = get_int_from_str(numb);
-    printf("> %s : %d\n", numb, val);
-
+    FILE* file = get_file(FEEP, "r");
+    FILE* out_copy = get_file(FEEP_COPY, "w");
+    FILE* out_reversed = get_file(FEEP_REV, "w");
+    FILE* out_histo = get_file(FEEP_HIST, "w");
+    FILE* out_histo_reversed = get_file(FEEP_HIST_REV, "w");
 
     puts("LOAD");
     PGM_P2_image* pgm = PGM_P2_get_image_from_file(file);

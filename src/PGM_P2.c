@@ -41,8 +41,16 @@ PGM_P2_image* PGM_P2_get_image_from_file(FILE* file)
             }
             else if(char_readed != EOF)
             {
-                buffer[0] = char_readed;
-                buffer_index = 1;
+                if(line_number <= 3)            // On the third first line we use the first char of the line as the first char .... Obviously
+                {
+                    buffer[0] = char_readed;
+                    buffer_index = 1;
+                }
+                else                            // BUT : after during the reading of the pixel value, we read the first char of the next line
+                {                               // So the char read here, is the second of the line...
+                    buffer[1] = char_readed;
+                    buffer_index = 2;
+                }
                 switch(line_number)
                 {
                     /**
@@ -114,12 +122,12 @@ PGM_P2_image* PGM_P2_get_image_from_file(FILE* file)
                         do
                         {
                             char_readed = fgetc(file);
-                            if(char_readed != ' ')
+                            if(is_separator(char_readed) == FALSE)
                             {
                                 buffer[buffer_index] = char_readed;
                                 ++buffer_index;
                             }
-                        }while(char_readed != ' ');
+                        }while(is_separator(char_readed) == FALSE);
                         buffer[buffer_index] = '\0';
 
                         pgm->v_max = atoi(buffer);
@@ -128,7 +136,7 @@ PGM_P2_image* PGM_P2_get_image_from_file(FILE* file)
                     /**
                      * All other line which are a part of the picture
                      */
-                    default:                        
+                    default:
                         for(i = 0; i < pgm->width; ++i)
                         {
                             while(is_separator(char_readed) == FALSE)
