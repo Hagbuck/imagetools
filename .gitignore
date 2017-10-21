@@ -112,5 +112,11 @@ obj/*
 #Images
 img/*
 
+#IGNO FOLDER
+igno/
+igno/*
+
 #Codeblocks
 *.cbp
+*.depend
+*.layout

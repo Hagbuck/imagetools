@@ -16,7 +16,7 @@
  * - Get a copy of a PGM_P2 with a reversed filter
  * - Get the histogram of an image
  * - Save a Histogram as a PGM picture
- */
+ */ 
 
 #include <stdio.h>
 #include <stdlib.h>

@@ -19,7 +19,7 @@ PGM_P2_image* PGM_P2_get_image_from_file(FILE* file)
 {
     if(file)
     {
-        PGM_P2_image* pgm = malloc(sizeof(PGM_P2_image));
+        PGM_P2_image* pgm = malloc(sizeof(PGM_P2_image*));
 
         char buffer[MAX_CHAR_PER_LINE];       // Contain the line readed.
         int buffer_index;
@@ -314,7 +314,7 @@ e__bool PGM_P2_save_histogram_as_PGM_P2_file(PGM_P2_histogram* histogram, FILE* 
  */
 PGM_P2_image* PGM_P2_get_copy(PGM_P2_image* img)
 {
-    PGM_P2_image* copy = malloc(sizeof(PGM_P2_image));
+    PGM_P2_image* copy = malloc(sizeof(PGM_P2_image*));
     int i,j;
 
     copy->height = img->height;
