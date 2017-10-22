@@ -8,8 +8,8 @@ SRCF=src
 
 all: $(EXEC)
 
-imagetools: basic_tools.o main.o PGM_P2.o
-	$(CC) -o $@.$(OUTEXT) $(OBJF)/basic_tools.o $(OBJF)/PGM_P2.o $(OBJF)/main.o $(LDFLAGS)
+imagetools: basic_tools.o main.o PGM_P2.o BMP.o
+	$(CC) -o $@.$(OUTEXT) $(OBJF)/basic_tools.o $(OBJF)/PGM_P2.o $(OBJF)/BMP.o $(OBJF)/main.o $(LDFLAGS)
 
 basic_tools.o: $(SRCF)/basic_tools.c
 	$(CC) -o $(OBJF)/$@ -c $(SRCF)/basic_tools.c $(CFLAGS)
@@ -17,7 +17,10 @@ basic_tools.o: $(SRCF)/basic_tools.c
 PGM_P2.o: $(SRCF)/PGM_P2.c
 	$(CC) -o $(OBJF)/$@ -c $(SRCF)/PGM_P2.c $(CFLAGS)
 
-main.o: $(SRCF)/main.c $(SRCF)/basic_tools.h $(SRCF)/PGM_P2.h
+BMP.o: $(SRCF)/BMP.c
+	$(CC) -o $(OBJF)/$@ -c $(SRCF)/BMP.c $(CFLAGS)
+
+main.o: $(SRCF)/main.c $(SRCF)/basic_tools.h $(SRCF)/PGM_P2.h $(SRCF)/BMP.o
 	$(CC) -o $(OBJF)/$@ -c $(SRCF)/main.c $(CFLAGS)
 
 clean:

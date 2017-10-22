@@ -1,0 +1,176 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+  
+    <title>Lecture de la taille d'une image JPEG en parsant son entete.</title>
+    <meta content="">
+    <style></style>
+  </head><body>
+<h1>LIRE LA TAILLE D'UN FICHIER JPEG</h1>
+
+Comment faire pour lire les dimensions d'une image JPEG, si on ne dispose pas des bibliothes adaptées (libjpeg...) ?<br>
+Nous allons voir comment le le faire en s'attaquant directement au header d'un de ces fichier.
+
+<eng>
+How to read the sizes of a JPEG image without bibiotheq like libjpeg.<br>
+We will see how this can be done bty parsing byte by byte the header<br>
+</eng>
+
+<h2>Structure des fichiers JPEG, les FRAMES</h2>
+Les fichiers JPEG commencent par 0xff et 0xd8, c'est le <em>Start of Image</em>
+<p>
+Ensuite ils sont composés de blocs <em>(frame)</em> qui commencent par 0xff. 
+Le char 0xff de début de bloc est suivit d'un indicateur de type de bloc.<br>
+Ensuite vient la longueur du bloc, en octet. Elle est ecrite sur deux octet,
+ en Big Endien.<br>
+Donc on retrouve séquentiellement la même structure de 4 octets : 
+</p><ul>
+<li> le Start Of Frame (SOF)
+</li><li> le Frame Identifier
+</li><li> Deux octets de longueur
+</li></ul>
+
+La longueur est le nombre d'octets du frame <em>Non compris</em> les deux premiers octets, c'est comme ça...<br>
+Donc vous pouvez vérifier en comptant qu'on retrouve bien un nouveau
+SOF à la bonne place. Sur l'exemple on a des frames qui font
+successivement 16 octets, puis 67 et à nouveau 67 octets.
+<br>
+
+<p></p>
+<img src="Read_jpeg_size_fichiers/jpeg_bin.png" border="1">
+
+<eng>
+A JPEG file begin with 0xff and 0xd8. Those bytes are the <em>Start of Image</em>
+<p>
+After they are made of <em>frames</em> beginning with 0xff.<br>
+The byte first frame, 0xff is followed by an frame type identifier on one byte<br>
+After come the lenght of the bloc in byte. It's writted on 2 bytes in big endian<br>
+So we will find repeatdly the frame structure : 
+</p><ul>
+<li> Start Of Frame byte (SOF)
+</li><li> Frame Identifier byte
+</li><li> 2 byte for frame lenght
+</li></ul>
+
+
+</eng>
+<h2>Le frame de dimension</h2>
+
+
+<p>
+Le bloc qui contient la taille est indiqué par <em>0xc0, 0xc1, 0xc2 ou 0xc3.</em></p>
+<p>Il contient les éléments habituel d'une frame (SOF, identifier, longueur) et enfin ce que nous cherchons :
+</p><ul>
+<li> Une indication de précision d'échantillonage
+</li><li> La hauteur sur deux octets
+</li><li> La largeur sur deux octets
+</li></ul>
+
+<p></p>
+
+<img src="Read_jpeg_size_fichiers/jpeg_Size_Frame.png" border="1">
+
+<p>
+ On pourrait essayer de chercher simplement la première occurence de cette 
+chaine.</p>
+<p>
+MAIS : si l'image est précédée d'une miniature, il risque d'y avoir
+ un bloc contenant des données brutes (codage de l'image miniature).<br>Et
+avec un peu de malchance il pourrait y avoir des données qui s'écrivent
+ff et c0 dedans : tous l'espace de chiffres sur un octets est utilisé. <br>
+Donc en procédant ainsi on risque  bien de tomber sur des chiffres qui ne sont pas un <em>Start Of Frame</em>.
+</p>
+<p>
+DONC : 
+</p><ul>
+<li>  il faut regarder chaque entête de bloc,
+</li><li>  si ce n'est pas le bloc qui nous interesse, 
+</li><li>  on lit sa longueur
+</li><li>  on saute tous les caracteres de ce bloc sans interet.<br>
+    pour cela on saute (LONGUEUR - 2) caracteres puisqu'en lisant<br>
+    la longueur du bloc on a, de ce fait, deja sauté deux char. 
+</li><li> Et si on a bien compté on se retrouve à l'entrée du frame suivant
+</li></ul>
+SI C'EST NOTRE FRAME DE DIMENSION :
+<ul>
+<li> on saute 3 characteres qui ne nous interessent pas 
+(2 pour la longueur du bloc comme d'habitude et un <br>
+pour la precision d'echantillonage, classiquement c'est un 0x08) 
+</li><li> on lit la HAUTEUR en Big Endien sur deux octets
+</li><li> on lit la LARGEUR en Big Endien sur deux octets
+</li></ul>
+<eng><h2>Dimension frame</h2>
+This frame is identified by one of those bytes : <em>0xc0, 0xc1, 0xc2 or 0xc3</em><br>
+
+It contains the usual frame beginning (SOF, Identifier, lenght) and what we are searching for :
+<ul>
+<li> Sampling indication
+</li><li> Height on 2 bytes
+</li><li> Width on 2 bytes
+</li></ul>
+<p>
+We could have a temptation : just search for the first occurence of those two byte in the file.
+</p>
+<p>
+BUT : Some image are preceded by a thunbail. <br>
+If we are unlucky some data in the thunbial could contains 0xff anf
+0xc0 : the full numeration space of a byte is used within a frame.<br>
+So, working like this, we can get numbers who are not the start of the dimension frame.</p>
+<p>
+We have to read each start of frame
+If it's not the frame that we are searching for,
+We read it's lenght
+We skip all the octets of this uninterresting frame.
+</p>
+
+</eng>
+<h2> Exemple de code source </h2>
+<hr>
+<pre class="c"><span style="color: rgb(51, 153, 51);">#include &lt;stdlib.h&gt;</span>
+<span style="color: rgb(51, 153, 51);">#include &lt;stdio.h&gt;</span>
+&nbsp;
+<span style="color: rgb(153, 51, 51);">int</span> main<span style="color: rgb(102, 204, 102);">(</span><span style="color: rgb(153, 51, 51);">int</span> argc, <span style="color: rgb(153, 51, 51);">char</span> * argv<span style="color: rgb(102, 204, 102);">[</span><span style="color: rgb(102, 204, 102);">]</span> <span style="color: rgb(102, 204, 102);">)</span>
+&nbsp;
+<span style="color: rgb(102, 204, 102);">{</span>
+  FILE * fp ;
+  <span style="color: rgb(153, 51, 51);">int</span> i;
+  <span style="color: rgb(153, 51, 51);">int</span> c1, c2 , be , le , W , H ;
+  <span style="color: rgb(153, 51, 51);">int</span> OFS;
+  fp = fopen<span style="color: rgb(102, 204, 102);">(</span>argv<span style="color: rgb(102, 204, 102);">[</span><span style="color: rgb(204, 102, 204);">1</span><span style="color: rgb(102, 204, 102);">]</span>,<span style="color: rgb(255, 0, 0);">"r"</span><span style="color: rgb(102, 204, 102);">)</span>;
+&nbsp;
+  c1 =    fgetc<span style="color: rgb(102, 204, 102);">(</span> fp<span style="color: rgb(102, 204, 102);">)</span>;
+  c2 =    fgetc<span style="color: rgb(102, 204, 102);">(</span> fp<span style="color: rgb(102, 204, 102);">)</span>;
+  <span style="color: rgb(177, 177, 0);">if</span><span style="color: rgb(102, 204, 102);">(</span>c1==0xff &amp;&amp; c2==0xd8<span style="color: rgb(102, 204, 102);">)</span> <a href="http://www.opengroup.org/onlinepubs/009695399/functions/printf.html"><span style="color: rgb(0, 0, 102);">printf</span></a><span style="color: rgb(102, 204, 102);">(</span><span style="color: rgb(255, 0, 0);">"OK, JPEG"</span><span style="color: rgb(102, 204, 102);">)</span>; <span style="color: rgb(128, 128, 128); font-style: italic;">/*Check JPEG format*/</span>
+  
+  <span style="color: rgb(177, 177, 0);">for</span> <span style="color: rgb(102, 204, 102);">(</span>i=<span style="color: rgb(204, 102, 204);">0</span> ; i &lt; <span style="color: rgb(204, 102, 204);">20</span> ; i++<span style="color: rgb(102, 204, 102);">)</span><span style="color: rgb(102, 204, 102);">{</span> 
+    <span style="color: rgb(128, 128, 128); font-style: italic;">/* arbitrary stop at 20 here, just to stop the program in case of bug...   */</span>
+    c1 =    fgetc<span style="color: rgb(102, 204, 102);">(</span> fp<span style="color: rgb(102, 204, 102);">)</span>;
+    <span style="color: rgb(128, 128, 128); font-style: italic;">// printf("%d\t%#0X\t%#c",i,c1,c1);</span>
+    
+    <span style="color: rgb(177, 177, 0);">if</span> <span style="color: rgb(102, 204, 102);">(</span>c1==0xff<span style="color: rgb(102, 204, 102);">)</span> <span style="color: rgb(102, 204, 102);">{</span> <span style="color: rgb(128, 128, 128); font-style: italic;">/* We detect a SOF*/</span>
+      c2 =    fgetc<span style="color: rgb(102, 204, 102);">(</span> fp<span style="color: rgb(102, 204, 102);">)</span>;
+      <span style="color: rgb(177, 177, 0);">if</span> <span style="color: rgb(102, 204, 102);">(</span> c2 &gt;= 0xc0 &amp;&amp; c2 &lt;= 0xc3<span style="color: rgb(102, 204, 102);">)</span><span style="color: rgb(102, 204, 102);">{</span>
+	<span style="color: rgb(128, 128, 128); font-style: italic;">/* It's the size frame we read his dimensions, print them and stop */</span>
+	fseek <span style="color: rgb(102, 204, 102);">(</span>fp, <span style="color: rgb(204, 102, 204);">3</span>, SEEK_CUR<span style="color: rgb(102, 204, 102);">)</span>;
+	be =    fgetc<span style="color: rgb(102, 204, 102);">(</span> fp<span style="color: rgb(102, 204, 102);">)</span>;
+	le =    fgetc<span style="color: rgb(102, 204, 102);">(</span> fp<span style="color: rgb(102, 204, 102);">)</span>;
+	H = <span style="color: rgb(204, 102, 204);">256</span>*be + le ;
+	be =    fgetc<span style="color: rgb(102, 204, 102);">(</span> fp<span style="color: rgb(102, 204, 102);">)</span>;
+	le =    fgetc<span style="color: rgb(102, 204, 102);">(</span> fp<span style="color: rgb(102, 204, 102);">)</span>;
+	W = <span style="color: rgb(204, 102, 204);">256</span>*be + le ;
+	<a href="http://www.opengroup.org/onlinepubs/009695399/functions/printf.html"><span style="color: rgb(0, 0, 102);">printf</span></a> <span style="color: rgb(102, 204, 102);">(</span><span style="color: rgb(255, 0, 0);">"<span style="color: rgb(0, 0, 153); font-weight: bold;">\t</span>&lt;-- +++ HxW : %d x %d<span style="color: rgb(0, 0, 153); font-weight: bold;">\n</span>"</span>,H,W<span style="color: rgb(102, 204, 102);">)</span>;
+	<span style="color: rgb(0, 0, 0); font-weight: bold;">break</span> ;
+      <span style="color: rgb(102, 204, 102);">}</span><span style="color: rgb(177, 177, 0);">else</span><span style="color: rgb(102, 204, 102);">{</span>
+	<span style="color: rgb(128, 128, 128); font-style: italic;">/* It's not the size bloc, we just read his size to skip it */</span>
+	be =    fgetc<span style="color: rgb(102, 204, 102);">(</span> fp<span style="color: rgb(102, 204, 102);">)</span>;
+	le =    fgetc<span style="color: rgb(102, 204, 102);">(</span> fp<span style="color: rgb(102, 204, 102);">)</span>;
+	OFS = <span style="color: rgb(204, 102, 204);">256</span>*be + le ;
+	<span style="color: rgb(128, 128, 128); font-style: italic;">// printf ("\t OFFSET = %d",OFS);</span>
+	fseek <span style="color: rgb(102, 204, 102);">(</span>fp, OFS<span style="color: rgb(204, 102, 204);">-2</span>, SEEK_CUR<span style="color: rgb(102, 204, 102);">)</span>;
+      <span style="color: rgb(102, 204, 102);">}</span>
+    <span style="color: rgb(102, 204, 102);">}</span>
+    <span style="color: rgb(128, 128, 128); font-style: italic;">// printf("\n");</span>
+  <span style="color: rgb(102, 204, 102);">}</span>
+  <span style="color: rgb(177, 177, 0);">return</span> <span style="color: rgb(204, 102, 204);">1</span>; 
+<span style="color: rgb(102, 204, 102);">}</span></pre>
+
+</body></html>
