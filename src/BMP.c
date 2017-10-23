@@ -15,13 +15,20 @@ BMP_image* BMP_get_image_from_file(FILE* file)
         {
             if(BMP_fill_header(bmp, file) == TRUE)
             {
-                // TODO : Convert the width into hex value and decimal value
-                printf("> width : %d\n", bmp->biWidth[2]);
-
-                bmp->height = 1;
-                bmp->width = 1;
-
+                bmp->height = 0x0000;
+                bmp->width = 0x0000;
                 int i;
+                
+                for(i = 0; i < 4; ++i)
+                {
+                    bmp->width = bmp->width << 8;
+                    bmp->width += bmp->biWidth[i];
+                    
+                    bmp->height = bmp->height << 8;
+                    bmp->height += bmp->biHeight[i];  
+                }
+
+                
                 bmp->pixels = malloc(bmp->height * sizeof(rgb*));
                 if(bmp->pixels != NULL)
                 {
