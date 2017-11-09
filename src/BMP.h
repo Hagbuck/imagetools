@@ -72,6 +72,9 @@ e__bool         BMP_copy_header(BMP_image* const src, BMP_image* const dest);
 BMP_image*      BMP_get_copy(BMP_image* const bmp);
 
 e__bool         BMP_set_gray_filter(BMP_image* const bmp);
+e__bool         BMP_set_reversed_filter(BMP_image* const bmp);
+e__bool         BMP_set_horizontal_reversed(BMP_image* const bmp);
+e__bool         BMP_set_vertical_reversed(BMP_image* const bmp);
 
 void            BMP_show_header(const BMP_image* const bmp);
 void            free_BMP_image(BMP_image* bmp);

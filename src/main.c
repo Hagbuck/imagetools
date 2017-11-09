@@ -24,8 +24,11 @@
 #define FEEP_HIST_REV   "img/feep_reversed_histogram.pgm"
 
 #define MARIO           "img/mario.bmp"
+#define MARIO_REV       "img/mario_reversed.bmp"
 #define MARIO_COPY      "img/mario_copy.bmp"
 #define MARIO_GRAY      "img/mario_gray.bmp"
+#define MARIO_H_REV     "img/mario_horizontal_reversed.bmp"
+#define MARIO_V_REV     "img/mario_vertical_reversed.bmp"
 
 int main(int argc, char *argv[])
 {
@@ -72,12 +75,12 @@ int main(int argc, char *argv[])
     
 
     FILE* file = get_file(MARIO, "rb");
-    FILE* out = get_file(MARIO_GRAY, "wb");
+    FILE* out = get_file(MARIO_V_REV, "wb");
 
     BMP_image* bmp = BMP_get_image_from_file(file);
     BMP_image* copy = BMP_get_copy(bmp);
 
-    BMP_set_gray_filter(copy);
+    BMP_set_vertical_reversed(copy);
 
     // BMP_show_header(bmp);
 

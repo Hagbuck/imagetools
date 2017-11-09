@@ -394,6 +394,63 @@ e__bool BMP_set_gray_filter(BMP_image* const bmp)
     return FALSE;
 }
 
+e__bool BMP_set_reversed_filter(BMP_image* const bmp)
+{
+    if(bmp != NULL)
+    {
+        int i,j;
+        for(i = 0; i < bmp->height; ++i)
+        {
+            for(j = 0; j < bmp->width; ++j)
+            {
+                bmp->pixels[i][j].r = 255 - bmp->pixels[i][j].r;
+                bmp->pixels[i][j].g = 255 - bmp->pixels[i][j].g;
+                bmp->pixels[i][j].b = 255 - bmp->pixels[i][j].b;
+            }
+        }
+        return TRUE;
+    }
+    return FALSE;
+}
+
+e__bool BMP_set_horizontal_reversed(BMP_image* const bmp)
+{
+    if(bmp != NULL)
+    {
+        int i;
+        int mid = bmp->height / 2;
+        for(i = 0; i < mid; ++i)
+        {
+            // PAS BON
+            rgb* line = bmp->pixels[i];
+            bmp->pixels[i] = bmp->pixels[bmp->height-1 - i];
+            bmp->pixels[bmp->height-1 - i] = line;
+        }
+        return TRUE;
+    }
+    return FALSE;
+}
+
+e__bool BMP_set_vertical_reversed(BMP_image* const bmp)
+{
+    if(bmp != NULL)
+    {
+        int i,j;
+        int half_width = bmp->width / 2;
+        for(i = 0; i < bmp->height; ++i)
+        {
+            for(j = 0; j < half_width; ++j)
+            {
+                rgb temp = bmp->pixels[i][j];
+                bmp->pixels[i][j] = bmp->pixels[i][bmp->width-1 - j];
+                bmp->pixels[i][bmp->width-1 - j] = temp;
+            }
+        }
+        return TRUE;
+    }
+    return FALSE; 
+}
+
 void BMP_show_header(const BMP_image* const bmp)
 {
     printf("-------------------------------------\n");
