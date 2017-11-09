@@ -17,6 +17,8 @@
 #define ERR_FILE_IS_NULL            2
 #define ERR_IMAGE_FILE_IS_INCORRECT 3
 #define ERR_PIXEL_VALUE_INCORECT    4
+#define ERR_BAD_ALLOC               5
+#define ERR_STRUCT_IS_NULL          6
 
 
 #define NUMBER_MAX_SIZE             7

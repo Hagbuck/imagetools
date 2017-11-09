@@ -1,0 +1,525 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+
+
+<meta content="all" name="ROBOTS">
+<meta name="description" content="Le format BMP est un des formats les plus simples développé conjointement par Microsoft et IBM, ce qui explique qu&amp;apos;il soit particulièrement répandu sur les plates formes Windows et OS/2. Un fichier BMP est un fichier bitmap, c&amp;apos;est-à-dire un...">
+<title>Le format BMP</title>
+<link href="format-bmp.php3_fichiers/css.css" type="text/css" rel="stylesheet" media="screen">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="alternate" type="application/rss+xml" title="Actualité" href="http://www.commentcamarche.net/rss/actualite.php3">
+<link rel="shortcut icon" href="http://www.commentcamarche.net/favicon.ico?200809111205">
+<script src="format-bmp.php3_fichiers/ccm.js" type="text/javascript"></script><meta name="keywords" content="format bmp,fichier bmp,bmp,bmp format,fichiers bmp,comment formater une image bitmap en jpeg,format bitmap,structur fichier bmp,fichier format .bmp,convertir image en 16 couleur,strucure fichier bmp,structure fichier bmp,resolution horizontale resolution verticale,jpg gif format rvb pixels,format de fichier BMP,type de fichier .bmp,bitmap format,image format bmp,strecture image bmp,structure bitmap">
+<link rel="stylesheet" href="format-bmp.php3_fichiers/contents.css" type="text/css">
+<link media="all" href="format-bmp.php3_fichiers/widget15.css" type="text/css" rel="stylesheet"></head><body id="HT">
+
+<div id="header">    <div id="top">
+        <h1>
+            <a href="http://www.commentcamarche.net/" name="top" title="Comment Ça Marche - Informatique"><img src="format-bmp.php3_fichiers/logo.png" alt="Comment Ça Marche - Informatique"></a>
+        </h1>
+        <form action="/search/search.php3" method="get" class="headerFooter">
+            <fieldset>
+                <legend>Recherche</legend>
+                <input id="searchform_input" name="Mot" class="search" value="Rechercher" onfocus="if($('searchform_focused').value==0){ $('searchform_input').value=''; $('searchform_focused').value=1; };" type="text">
+                <input id="searchform_focused" name="already_focused" value="1" type="hidden">
+                <input class="submit" value="OK" type="submit">
+            </fieldset>
+        </form><script type="text/javascript">
+//<![CDATA[
+q = refk();
+if($('searchform_input')&&q&&q!=' ') {
+     $('searchform_input').value=q;
+     $('searchform_focused').value=1;
+}
+//]]>
+</script><ul id="topNav">
+	    <li>
+        <a class="userName" href="http://www.commentcamarche.net/communaute/inscription.php3">Inscrivez-vous</a>
+    </li>
+    
+
+    <li><a href="http://www.commentcamarche.net/plan/">Plan</a></li>
+        <li id="language">
+        <a href="http://www.commentcamarche.net/communaute/lang.php3" class="boxButton">Langue</a>
+        <div class="boxHover">
+            <ul>
+                <li><a href="http://de.kioskea.net/" lang="de">Allemand</a></li>
+                <li><a href="http://en.kioskea.net/" lang="en">Anglais</a></li>
+                <li><a href="http://es.kioskea.net/" lang="es">Espagnol</a></li>
+                <li><a href="http://www.commentcamarche.net/" lang="fr">Français</a></li>
+                <li><a href="http://it.kioskea.net/" lang="it">Italien</a></li>
+                <li><a href="http://pt.kioskea.net/" lang="pt">Portugais</a></li>
+            </ul>
+        </div>
+    </li>
+            <li id="themes">
+        <a href="#" class="boxButton">Nos sites</a>
+        <div class="boxHover">
+            <ul>
+                <li><a href="http://droit-finances.commentcamarche.net/">Droit-Finances</a></li>
+                <li class="selected"><a href="http://www.commentcamarche.net/">High-Tech</a></li>
+                <li><a href="http://sante-medecine.commentcamarche.net/">Santé-Médecine</a></li>
+            </ul>
+        </div>
+    </li>
+    	<li id="rss">
+        <a href="#" class="boxButton">RSS</a>
+        <div class="boxHover">
+            <ul>
+                    <li><a href="http://www.commentcamarche.net/rss/actualite.php3">Actualités</a></li>
+                    <li><a href="http://www.commentcamarche.net/rss/rss_faq_last.php3">FAQ</a></li>
+                                        <li><a href="http://www.commentcamarche.net/rss/rss_download_last.php3">Logiciels</a></li>
+                    <li><a href="http://www.commentcamarche.net/rss/rss_download_updates.php3">Logiciels - Mises à jour</a></li>
+                                                    </ul>
+        </div>
+    </li>        
+		<li id="identification">
+	    <a href="http://www.commentcamarche.net/communaute/" class="boxButton" id="a_boxbutton">
+            Connexion        </a>
+        <div class="boxHover" id="div_boxhover">
+            <form action="/contents/video/format-bmp.php3" method="post">
+                <fieldset>
+                    <legend>Identification</legend>
+                                        <input name="login" value="" onfocus="$('identification').className='focused';return true;" onblur="$('identification').className='';return true;" type="text">
+                    <input name="pass" value="" onfocus="$('identification').className='focused';return true;" onblur="$('identification').className='';return true;" type="password">
+                    <input name="log_in" class="submit" onfocus="$('identification').className='focused';return true;" onblur="$('identification').className='';return true;" value="Connexion" type="submit">
+                </fieldset>
+            </form>
+            <ul>
+                <li><a href="http://www.commentcamarche.net/communaute/motdepasse.php3">Mot de passe oublié?</a></li>
+                <li><a href="http://www.commentcamarche.net/communaute/inscription.php3">Nouveau membre ? Créer mon compte</a></li>
+                            </ul>
+        </div>
+	</li>
+    </ul>
+    </div>
+
+    <!-- MAIN NAVIGATION -->
+
+    <div id="nav">
+        <ul>
+            <li><a href="http://www.commentcamarche.net/">Accueil</a></li>
+            <li>
+                <a href="http://www.commentcamarche.net/forum/">Forum</a>
+            </li>
+            <li>
+                <a href="http://www.commentcamarche.net/faq/">Astuces</a>
+            </li>
+            <li>
+                <a href="http://www.commentcamarche.net/telecharger/">Télécharger</a>
+            </li>
+            <li>
+                <a href="http://www.commentcamarche.net/actualites/">Actualités</a>
+            </li>
+            <li>
+                <a class="selected" href="http://www.commentcamarche.net/contents/">Dossiers</a>
+            </li>
+            <li>
+                <a href="http://www.commentcamarche.net/guide/">Guide d'achat</a>
+            </li>
+            <li>
+                <a href="http://www.commentcamarche.net/sites/">Annuaire web</a>
+            </li>
+            <li>
+                <a href="http://www.commentcamarche.net/offre-emploi/">Emploi</a>
+            </li>
+            <li>
+                <a href="http://www.commentcamarche.net/professionnels/">Entreprise</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div id="section">
+
+    <div id="topContent">
+        	<div id="ad_top"><script type="text/javascript">
+<!--
+sas_pageid='10987/81911';
+sas_formatid=4785;
+sas_target='kw=';
+SmartAdServer(sas_pageid,sas_formatid,sas_target);
+//-->
+</script><script id="SmartScr4785" src="format-bmp.php3_fichiers/kw_003.gif"></script></div>
+			<!-- AUTOPROMO BOX -->
+<div class="autoPromoCcmdf">
+    <a href="http://droit-finances.commentcamarche.net/" class="allBlock"></a>
+    <div class="menu">
+        <a href="http://www.commentcamarche.net/" class="floatLeft CCM">High-Tech</a>
+        <a href="http://sante-medecine.commentcamarche.net/" class="floatLeft MS">Santé Médecine</a>
+        <a href="http://sante-medecine.commentcamarche.net/" class="floatRight DF selected">Droit-Finances</a>
+    </div>
+    <div class="inlineBlock">
+        <div>
+            <p class="mediumFont"><a href="http://droit-finances.commentcamarche.net/faq/235-auto-entrepreneur">AutoEntrepreneur</a></p>
+            <p class="smallFont"><a href="http://droit-finances.commentcamarche.net/faq/235-auto-entrepreneur">Comment faire ?</a></p>
+        </div>
+    </div>
+    <a href="http://droit-finances.commentcamarche.net/faq/235-auto-entrepreneur"><span class="inlineBlock"></span></a>
+</div>
+	</div>    <div id="content">
+<div id="tit_nav"><a href="http://www.commentcamarche.net/contents/" class="first">Dossiers</a>  <a href="http://www.commentcamarche.net/contents/debutants" class="titre"> Débutants</a> <a href="http://www.commentcamarche.net/contents/video" class="titre">Vidéo</a></div><div><div id="col_left"><div id="contenu"><div class="tit_nav"><table border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td align="left" valign="top" width="25%"><a href="http://www.commentcamarche.net/contents/video/formats.php3" onmouseout="BulleHide();" onmouseover="BulleWrite('Page précédente',event);" class="prev">Précédent</a><a href="http://www.commentcamarche.net/contents/video/formats.php3" class="nexttitle">Formats graphiques</a></td><td valign="top"><div id="menu"><a href="http://www.commentcamarche.net/contents/video/" class="onglet"><span class="txt">Sommaire</span></a><span class="shadow"></span><div id="bloc_16"><span class="border_right">&nbsp;</span><span class="border_bottom">&nbsp;</span><span class="titre">Vidéo numérique</span><span class="subtitre">Lumière et couleur</span><ul><li><a href="http://www.commentcamarche.net/contents/video/lumiere.php3">Lumière et couleur</a></li><li><a href="http://www.commentcamarche.net/contents/video/couleur.php3">Représentation de la couleur</a></li></ul><span class="subtitre">Codages</span><ul><li><a href="http://www.commentcamarche.net/contents/video/cie-lab.php3">CIE / Lab</a></li><li><a href="http://www.commentcamarche.net/contents/video/rgb-rvb.php3">RGB (RVB)</a></li><li><a href="http://www.commentcamarche.net/contents/video/hsl-tsl.php3">HSL (TSL)</a></li><li><a href="http://www.commentcamarche.net/contents/video/cmy-cmj-cmyk-cmjn.php3">CMYK (CMJN)</a></li></ul><span class="subtitre">Image</span><ul><li><a href="http://www.commentcamarche.net/contents/video/affich.php3">Codage des images</a></li><li><a href="http://www.commentcamarche.net/contents/video/vector.php3">Bitmap / Vectoriel</a></li><li><a href="http://www.commentcamarche.net/contents/video/formats.php3">Formats graphiques</a></li><li><b>BMP</b></li><li><a href="http://www.commentcamarche.net/contents/video/format-gif.php3">GIF</a></li><li><a href="http://www.commentcamarche.net/contents/video/format-pcx.php3">PCX</a></li><li><a href="http://www.commentcamarche.net/contents/video/format-png.php3">PNG</a></li><li><a href="http://www.commentcamarche.net/contents/video/format-tif.php3">TIF</a></li></ul><span class="subtitre">Compression</span><ul><li><a href="http://www.commentcamarche.net/contents/video/compress.php3">Compression</a></li><li><a href="http://www.commentcamarche.net/contents/video/compimg.php3">RLE</a></li><li><a href="http://www.commentcamarche.net/contents/video/huffman.php3">Huffman</a></li><li><a href="http://www.commentcamarche.net/contents/video/lzw.php3">LZW</a></li><li><a href="http://www.commentcamarche.net/contents/video/jpeg-jpg.php3">JPEG</a></li></ul><span class="subtitre">Traitements graphiques</span><ul><li><a href="http://www.commentcamarche.net/contents/video/traitimg.php3">Traitements graphiques</a></li><li><a href="http://www.commentcamarche.net/contents/video/filtres.php3">Filtres</a></li></ul><span class="subtitre">Vidéo</span><ul><li><a href="http://www.commentcamarche.net/contents/video/video.php3">Vidéo numérique</a></li></ul><span class="subtitre">Codages</span><ul><li><a href="http://www.commentcamarche.net/contents/video/video-composite.php3">Vidéo composite</a></li><li><a href="http://www.commentcamarche.net/contents/video/s-video-y-c.php3">S-Video (Y/C)</a></li><li><a href="http://www.commentcamarche.net/contents/video/yuv-ycrcb.php3">YUV (YCrCb)</a></li><li><a href="http://www.commentcamarche.net/contents/video/yiq-ntsc.php3">YIQ (NTSC)</a></li></ul><span class="subtitre">Formats vidéos</span><ul><li><a href="http://www.commentcamarche.net/contents/video/compvid.php3">Codec</a></li><li><a href="http://www.commentcamarche.net/contents/video/format-mpeg.php3">MPEG</a></li><li><a href="http://www.commentcamarche.net/contents/video/divx.php3">DivX</a></li><li><a href="http://www.commentcamarche.net/contents/video/mkv-matroska.php3">MKV</a></li></ul><span class="subtitre">Voir aussi :</span><ul><li><a href="http://www.commentcamarche.net/pc/pc.php3">Ordinateur</a></li><li><a href="http://www.commentcamarche.net/pc/ordinateur-portable.php3">Ordinateur portable</a></li><li><a href="http://www.commentcamarche.net/pc/processeur.php3">Processeur</a></li><li><a href="http://www.commentcamarche.net/pc/disque.php3">Disque dur</a></li><li><a href="http://www.commentcamarche.net/pc/carte-graphique.php3">Carte graphique</a></li><li><a href="http://www.commentcamarche.net/pc/carte-son.php3">Carte son</a></li><li><a href="http://www.commentcamarche.net/faq/3-materiel">FAQ matériel</a></li><li><a href="http://www.commentcamarche.net/faq/179-video">FAQ vidéo</a></li><li><a href="http://www.commentcamarche.net/faq/178-multimedia">FAQ multimédia</a></li></ul></div></div><h1>Le format BMP</h1></td><td align="right" valign="top" width="25%"><a href="http://www.commentcamarche.net/contents/video/format-gif.php3" onmouseout="BulleHide();" onmouseover="BulleWrite('Page suivante',event);" class="next">Suivant</a><a href="http://www.commentcamarche.net/contents/video/format-gif.php3" class="nexttitle">GIF</a></td></tr></tbody></table></div><div class="addthis"><!-- AddThis Button BEGIN -->
+<script type="text/javascript">
+var addthis_language = "fr";
+var addthis_share =
+{
+	templates: {
+		twitter: '{{title}} {{url}} (CommentCaMarche.net)',
+		blogger: '{{html}} <br /> - <a href="{{url}}">{{title}}</a> - CommentCaMarche.net'
+	}
+}
+</script>
+<a href="http://www.addthis.com/bookmark.php?v=250" onmouseover="return addthis_open(this, '', '', 'Le format BMP')" onmouseout="addthis_close()" onclick="return addthis_sendto()"><img src="format-bmp.php3_fichiers/sm-plus.gif" alt="Bookmark" border="0" width="16" height="16"> Ajouter aux favoris / Partager</a><script type="text/javascript" src="format-bmp.php3_fichiers/addthis_widget.js"></script>
+<!-- AddThis Button END --></div><div id="bloc_15"><div class="flags"><a href="http://it.kioskea.net/contents/video/format-bmp.php3" class="it" lang="it"><img src="format-bmp.php3_fichiers/transparentpixel.gif" alt="Il formato BMP" title="Il formato BMP"></a> <a href="http://pt.kioskea.net/contents/video/format-bmp.php3" class="pt" lang="pt"><img src="format-bmp.php3_fichiers/transparentpixel.gif" alt="O formato BMP" title="O formato BMP"></a> <a href="http://de.kioskea.net/contents/video/format-bmp.php3" class="de" lang="de"><img src="format-bmp.php3_fichiers/transparentpixel.gif" alt="BMP-Format" title="BMP-Format"></a> <a href="http://es.kioskea.net/contents/video/format-bmp.php3" class="es" lang="es"><img src="format-bmp.php3_fichiers/transparentpixel.gif" alt="El formato BMP" title="El formato BMP"></a> <a href="http://en.kioskea.net/contents/video/format-bmp.php3" class="en" lang="en"><img src="format-bmp.php3_fichiers/transparentpixel.gif" alt="The BMP format" title="The BMP format"></a> </div>
+
+<a name="BMP" class="ancre"></a><h2>Le format BMP</h2>
+
+<p align="justify">Le format <b>BMP</b> est un des formats les plus simples développé conjointement
+par Microsoft et IBM, ce qui explique qu'il soit particulièrement répandu sur
+les plates formes Windows et OS/2. Un fichier BMP est un fichier bitmap, c'est-à-dire
+un fichier d'image graphique stockant les pixels sous forme de tableau de points
+et gérant les couleurs soit en couleur vraie soit grâce à une palette
+indexée. Le format BMP a été étudié de telle manière
+à obtenir un bitmap indépendant du périphérique d'affichage (<i>DIB</i>, <i>Device
+independent bitmap</i>).
+
+</p><p align="justify">La structure d'un fichier bitmap est la suivante&nbsp;:
+</p><ul>
+<li><a href="#entete-fichier">En-tête du fichier</a> (en anglais <i>file header</i>)
+</li><li><a href="#entete-bitmap">En-tête du bitmap</a> (en anglais <i>bitmap information header</i>, appelé aussi <i>information Header</i>)
+</li><li><a href="#palette">Palette</a> (optionnellement)
+</li><li><a href="#corps">Corps de l'image</a>
+</li></ul>
+
+<a name="entete-fichier" class="ancre"></a><h2>Entête du fichier</h2>
+
+<p align="justify">L'entête du fichier fournit des informations sur le type de fichier (Bitmap), sa taille
+et indique où commencent les informations concernant l'image à proprement parler.
+
+</p><p align="justify">L'entête est composé de quatre champs&nbsp;:
+</p><ul>
+<li>La signature (sur 2 octets), indiquant qu'il s'agit d'un fichier BMP à l'aide
+des deux caractères.
+<ul>
+<li><i>BM</i>, <i>424D</i> en hexadécimal, indique qu'il s'agit d'un Bitmap Windows.
+</li><li><i>BA</i> indique qu'il s'agit d'un Bitmap OS/2.
+</li><li><i>CI</i> indique qu'il s'agit d'une icone couleur OS/2.
+</li><li><i>CP</i> indique qu'il s'agit d'un pointeur de couleur OS/2.
+</li><li><i>IC</i> indique qu'il s'agit d'une icone OS/2.
+</li><li><i>PT</i> indique qu'il s'agit d'un pointeur OS/2.
+</li></ul>
+</li><li>La taille totale du fichier en octets (codée sur 4 octets)
+</li><li>Un champ réservé (sur 4 octets)
+</li><li>L'offset de l'image (sur 4 octets), en français <i>décalage</i>,
+c'est-à-dire l'adresse relative du début des informations concernant l'image
+par rapport au début du fichier
+</li></ul>
+
+<a name="entete-bitmap" class="ancre"></a><h2>Entête de l'image</h2>
+
+<p align="justify">L'entête de l'image fournit des informations sur l'image, notamment ses dimensions
+et ses couleurs.
+
+</p><p align="justify">L'entête de l'image est composé de quatre champs&nbsp;:
+</p><ul>
+<li>La taille de l'entête de l'image en octets (codée sur 4 octets). Les valeurs hexadécimales suivantes
+sont possibles suivant le type de format BMP&nbsp;:
+<ul>
+<li>28 pour Windows 3.1x, 95, NT, ...
+</li><li>0C pour OS/2 1.x
+</li><li>F0 pour OS/2 2.x
+</li></ul>
+</li><li>La largeur de l'image (sur 4 octets), c'est-à-dire le nombre de pixels horizontalement (en anglais <i>width</i>)
+</li><li>La hauteur de l'image (sur 4 octets), c'est-à-dire le nombre de pixels verticalement (en anglais <i>height</i>)
+</li><li>Le nombre de plans (sur 2 octets). Cette valeur vaut toujours 1
+</li><li>La profondeur de codage de la couleur(sur 2 octets), c'est-à-dire le nombre
+de bits utilisés pour coder la couleur. Cette valeur peut-être égale
+à 1, 4, 8, 16, 24 ou 32
+</li><li>La méthode de compression (sur 4 octets). Cette valeur vaut 0 lorsque l'image n'est
+pas compressée, ou bien 1, 2 ou 3 suivant le type de compression utilisé &nbsp;:
+<ul>
+<li>1 pour un codage RLE de 8 bits par pixel
+</li><li>2 pour un codage RLE de 4 bits par pixel
+</li><li>3 pour un codage bitfields, signifiant que la couleur est codé par un triple masque
+représenté par la palette
+</li></ul>
+</li><li>La taille totale de l'image en octets (sur 4 octets).
+</li><li>La résolution horizontale (sur 4 octets), c'est-à-dire le nombre de pixels par mètre horizontalement
+</li><li>La résolution verticale (sur 4 octets), c'est-à-dire le nombre de pixels par mètre verticalement
+</li><li>Le nombre de couleurs de la palette (sur 4 octets)
+</li><li>Le nombre de couleurs importantes de la palette (sur 4 octets). Ce champ peut être égal
+à 0 lorsque chaque couleur a son importance.
+</li></ul>
+
+<a name="palette" class="ancre"></a><h2>Palette de l'image</h2>
+
+<p align="justify">La palette est optionnelle. Lorsqu'une palette est définie, elle contient
+successivement 4 octets pour chacune de ses entrées représentant&nbsp;:
+</p><ul>
+<li>La composante bleue (sur un octet)
+</li><li>La composante verte (sur un octet)
+</li><li>La composante rouge (sur un octet)
+</li><li>Un champ réservé (sur un octet)
+</li></ul>
+
+<a name="corps" class="ancre"></a><h2>Codage de l'image</h2>
+
+<p align="justify">Le codage de l'image se fait en écrivant successivement les bits correspondant à
+chaque pixel, ligne par ligne en commençant par le pixel en bas à gauche.
+</p><ul>
+<li>Les images en 2 couleurs utilisent 1 bit par pixel, ce qui signifie qu'un octet permet de coder
+8 pixels
+</li><li>Les images en 16 couleurs utilisent 4 bits par pixel, ce qui signifie qu'un octet permet de coder
+2 pixels
+</li><li>Les images en 256 couleurs utilisent 8 bits par pixel, ce qui signifie qu'un octet code chaque pixel
+</li><li>Les images en couleurs réelles utilisent 24 bits par pixel, ce qui signifie qu'il faut 3 octets
+pour coder chaque pixel, en prenant soin de respecter l'ordre de l'alternance bleu, vert et rouge.
+</li></ul>
+
+Chaque ligne de l'image doit comporter un nombre total d'octets qui soit
+un multiple de 4; si ce n'est pas le cas, la ligne doit être complétée par des 0 de telle
+manière à respecter ce critère.
+
+
+<br>
+<br>Dernière modification le mardi 14 octobre 2008 à 17:40:32.<span class="Footer">Ce document intitulé «&nbsp;<a href="http://www.commentcamarche.net/contents/video/format-bmp.php3">Le format BMP</a>&nbsp;» issu de <a href="http://www.commentcamarche.net/">Comment Ça Marche</a> (<a href="http://www.commentcamarche.net/">www.commentcamarche.net</a>) est mis à disposition sous les termes de la licence <a href="http://www.commentcamarche.net/ccmguide/ccmlicence.php3">Creative Commons</a>.
+Vous
+pouvez copier, modifier des copies de cette page, dans les conditions
+fixées par la licence, tant que cette note apparaît clairement.</span><div id="foot_nav"><table border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td align="left"><a href="http://www.commentcamarche.net/contents/video/formats.php3" class="prev">Précédent</a><a href="http://www.commentcamarche.net/contents/video/formats.php3" class="prevtitle">Formats graphiques</a></td><td align="right"><a href="http://www.commentcamarche.net/contents/video/format-gif.php3" class="next">Suivant</a><a href="http://www.commentcamarche.net/contents/video/format-gif.php3" class="nexttitle">GIF</a></td></tr></tbody></table></div></div><div id="bloc_simili"><a href="http://www.commentcamarche.net/s/fichier%20d%20entet%20bmp" id="seeallanswers" class="tit_best" rel="nofollow">Meilleures réponses pour «&nbsp;<span id="seeallanswerstxt">fichier d entet bmp</span>&nbsp;» dans :</a><div class="bloc_tabs selected" id="bloc_tab_pages"><ul class="bloc_tab"><li class="active"><a href="http://www.commentcamarche.net/s/le-format-bmp" rel="nofollow" onclick="return false;">Tout le site</a></li><li><a href="http://www.commentcamarche.net/s/le-format-bmp?section=faq" rel="nofollow" onclick="$('bloc_tab_pages').className='bloc_tabs hide';$('bloc_tab_faq').className='blocs_tabs selected'; return false;">Astuces</a></li><li><a href="http://www.commentcamarche.net/s/le-format-bmp?section=forum" rel="nofollow" onclick="$('bloc_tab_pages').className='bloc_tabs hide';$('bloc_tab_forum').className='blocs_tabs selected'; return false;">Forum</a></li><li><a href="http://www.commentcamarche.net/s/le-format-bmp?section=download" rel="nofollow" onclick="$('bloc_tab_pages').className='bloc_tabs hide';$('bloc_tab_download').className='blocs_tabs selected'; return false;">Téléchargements</a></li><li><a href="http://www.commentcamarche.net/s/le-format-bmp?section=articles" rel="nofollow" onclick="$('bloc_tab_pages').className='bloc_tabs hide';$('bloc_tab_articles').className='blocs_tabs selected'; return false;">Articles</a></li></ul><div class="result" id="pages_result"><div class="similiitem"><div class="resitem"><a href="http://www.commentcamarche.net/forum/affich-3626093-formats-bmp-jpg-et-gif" class="title"> Formats bmp jpg et gif <span>Voir</span></a> 
+			</div></div><div class="similiitem"><div class="resitem"><a href="http://www.commentcamarche.net/forum/affich-3751612-commentconvertir-un-format-bmp-en-jpeg-ou-png" class="title"> Commentconvertir un format bmp en jpeg ou png <span>Voir</span></a> 
+			</div></div><div class="similiitem"><div class="resitem"><a href="http://www.commentcamarche.net/forum/affich-5886154-format-bmp" class="title"> Format bmp (Résolu) <span>Voir</span></a> 
+			</div></div></div></div><div class="bloc_tabs" id="bloc_tab_faq"><ul class="bloc_tab"><li><a href="http://www.commentcamarche.net/s/le-format-bmp" rel="nofollow" onclick="$('bloc_tab_faq').className='bloc_tabs hide';$('bloc_tab_pages').className='blocs_tabs selected';return false;">Tout le site</a></li><li class="active"><a href="http://www.commentcamarche.net/s/le-format-bmp?section=faq" rel="nofollow" onclick="return false;">Astuces</a></li><li><a href="http://www.commentcamarche.net/s/le-format-bmp?section=forum" rel="nofollow" onclick="$('bloc_tab_faq').className='bloc_tabs hide';$('bloc_tab_forum').className='blocs_tabs selected';return false;">Forum</a></li><li><a href="http://www.commentcamarche.net/s/le-format-bmp?section=download" rel="nofollow" onclick="$('bloc_tab_faq').className='bloc_tabs hide';$('bloc_tab_download').className='blocs_tabs selected';return false;">Téléchargements</a></li><li><a href="http://www.commentcamarche.net/s/le-format-bmp?section=articles" rel="nofollow" onclick="$('bloc_tab_faq').className='bloc_tabs hide';$('bloc_tab_articles').className='blocs_tabs selected';return false;">Articles</a></li></ul><div class="result" id="faq_result"><div class="similiitem"><div class="resitem"><a href="http://www.commentcamarche.net/faq/sujet-2459-les-images-ne-s-affichent-pas-sur-le-site" class="title"> Les images ne s'affichent pas sur le site <span>Voir</span></a><span class="description">Dans une page web, les images sont spécifiées grâce à la balise IMG, avec la notation suivante :
+
+
+Les formats d'images supportés sur le web sont les formats GIF, JPG et PNG. Le format BMP n'est pas supporté par les...</span>
+			</div></div><div class="similiitem"><div class="resitem"><a href="http://www.commentcamarche.net/faq/sujet-144-msie-probleme-enregistrer-l-image-sous" class="title"> [MSIE] Problème "Enregistrer l'image sous" <span>Voir</span></a>
+			</div></div><div class="similiitem"><div class="resitem"><a href="http://www.commentcamarche.net/faq/sujet-1036-pdf-convertir-des-pdf-en-images-jpeg-bmp-gif-etc" class="title"> [PDF] Convertir des PDF en images (JPEG, BMP, GIF, etc...) <span>Voir</span></a><span class="description">Si
+vous avez des documents PDF et que vous voulez les convertir en images
+(JPEG, GIF, BMP, ou n'importe quel format), de manière à les exploiter,
+par exemple dans un logiciel d'OCR ou de retouche/création d'images :
+Note : Cet article présente une...</span>
+			</div></div></div></div><div class="bloc_tabs" id="bloc_tab_forum"><ul class="bloc_tab"><li><a href="http://www.commentcamarche.net/s/le-format-bmp" rel="nofollow" onclick="$('bloc_tab_forum').className='bloc_tabs hide';$('bloc_tab_pages').className='blocs_tabs selected';return false;">Tout le site</a></li><li><a href="http://www.commentcamarche.net/s/le-format-bmp?section=faq" rel="nofollow" onclick="$('bloc_tab_forum').className='bloc_tabs hide';$('bloc_tab_faq').className='blocs_tabs selected';return false;">Astuces</a></li><li class="active"><a href="http://www.commentcamarche.net/s/le-format-bmp?section=forum" rel="nofollow" onclick="return false;">Forum</a></li><li><a href="http://www.commentcamarche.net/s/le-format-bmp?section=download" rel="nofollow" onclick="$('bloc_tab_forum').className='bloc_tabs hide';$('bloc_tab_download').className='blocs_tabs selected';return false;">Téléchargements</a></li><li><a href="http://www.commentcamarche.net/s/le-format-bmp?section=articles" rel="nofollow" onclick="$('bloc_tab_forum').className='bloc_tabs hide';$('bloc_tab_articles').className='blocs_tabs selected';return false;">Articles</a></li></ul><div class="result" id="forum_result"><div class="similiitem"><div class="resitem"><a href="http://www.commentcamarche.net/forum/affich-2416736-format-bmp" class="title"> Format bmp <span>Voir</span></a>
+			</div></div><div class="similiitem"><div class="resitem"><a href="http://www.commentcamarche.net/forum/affich-10162474-auriez-vous-des-image-texture-bois-format-bmp" class="title"> Auriez-vous des image texture bois format BMP <span>Voir</span></a>
+			</div></div><div class="similiitem"><div class="resitem"><a href="http://www.commentcamarche.net/forum/affich-2056001-inserer-du-texte-ds-doc-scanne-format-bmp" class="title"> Insérer du texte ds doc scanné format bmp <span>Voir</span></a>
+			</div></div></div></div><div class="bloc_tabs" id="bloc_tab_download"><ul class="bloc_tab"><li><a href="http://www.commentcamarche.net/s/le-format-bmp" rel="nofollow" onclick="$('bloc_tab_download').className='bloc_tabs hide';$('bloc_tab_pages').className='blocs_tabs selected';return false;">Tout le site</a></li><li><a href="http://www.commentcamarche.net/s/le-format-bmp?section=faq" rel="nofollow" onclick="$('bloc_tab_download').className='bloc_tabs hide';$('bloc_tab_faq').className='blocs_tabs selected';return false;">Astuces</a></li><li><a href="http://www.commentcamarche.net/s/le-format-bmp?section=forum" rel="nofollow" onclick="$('bloc_tab_download').className='bloc_tabs hide';$('bloc_tab_forum').className='blocs_tabs selected';return false;">Forum</a></li><li class="active"><a href="http://www.commentcamarche.net/s/le-format-bmp?section=download" rel="nofollow" onclick="return false;">Téléchargements</a></li><li><a href="http://www.commentcamarche.net/s/le-format-bmp?section=articles" rel="nofollow" onclick="$('bloc_tab_download').className='bloc_tabs hide';$('bloc_tab_articles').className='blocs_tabs selected';return false;">Articles</a></li></ul><div class="result" id="download_result"><div class="similiitem"><div class="resitem"><a href="http://www.commentcamarche.net/telecharger/telecharger-34061341-az-bmp-to-pdf-converter" class="title"> Télécharger AZ BMP to PDF Converter <span>Voir</span></a>
+			</div></div><div class="similiitem"><div class="resitem"><a href="http://www.commentcamarche.net/telecharger/telecharger-115-gimp" class="title"> Télécharger Gimp <span>Voir</span></a>
+			</div></div><div class="similiitem"><div class="resitem"><a href="http://www.commentcamarche.net/telecharger/telecharger-34055047-coloriage" class="title"> Télécharger Coloriage <span>Voir</span></a>
+			</div></div></div></div><div class="bloc_tabs" id="bloc_tab_articles"><ul class="bloc_tab"><li><a href="http://www.commentcamarche.net/s/le-format-bmp" rel="nofollow" onclick="$('bloc_tab_articles').className='bloc_tabs hide';$('bloc_tab_pages').className='blocs_tabs selected';return false;">Tout le site</a></li><li><a href="http://www.commentcamarche.net/s/le-format-bmp?section=faq" rel="nofollow" onclick="$('bloc_tab_articles').className='bloc_tabs hide';$('bloc_tab_faq').className='blocs_tabs selected';return false;">Astuces</a></li><li><a href="http://www.commentcamarche.net/s/le-format-bmp?section=forum" rel="nofollow" onclick="$('bloc_tab_articles').className='bloc_tabs hide';$('bloc_tab_forum').className='blocs_tabs selected';return false;">Forum</a></li><li><a href="http://www.commentcamarche.net/s/le-format-bmp?section=download" rel="nofollow" onclick="$('bloc_tab_articles').className='bloc_tabs hide';$('bloc_tab_download').className='blocs_tabs selected';return false;">Téléchargements</a></li><li class="active"><a href="http://www.commentcamarche.net/s/le-format-bmp?section=articles" rel="nofollow" onclick="return false;">Articles</a></li></ul><div class="result" id="articles_result"><div class="similiitem"><div class="resitem"><a href="http://www.commentcamarche.net/contents/html/htmlform.php3" class="title"> Les formulaires HTML <span>Voir</span></a><span class="description">Intérêt d'un formulaire
+
+Les formulaires interactifs permettent aux auteurs de pages Web de doter leur page
+web d'éléments interactifs permettant par exemple un dialogue
+avec les internaute,  à la manière des coupons-réponse
+présents dans certains...</span>
+			</div></div><div class="similiitem"><div class="resitem"><a href="http://www.commentcamarche.net/contents/video/mkv-matroska.php3" class="title"> Le format MKV (Matroska Video) <span>Voir</span></a><span class="description">Le format MKV
+
+Le format MKV (Matroska Video) est un format vidéo entièrement libre.
+Plus exactement il s'agit d'un conteneur (d'où le nom Matroska, en référence
+aux poupées russes) permettant de contenir de la vidéo (DivX, Xvid,RV9, etc.),
+du son...</span>
+			</div></div><div class="similiitem"><div class="resitem"><a href="http://www.commentcamarche.net/contents/systemes/format.php3" class="title"> Formats et extensions de fichiers <span>Voir</span></a><span class="description">Remarque
+: La liste ci-dessous n'est pas exhaustive et certains noms d'extension
+peuvent avoir plusieures fonctionnalités. Quant aux programmes proposés
+pour utiliser ces fichiers, ils ne sont pas forcément les seuls, ni les
+plus...</span>
+			</div></div></div></div><script type="text/javascript">
+//<![CDATA[
+q = refk();
+if($('seeallanswers')&&q&&q!=' ') {
+     $('seeallanswers').href='/s/'+escape(q);
+     $('seeallanswerstxt').innerHTML=q;
+ }
+//]]>
+</script></div><div class="adsense"><div><script type="text/javascript"><!--
+google_ad_client = "pub-6969989765125400";
+google_ad_width = 300;
+google_ad_height = 250;
+google_ad_format = "300x250_as";
+google_ad_type = "text";
+google_ad_channel ="";
+google_color_border = "FFFFFF";
+google_color_bg = "FFFFFF";
+google_color_link = "";
+google_color_text = "000000";
+google_color_url = "000000";
+
+//-->
+</script>
+<script type="text/javascript" src="format-bmp.php3_fichiers/show_ads.gif">
+</script></div><div><script type="text/javascript"><!--
+google_ad_client = "pub-6969989765125400";
+google_ad_width = 300;
+google_ad_height = 250;
+google_ad_format = "300x250_as";
+google_ad_type = "text";
+google_ad_channel ="";
+google_color_border = "FFFFFF";
+google_color_bg = "FFFFFF";
+google_color_link = "";
+google_color_text = "000000";
+google_color_url = "000000";
+
+//-->
+</script>
+<script type="text/javascript" src="format-bmp.php3_fichiers/show_ads.gif">
+</script></div></div>
+</div></div><div id="col_right"><div id="shortcuts"></div><div class="bloc_11"><script type="text/javascript">
+<!--
+var plus ='<span>Plus</span>';var moins ='<span>Moins</span>';
+//-->
+</script><div class="widget"><div id="similishowhide" class="hide"><span class="titre">A voir également </span><div class="results" id="simili_container"><a href="http://www.commentcamarche.net/s/fichier%20d%20entet%20bmp"><span><span style="font-weight: bold;">Fichier</span><span> d <span style="font-weight: bold;">entet</span><span> <span style="font-weight: bold;">bmp</span></span></span></span></a><a href="http://www.commentcamarche.net/s/Attestation%20assedic%20formulaire" class="last" onmouseover="BulleWrite('Attestation assedic formulaire',event)" onmouseout="BulleHide()"><span>Attestation assedic formulaire</span></a> <a href="http://www.commentcamarche.net/s/Changer%20format%20bmp%20to%20jpg" onmouseover="BulleWrite('Changer format bmp to jpg',event)" onmouseout="BulleHide()"><span><span>Changer format <span style="font-weight: bold;">bmp</span> to jpg</span></span></a> <a href="http://www.commentcamarche.net/s/Comment%20afficher%20des%20phtos%20en%20format%20bmp%20sur%20mac" onmouseover="BulleWrite('Comment afficher des phtos en format bmp sur mac',event)" onmouseout="BulleHide()"><span><span>Comment afficher des phtos en format <span style="font-weight: bold;">bmp</span> sur mac</span></span></a> <a href="http://www.commentcamarche.net/s/Comment%20convertir%20un%20document%20word%20en%20format%20bmp" onmouseover="BulleWrite('Comment convertir un document word en format bmp',event)" onmouseout="BulleHide()"><span><span>Comment convertir un document word en format <span style="font-weight: bold;">bmp</span></span></span></a> <a href="http://www.commentcamarche.net/s/Comment%20formater%20un%20pc" class="last" onmouseover="BulleWrite('Comment formater un pc',event)" onmouseout="BulleHide()"><span>Comment formater un pc</span></a> <a href="http://www.commentcamarche.net/s/Comment%20formater%20windows%20xp" class="last" onmouseover="BulleWrite('Comment formater windows xp',event)" onmouseout="BulleHide()"><span>Comment formater windows xp</span></a> <a href="http://www.commentcamarche.net/s/Convertir%20en%20format%20bmp" onmouseover="BulleWrite('Convertir en format bmp',event)" onmouseout="BulleHide()"><span><span>Convertir en format <span style="font-weight: bold;">bmp</span></span></span></a> <a href="http://www.commentcamarche.net/s/Format%20bmp" onmouseover="BulleWrite('Format bmp',event)" onmouseout="BulleHide()"><span><span>Format <span style="font-weight: bold;">bmp</span></span></span></a> <a href="http://www.commentcamarche.net/s/Format%20bmp%20en%20jpeg" onmouseover="BulleWrite('Format bmp en jpeg',event)" onmouseout="BulleHide()"><span><span>Format <span style="font-weight: bold;">bmp</span> en jpeg</span></span></a> <a href="http://www.commentcamarche.net/s/Format%20eps" class="last" onmouseover="BulleWrite('Format eps',event)" onmouseout="BulleHide()"><span>Format eps</span></a> <a href="http://www.commentcamarche.net/s/Format%20mkv" class="last" onmouseover="BulleWrite('Format mkv',event)" onmouseout="BulleHide()"><span>Format mkv</span></a> <a href="http://www.commentcamarche.net/s/Formatage%20bas%20niveau" class="last" onmouseover="BulleWrite('Formatage bas niveau',event)" onmouseout="BulleHide()"><span>Formatage bas niveau</span></a> <a href="http://www.commentcamarche.net/s/Formater%20cle%20usb" class="last" onmouseover="BulleWrite('Formater cle usb',event)" onmouseout="BulleHide()"><span>Formater cle usb</span></a> <a href="http://www.commentcamarche.net/s/Formation%20plombier" class="last" onmouseover="BulleWrite('Formation plombier',event)" onmouseout="BulleHide()"><span>Formation plombier</span></a> <a href="http://www.commentcamarche.net/s/Formation%20webmaster" class="last" onmouseover="BulleWrite('Formation webmaster',event)" onmouseout="BulleHide()"><span>Formation webmaster</span></a> <a href="http://www.commentcamarche.net/s/Logiciel%20formatage" class="last" onmouseover="BulleWrite('Logiciel formatage',event)" onmouseout="BulleHide()"><span>Logiciel formatage</span></a> <a href="http://www.commentcamarche.net/s/Probleme%20de%20conversion%20de%20bmp%20en%20format%20pdf" class="last" onmouseover="BulleWrite('Probleme de conversion de bmp en format pdf',event)" onmouseout="BulleHide()"><span><span>Probleme de conversion de <span style="font-weight: bold;">bmp</span> en format pdf</span></span></a> <a href="http://www.commentcamarche.net/s/Transformer%20du%20flash%20au%20format%20gif%2Cbmp%20ou%20png" class="last" onmouseover="BulleWrite('Transformer du flash au format gif,bmp ou png',event)" onmouseout="BulleHide()"><span><span>Transformer du flash au format gif,<span style="font-weight: bold;">bmp</span> ou png</span></span></a></div><a href="#" onclick="if($('similishowhide').className=='hide'){ $('similishowhide').className='show';$('similishowhidelink').innerHTML=moins;} else{ $('similishowhide').className='hide';$('similishowhidelink').innerHTML=plus;} return false" id="similishowhidelink" title="Plus / Moins"><span>Plus</span></a><span class="shadow"></span></div></div><div id="simili_placeholder"></div><script type="text/javascript">
+//<![CDATA[
+function s_href(container){
+if (!document.getElementsByTagName) return false;
+var links = container.getElementsByTagName("a");
+for (var i=0; i < links.length; i++) {
+    if (links[i].id!='similishowhidelink') {
+        var text = links[i].textContent;
+        if (text === undefined) text = links[i].innerText;
+        links[i].href = '/s/'+escape(text);
+    }
+}
+}
+s_href($('similishowhide'));
+q=refk();if(q==''){
+    q = "Le format BMP";
+}
+if($('simili_container')&&q&&q!=' ') {
+a = document.createElement('a');
+a.setAttribute('href','/s/'+escape(q));
+a.innerHTML = q.charAt(0).toUpperCase() + q.substr(1);
+$('simili_container').insertBefore(a,$('simili_container').firstChild);
+}
+
+var gtc = '#000000';
+var glc = new Array('#ffff66','#a0ffff','#99ff99','#ff9999','#ff66ff');
+var reg=new RegExp("[-:;,+=(){}/?<>!*'\\\"\\[\\]\\ ]+", "g");
+var words = strip_accents(q).toLowerCase().split(reg);
+
+function compareStringLengths ( a, b )
+{
+if ( a.length < b.length )
+return 1;
+if ( a.length > b.length )
+return -1;
+return 0;
+}
+words.sort ( compareStringLengths );
+if(words.length>0){ var c = 0; for(var i=0; i<words.length; i++){ if(words[i].length>1 && $('similishowhide')) {  h_g(words[i], $('similishowhide'),glc[c]); c = (c == glc.length-1)?0:c+1; }}}
+//]]>
+            </script></div><div class="bloc_09" id="bloc_middle"><script type="text/javascript">
+            <!--
+            sas_pageid='10987/81911';
+            sas_formatid=4784;
+            sas_target='kw=';
+            SmartAdServer(sas_pageid,sas_formatid,sas_target);
+            //-->
+            </script><script id="SmartScr4784" src="format-bmp.php3_fichiers/kw_004.gif"></script></div><script type="text/javascript">
+            <!--
+            sas_pageid='10987/81911';
+            sas_formatid=4783;
+            sas_target='kw=';
+            SmartAdServer(sas_pageid,sas_formatid,sas_target);
+            //-->
+            </script><script id="SmartScr4783" src="format-bmp.php3_fichiers/kw.gif"></script><div id="needhelp"><div class="widget"><span class="titre">Ils ont besoin de votre aide</span><ul><li class="options"><a href="http://www.commentcamarche.net/rss/rss_forum_sans_reponses.php3" class="rss"><span>RSS</span></a><a href="#" class="prefs" onclick="new Ajax.Updater('needhelp', '/remote/needhelp.php3', { method: 'get',  parameters: 'needhelp_prefs=1', evalScripts : true } );return false;">Options</a></li><li><span>17:14</span> <a href="http://www.commentcamarche.net/forum/affich-14468424-aide-pokemon-platine">aide pokemon platine</a> (<a href="http://www.commentcamarche.net/forum/forum-19-jeux-video">Jeux vidéo</a>)</li><li><span>17:14</span> <a href="http://www.commentcamarche.net/forum/affich-14468421-prix-d-un-pc-portable-de-ce-type">Prix d'un pc portable de ce type</a> (<a href="http://www.commentcamarche.net/forum/forum-2-materiel-hardware">Matériel/Hardware</a>)</li><li><span>17:14</span> <a href="http://www.commentcamarche.net/forum/affich-14468419-hdmi">HDMI</a> (<a href="http://www.commentcamarche.net/forum/forum-21-video-numerique">Vidéo numérique</a>)</li><li><span>17:13</span> <a href="http://www.commentcamarche.net/forum/affich-14468418-probleme-avec-quicktime-7">probléme avec quicktime 7</a> (<a href="http://www.commentcamarche.net/forum/forum-21-video-numerique">Vidéo numérique</a>)</li><li class="more"><a href="http://www.commentcamarche.net/forum/sans-reponses?" title="Tous les messages sans réponse"><span>Tous les messages sans réponse</span></a></li></ul><span class="shadow"></span></div></div><div class="bloc_09" id="bloc_topright"></div><div class="bloc_09" style="margin-bottom: 10px;"><a target="_blank" rel="nofollow" href="http://www3.smartadserver.com/call/cliccommand/2420017/%5Btimestamp%5D?"><img src="format-bmp.php3_fichiers/BannerSUPINFO2.gif" alt=""></a><img src="format-bmp.php3_fichiers/timestamp.gif" alt="" border="0" width="1" height="1"></div><div id="bloc_sponsor" class="bloc_09"><script type="text/javascript">
+        sas_pageid='10987/81911';
+        sas_formatid=4787;
+        sas_target='kw=';
+        SmartAdServer(sas_pageid,sas_formatid,sas_target);
+        </script><script id="SmartScr4787" src="format-bmp.php3_fichiers/kw_002.gif"></script></div><div class="widget" id="interview"><span class="titre">Les interviews exclusives</span><ul><li class="options"></li><li class="interview"><a class="photo" style="background: transparent url(http://static.commentcamarche.net/www.commentcamarche.net/actualites/images/5849666t.jpg) no-repeat scroll 50% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;" href="http://www.commentcamarche.net/actualites/delphine-rieutord-ebay-a-travers-des-systemes-comme-les-boutiques-ebay-le-site-marchand-peut-devenir-superflu-5849666-actualite.php3"><span>Delphine Rieutord, eBay : « A travers des systèmes comme les boutiques eBay, le site marchand peut devenir superflu »</span></a><strong><a href="http://www.commentcamarche.net/actualites/delphine-rieutord-ebay-a-travers-des-systemes-comme-les-boutiques-ebay-le-site-marchand-peut-devenir-superflu-5849666-actualite.php3">Delphine Rieutord, eBay : « A travers des systèmes comme les boutiques eBay, le site marchand peut devenir superflu »</a></strong></li><li class="more"><a title="Plus d'interviews" href="http://www.commentcamarche.net/actualites/interviews-7-actus"><span>Plus d'interviews</span></a></li></ul><span class="shadow"></span></div><div id="widget_collection" class="widget"><span class="titre">Collection CommentÇaMarche.net</span><ul id="livre_couv" class="livre0"><li id="couv"><a href="http://www.commentcamarche.net/livre/ccm.php3" id="livre_pic" style="background: transparent url(http://static.commentcamarche.net/www.commentcamarche.net/livre/images/9782100520367tiny.jpg?20090911) no-repeat scroll 50% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;"><span>Consulter la collection CommentÇaMarche.net</span></a></li><li><a id="l0" style="" onmouseover="$('couv').border='blue';$('livre_couv').className='livre0';$('livre_pic').style.background='url(http://static.commentcamarche.net/www.commentcamarche.net/livre/images/9782100520367tiny.jpg?20090911)';" href="http://www.commentcamarche.net/livre/ccm.php3?livre=9782100520367#r9782100520367" title="Créer et optimiser son site web">Tout sur le webmastering (2e édition)</a><br>par Jean-François Pillou</li><li><a id="l1" style="" onmouseover="$('couv').border='blue';$('livre_couv').className='livre1';$('livre_pic').style.background='url(http://static.commentcamarche.net/www.commentcamarche.net/livre/images/9782100519644tiny.jpg?20090911)';" href="http://www.commentcamarche.net/livre/ccm.php3?livre=9782100519644#r9782100519644" title="Découvrez la galaxie des services Google">Tout sur les outils Google</a><br>par Jean-Philippe Élie</li><li><a id="l2" style="" onmouseover="$('couv').border='blue';$('livre_couv').className='livre2';$('livre_pic').style.background='url(http://static.commentcamarche.net/www.commentcamarche.net/livre/images/9782100511778tiny.jpg?20090911)';" href="http://www.commentcamarche.net/livre/ccm.php3?livre=9782100511778#r9782100511778" title="Pour être à la pointe du Net">Tout sur le Web 2.0</a><br>par Capucine Cousin</li><li class="more"><a href="http://www.commentcamarche.net/livre/ccm.php3" title="Plus de livres"><span>Plus de livres</span></a></li></ul><span class="shadow"></span></div></div></div></div></div>
+
+<div id="footer">
+    <div id="bottom">
+        <ul class="noBorder">
+            <li>CommentCaMarche Network                <ul>
+                    <li><a href="http://www.commentcamarche.net/" lang="fr">CommentCaMarche.net</a></li>
+                    <li><a href="http://en.kioskea.net/" lang="en">en.kioskea.net</a></li>
+                    <li><a href="http://es.kioskea.net/" lang="es">es.kioskea.net</a></li>
+                    <li><a href="http://de.kioskea.net/" lang="de">de.kioskea.net</a></li>
+                    <li><a href="http://pt.kioskea.net/" lang="pt">pt.kioskea.net</a></li>
+                    <li><a href="http://it.kioskea.net/" lang="it">it.kioskea.net</a></li>
+                    <li><a href="http://droit-finances.commentcamarche.net/" lang="fr">Droit-Finances.net</a></li>
+                    <li><a href="http://sante-medecine.commentcamarche.net/" lang="fr">Sante-Medecine.net</a></li>
+                    <li><a href="http://www.supinfo.com/" rel="nofollow">SUPINFO, école d'ingénieurs</a></li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="footerBorder">
+            <li>Raccourcis                <ul>
+                    <li><a href="http://www.commentcamarche.net/contents/ccmguide/cgu-conditions-generales.php3">Conditions générales</a></li>
+                    <li><a href="http://www.commentcamarche.net/contents/ccmguide/ccmintro.php3">A propos</a></li>
+                    <li><a href="http://www.commentcamarche.net/contact/">Contact</a></li>
+                    <li><a href="http://www.commentcamarche.net/contents/ccmguide/ccmcharte.php3">Charte</a></li>                   
+                    <li><a href="http://www.commentcamarche.net/telecharger/?top=50">Top 50</a></li>                    <li><a href="http://www.commentcamarche.net/partenaires/">Partenaires</a></li>
+                                    </ul>
+            </li>
+        </ul>
+        <ul class="footerBorder">
+            <li>
+                Glossaire                <div id="glossary">
+                    <a href="http://www.commentcamarche.net/index/a">A</a>
+                    <a href="http://www.commentcamarche.net/index/b">B</a>
+                    <a href="http://www.commentcamarche.net/index/c">C</a>
+                    <a href="http://www.commentcamarche.net/index/d">D</a>
+                    <a href="http://www.commentcamarche.net/index/e">E</a>
+                    <a href="http://www.commentcamarche.net/index/f">F</a>
+                    <a href="http://www.commentcamarche.net/index/g">G</a>
+                    <a href="http://www.commentcamarche.net/index/h">H</a>
+                    <a href="http://www.commentcamarche.net/index/i">I</a>
+                    <a href="http://www.commentcamarche.net/index/j">J</a>
+                    <a href="http://www.commentcamarche.net/index/k">K</a>
+                    <a href="http://www.commentcamarche.net/index/l">L</a>
+                    <a href="http://www.commentcamarche.net/index/m">M</a>
+                    <a href="http://www.commentcamarche.net/index/n">N</a>
+                    <a href="http://www.commentcamarche.net/index/o">O</a>
+                    <a href="http://www.commentcamarche.net/index/p">P</a>
+                    <a href="http://www.commentcamarche.net/index/q">Q</a>
+                    <a href="http://www.commentcamarche.net/index/r">R</a>
+                    <a href="http://www.commentcamarche.net/index/s">S</a>
+                    <a href="http://www.commentcamarche.net/index/t">T</a>
+                    <a href="http://www.commentcamarche.net/index/u">U</a>
+                    <a href="http://www.commentcamarche.net/index/v">V</a>
+                    <a href="http://www.commentcamarche.net/index/w">W</a>
+                    <a href="http://www.commentcamarche.net/index/x">X</a>
+                    <a href="http://www.commentcamarche.net/index/y">Y</a>
+                    <a href="http://www.commentcamarche.net/index/z">Z</a>
+                    <a href="http://www.commentcamarche.net/index/0" class="buttonLarge">0-9</a>
+                </div>
+            </li>
+        </ul>
+        <div class="footerBorder">
+                        <form action="/communaute/inscription.php3" class="headerFooter">
+                <fieldset>
+                    <legend>Inscription gratuite</legend>
+                    <input class="search" name="email" value="email" onfocus="select()" type="text">
+                    <input class="submit" value="OK" type="button">
+                </fieldset>
+            </form>
+                    </div>
+    <div class="spacer">&nbsp;</div>
+</div>
+</div><script type="text/javascript">
+<!--
+xtnv = document;
+xtsd = "http://logc15";
+xtsite = "254140";
+xtn2 = "1"; 
+xtpage = "contents::video/format-bmp";
+xtdmc = ".commentcamarche.net";
+xtprm = "";
+//-->
+</script><script type="text/javascript" src="format-bmp.php3_fichiers/xiti.js"></script><img src="format-bmp.php3_fichiers/hit.gif" width="1" height="1"><noscript><img
+width="1" height="1"
+src="http://logc15.xiti.com/hit.xiti?s=254140&amp;p=contents%3A%3Avideo%2Fformat-bmp&amp;s2=1"
+alt="" /></noscript><script type="text/javascript" src="format-bmp.php3_fichiers/mwtag.js"></script><script type="text/javascript">
+var keyword = "/contents/video/format-bmp.php3";
+var extra = "fr";
+metriwebTag ("ccm", keyword, extra);
+</script><script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="format-bmp.php3_fichiers/ga.js" type="text/javascript"></script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-6560367-1");
+pageTracker._trackPageview();
+} catch(err) {}</script></body></html>

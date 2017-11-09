@@ -118,5 +118,10 @@ igno/*
 
 #Codeblocks
 *.cbp
+<<<<<<< HEAD
 *.depend
 *.layout
+=======
+
+#README.pdf
+README.pdf

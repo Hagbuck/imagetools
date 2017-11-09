@@ -1,0 +1,1213 @@
+#bloc_liste_dossiers{
+float:left;
+width:679px;
+margin:0 4px 0 4px;
+padding-bottom: 6px;
+border-bottom: 1px solid #CBCBCB;
+color:#5E82D8;
+overflow:hidden}
+
+#bloc_liste_dossiers input{
+border:1px solid #d1a148;
+font-size:11px;
+color:#452800;
+background-color:white;
+margin-left:5px;
+margin-bottom:1px;
+padding:1px 2px 1px 2px;
+vertical-align:middle}
+
+#bloc_liste_dossiers a, #bloc_liste_dossiers a:link{
+display:block;
+padding: 2px;
+color:#5E82D8;
+text-decoration:none}
+
+#bloc_liste_dossiers a:hover, #bloc_liste_dossiers a:focus{
+color:#327cc5;
+text-decoration:underline}
+
+#bloc_liste_dossiers span{
+display:block;
+float:left;
+background:transparent url(/template/blocs/bloc_41/ico_02.gif) no-repeat 0 0;
+padding-left:15px}
+
+#contenu p.right, #contenu p.author{
+float:right;
+color:#777777;
+width:50%;
+clear:both;
+margin-top:20px}
+
+#menu{
+width:auto}
+
+#menu:hover #bloc_16{
+visibility:visible}
+
+#menu a.onglet{
+display:block;
+margin:0;
+padding:0;
+text-align:center;
+background:none;}
+
+#menu a.onglet span.txt{
+display:inline;
+padding-right:14px;
+text-decoration:underline;
+background:white url(/img/arrowdownblue.png) no-repeat 100% 8px}
+
+#menu .border_right{
+float:right;
+width:3px;
+right:-4px;
+top:4px;
+position:absolute;
+opacity:0.4;
+background:black;
+height:100%}
+
+#menu .border_bottom{
+float:right;
+width:338px;
+bottom:-4px;
+left:3px;
+position:absolute;
+opacity:0.4;
+background:black;
+height:3px}
+
+a.edit{
+float:left;
+position:relative;
+margin:6px 0;
+font-size:14px;
+color:#5E82D8;
+width:auto}
+
+a.edit.modify{
+background:transparent url(/template/blocs/bloc_25/actions_06.png) no-repeat 5px -23px;
+padding-left:25px}
+
+a.edit.addprev{
+background:transparent url(/img/prev.png) no-repeat left 1px;
+margin-left:10px;
+padding-left:15px}
+
+a.edit.addnext{
+float:right;
+background:transparent url(/img/next.png) no-repeat right 1px;
+margin-left:10px;
+padding-right:15px}
+
+.addthis{
+margin-top:6px;
+float:right}
+
+.addthis img{
+vertical-align:top}
+
+.addthis a{
+font-family:verdana;
+font-weight:bold}
+
+
+#bloc_15{
+float:left;
+width:679px;
+text-align:justify;
+line-height:1.5em;
+font-family:verdana;
+line-height:16px;
+overflow:hidden;
+padding:6px 0 0 6px}
+
+#bloc_15 img{
+padding:6px;}
+
+#bloc_15 .flags{
+padding:0;
+height:13px;
+margin:0}
+
+
+
+#bloc_15 .flags a{
+float:right;
+display:block;
+width:16px;
+height:11px;
+background:url(/img/sprite_ccm2.png) -122px -90px;
+border:1px solid #CCC;
+margin-left:6px}
+
+#bloc_15 .flags img{
+width:16px;
+height:11px}
+
+#bloc_15  .flags a span{
+display:none}
+
+#bloc_15 .flags a.en{background-position:-138px -90px}
+#bloc_15 .flags a.es{background-position:-154px -90px}
+#bloc_15 .flags a.pt{background-position:-170px -90px}
+#bloc_15 .flags a.it{background-position:-186px -90px}
+#bloc_15 .flags a.de{background-position:-202px -90px}
+#bloc_15 .flags a.fr{background-position: -122px -90px}
+
+
+#bloc_15 table.ccm{border:solid 1px #6480B8;background-color:#6480B8;border-collapse:collapse;border-spacing:0;padding:0;margin:0;width:auto;margin-bottom:6px;margin-top:5px}
+#bloc_15 table.ccm td{background-color:white;padding:2px;border:solid 1px #6480B8}
+#bloc_15 table.ccm th{color:white;font-weight:bold;padding:2px;background-color: #1F60B2}
+#bloc_15 table.no {border:0;border:hidden;margin:0;padding:0;border-collapse:collapse;background-color:transparent}
+#bloc_15 table.no tr{border:0;border:hidden;margin:0;padding:0;border-collapse:collapse;background-color:transparent}
+#bloc_15 table.no td{border:0;border:hidden;margin:0;padding:0;border-collapse:collapse;background-color:transparent;vertical-align:top}
+#bloc_15 table.no th {border:0;border:hidden;margin:0;padding:0;border-collapse:collapse;background-color:transparent}
+
+#bloc_15 a{
+color:#07519d}
+
+#bloc_15 a:hover, #bloc_15 a:focus{
+color:#0b84ff}
+
+#bloc_15 img{
+padding:6px}
+
+#bloc_15 p{
+padding:0 3px 6px 0;
+margin:0}
+
+#bloc_15 p.chapo{
+font-size:12px;
+font-weight:bold;
+color:black;
+padding:0 0 15px 0;
+margin:0}
+
+#bloc_15 p.attention{
+display:block;
+padding-left:60px;
+background:url(http://www.commentcamarche.net/images/warning.gif) no-repeat 0 0}
+
+#bloc_15 p.titre{
+background-color:#6180BD;
+padding:3px;
+font-weight:bold;
+font-size:13px;
+margin-bottom:8px;
+color:#fff}
+
+#bloc_15 p.niv2  {
+padding-left: 10px;
+display:block}
+
+#bloc_15 h1{
+font-size:16px}
+
+#bloc_15 h2{
+font-size:15px;
+width:100%;
+padding-top:12px;
+margin-bottom:12px;
+border-bottom:2px solid #CCC;
+color:black}
+
+#bloc_15 h3{
+font-size:13px;
+width:50%;
+padding-top:6px;
+margin-bottom:6px;
+border-bottom:1px solid #CCC;
+color:black}
+
+#bloc_15 h4{
+font-size:12px;
+width:50%;
+padding-top:6px;
+margin-bottom:6px;
+border-bottom:1px solid #CCC;
+color:black}
+
+#bloc_15 samp {
+display:block;
+font-family:verdana;
+font-size:12px;
+font-style:italic;
+margin:0;
+padding:6px 0 6px 60px}
+
+#bloc_15 ul{
+padding-left:6px;
+padding-bottom:8px;
+list-style-type:none;
+margin:0}
+
+#bloc_15 ul li{
+padding-left:12px;
+background:transparent url(/template/blocs/bloc_15/li.png) no-repeat 0 4px;
+line-height:1.4em}
+
+#bloc_15 ul li ul{
+padding-top:8px}
+
+#bloc_15 ul li ul li{
+padding-left:12px;
+background:transparent url(/template/blocs/bloc_15/lili.png) no-repeat 0 5px;
+line-height:1.4em}
+
+#bloc_15 ul#actions{
+list-style-type:none;
+margin:0;
+padding:10px 0 15px 0}
+
+#bloc_15 ul#actions li{
+display:inline;
+background-image:none;
+margin:0;
+padding:0}
+
+#bloc_15 ul#actions li a{
+font-size:12px;
+font-weight:bold;
+padding:10px 15px 15px 35px;
+float:left}
+
+#bloc_15 ul#actions li a.action_01{
+background:transparent url(/template/blocs/bloc_15/pic_01.png) no-repeat 0 4px}
+
+#bloc_15 ul#actions li a.action_02{
+background:transparent url(/template/blocs/bloc_15/pic_02.png) no-repeat 0 4px}
+
+#bloc_15 ul#actions li a.action_03{
+background:transparent url(/template/blocs/bloc_15/pic_03.png) no-repeat 0 4px}
+
+#bloc_15 .Footer {display:block;float:left;font-size:12px;margin:20px 0 10px 0;color:#777777;text-align:justify;border-top:2px solid #999999}
+
+#bloc_15 .Footer a {color:#777777;font-style:italic;}
+
+#bloc_16 {
+background-color:white;
+border:1px solid #2D2D2D;
+color:black;
+padding:0;
+position:absolute;
+visibility:hidden;
+width:340px;
+z-index:999999}
+
+#bloc_16 a{
+background:none;
+font-weight:normal;
+padding:0;
+margin:0;
+color:#07519d;
+font-size:12px}
+
+#bloc_16 a:hover, #bloc_16 a:focus{
+color:#52A2F7}
+
+#bloc_16 b{
+background:none;
+padding:0;
+margin:0;
+color:black;
+font-size:12px}
+
+#bloc_16 span.subtitre{
+display:block;
+font-weight:bold;
+text-align:center;
+color:white;
+background-color:#AAAAAA;
+padding:2px;
+margin:4px}
+
+#bloc_16 span.titre{
+display:block;
+font-weight:bold;
+text-align:center;
+color:white;
+padding:4px;
+font-size:12px;
+background:black}
+
+#bloc_16 table{
+border:1px solid #AAAAAA}
+
+#bloc_16 ul{
+padding:0 4px 4px 4px;
+list-style-type:none;
+margin:0}
+
+#bloc_16 ul li{
+padding-left:10px;
+padding-top:3px;
+background:transparent url(/template/blocs/bloc_16/li.png) no-repeat 1px 7px;
+line-height:1.2em}
+
+#bloc_22{
+float:left;
+width:673px;
+margin:10px 0 10px 6px;
+color:#354462;
+border:1px solid #4e6490;
+background-color:#e6ecf9;
+overflow:hidden}
+
+#bloc_22 td{
+vertical-align:middle}
+
+#bloc_22 div.form_fake {
+float:left;
+width:300px;
+border:1px solid #88899f;
+font-size:12px;/**/
+font-weight:bold;
+color:#62635a;
+background-color:#FBFBFB;
+margin:0;
+padding:3px}
+
+#bloc_22 input.options{
+margin:2px;
+vertical-align:middle}
+
+#bloc_22 img.captcha{
+display:block;
+width:120px;
+height:60px;
+background-color:black;
+padding:0;
+margin:0;
+color:white;
+border:1px solid red;
+white-space:pre-wrap;
+white-space:-moz-pre-wrap;
+white-space:-pre-wrap;
+white-space:-o-pre-wrap;
+word-wrap:break-word;
+overflow:auto;/* IE 6 */}
+
+#bloc_22 .list_rech{
+float:left;
+width:auto;
+border:1px solid #8694af;
+font-size:12px;/**/
+color:#2e333c;
+background-color:#eaf1ff;
+margin:0;
+padding:2px}
+
+#bloc_22 a{
+text-decoration:underline}
+
+#bloc_22 a.fonc_01{
+display:block;
+float:left;
+margin:0;
+padding:0;
+background:transparent url(/template/sprite_btn.png) no-repeat -6px 0;
+width:22px;
+height:21px;
+text-decoration:none}
+
+#bloc_22 a.fonc_01:hover, #bloc_22 a.fonc_01:focus{
+background:transparent url(/template/sprite_btn.png) no-repeat -6px -21px}
+
+#bloc_22 a.fonc_02{
+display:block;
+float:left;
+margin:0;
+padding:0;
+background:transparent url(/template/sprite_btn.png) no-repeat -28px 0;
+width:21px;
+height:21px;
+text-decoration:none}
+
+#bloc_22 a.fonc_02:hover, #bloc_22 a.fonc_02:focus{
+background:transparent url(/template/sprite_btn.png) no-repeat -28px -21px}
+
+#bloc_22 a.fonc_03{
+display:block;
+float:left;
+margin:0;
+padding:0;
+background:transparent url(/template/sprite_btn.png) no-repeat -49px 0;
+width:22px;
+height:21px;
+text-decoration:none}
+
+#bloc_22 a.fonc_03:hover, #bloc_22 a.fonc_03:focus{
+background:transparent url(/template/sprite_btn.png) no-repeat -49px -21px}
+
+#bloc_22 a.fonc_04{
+display:block;
+float:left;
+margin:0;
+padding:0;
+background:transparent url(/template/sprite_btn.png) no-repeat -71px 0;
+width:28px;
+height:21px;
+text-decoration:none}
+
+#bloc_22 a.fonc_04:hover, #bloc_22 a.fonc_04:focus{
+background:transparent url(/template/sprite_btn.png) no-repeat -71px -21px}
+
+#bloc_22 a.fonc_05{
+display:block;
+float:left;
+margin:0;
+padding:0;
+background:transparent url(/template/sprite_btn.png) no-repeat -99px 0;
+width:28px;
+height:21px;
+text-decoration:none}
+
+#bloc_22 a.fonc_05:hover, #bloc_22 a.fonc_05:focus{
+background:transparent url(/template/sprite_btn.png) no-repeat -99px -21px}
+
+#bloc_22 a.fonc_06{
+display:block;
+float:left;
+margin:0;
+padding:0;
+background:transparent url(/template/sprite_btn.png) no-repeat -155px 0;
+width:28px;
+height:21px;
+text-decoration:none}
+
+#bloc_22 a.fonc_06:hover, #bloc_22 a.fonc_06:focus{
+background:transparent url(/template/sprite_btn.png) no-repeat -155px -21px}
+
+#bloc_22 a.fonc_07{
+display:block;
+float:left;
+margin:0;
+padding:0;
+background:transparent url(/template/sprite_btn.png) no-repeat -183px 0;
+width:28px;
+height:21px;
+text-decoration:none}
+
+#bloc_22 a.fonc_07:hover, #bloc_22 a.fonc_07:focus{
+background:transparent url(/template/sprite_btn.png) no-repeat -183px -21px}
+
+#bloc_22 a.fonc_08{
+display:block;
+float:left;
+margin:0;
+padding:0;
+background:transparent url(/template/sprite_btn.png) no-repeat -211px 0;
+width:29px;
+height:21px;
+text-decoration:none}
+
+#bloc_22 a.fonc_08:hover, #bloc_22 a.fonc_08:focus{
+background:transparent url(/template/sprite_btn.png) no-repeat -211px -21px}
+
+#bloc_22 a.fonc_09{
+display:block;
+float:left;
+margin:0;
+padding:0;
+background:transparent url(/template/sprite_btn.png) no-repeat -127px 0;
+width:29px;
+height:21px;
+text-decoration:none}
+
+#bloc_22 a.fonc_09:hover, #bloc_22 a.fonc_09:focus{
+background:transparent url(/template/sprite_btn.png) no-repeat -127px -21px}
+
+#bloc_22 p.submit{
+float:left;
+display:block;
+margin:10px 0 10px 0}
+
+#bloc_22 .submit input, #bloc_22 input.submit{
+height:20px;
+float:left;
+border:1px solid #313f5b;
+background:#313f5b url(/template/sprite_back.png) repeat-x 0 -454px;
+padding:0px 4px 0px 4px;
+font-family:Tahoma,Arial,Helvetica,sans-serif;
+font-size:12px;
+color:white;
+font-weight:bold;
+margin:0 0 0 2px}
+
+#bloc_22 a.submit{
+height:16px;
+float:left;
+border:1px solid #313f5b;
+background:#313f5b url(/template/sprite_back.png) repeat-x 0 -454px;
+padding:2px 4px 0px 4px;
+font-family:Tahoma,Arial,Helvetica,sans-serif;
+font-size:12px;
+color:white;
+font-weight:bold;
+margin:0 0 0 2px;
+text-decoration:none}
+
+#bloc_22 a.submit:hover{
+text-decoration:none}
+
+#bloc_22 input.sujet, #bloc_22 input.file{
+float:left;
+width:300px;
+border:1px solid #88899f;
+font-size:12px;/**/
+color:#4f6591;
+background-color:#ffffff;
+padding:3px;
+margin:0}
+
+#bloc_22 input.upload{
+border:1px solid #88899f;
+color:#4f6591;
+font-size:12px;/**/
+margin:0 5px 1px 0}
+
+#bloc_22 select.themes{
+width:237px;
+border:1px solid #88899f;
+font-size:12px;/**/
+color:#4f6591;
+background-color:#ffffff;
+margin:0;
+padding:0}
+
+#bloc_22 span.options{
+display:block;
+padding-top:10px}
+
+#bloc_22 span.sub_tit{
+font-weight:bold;
+display:block;
+background:transparent url(/template/sprite_btn.png) no-repeat -240px -21px;
+padding:5px 15px 5px 15px;
+white-space:nowrap;
+margin:5px}
+
+#bloc_22 span.titre{
+display:block;
+background:url(/template/blocs/bloc_08/back_titre.jpg) repeat-x 0 100%;
+padding:4px;
+font-size:12px;
+color:white;
+font-weight:bold;
+text-align:left;
+border-bottom:1px solid #4e6490}
+
+#bloc_22 td.value{
+padding:3px}
+
+#bloc_22 textarea#message{
+padding:3px;
+margin:0;
+margin-top:-1px;
+border:1px solid #88899f;
+color:#4f6591;
+font-size:12px;/**/
+width:99%;
+height:300px;
+overflow:auto;
+float:left}
+
+#bloc_22 textarea#configuration{
+padding:3px;
+margin:0;
+margin-top:-1px;
+border:1px solid #88899f;
+color:#4f6591;
+font-size:12px;/**/
+width:99%;
+height:30px;
+overflow:auto;
+float:left}
+
+#bloc_22 textarea.motif{
+margin:5px 0 5px 0;
+width:475px;
+height:50px}
+
+#bloc_22 ul#fonctions{
+padding:0;
+margin:0;
+list-style-type:none}
+
+#bloc_22 ul#fonctions li{
+display:inline;
+margin:0;
+padding:0;
+list-style:none;
+line-height:21px}
+
+#bloc_22 ul#fonctions li.sep_01{
+width:6px;
+background:transparent url(/template/sprite_btn.png) no-repeat left top;
+display:block;
+float:left}
+
+#bloc_22 ul#fonctions li.sep_02{
+width:6px;
+background:transparent url(/template/sprite_btn.png) no-repeat right top;
+display:block;
+float:left}
+
+#bloc_contents{
+float:right;
+width:660px;
+margin:0;
+font-size:14px;
+padding:2px;
+margin-top:20px;
+overflow:hidden}
+
+#bloc_contents ul{
+display:block;
+padding:0;
+margin:0;
+list-style-type:none;
+float:left}
+
+#bloc_contents ul li{
+display:block;
+margin:0;
+padding:0;
+text-indent:0;
+float:left;
+width:300px}
+
+#bloc_contents > ul > li{
+width:50%;
+margin-bottom:10px}
+
+#bloc_contents ul li img{
+display:none;
+text-align: top}
+
+#bloc_contents ul li a.theme{
+margin-left:6px;
+color:black;
+float:left;
+clear:right;
+width:160px}
+
+#bloc_contents ul li b a{
+color:black}
+
+#bloc_contents ul li a.theme b{
+color:black}
+
+#bloc_contents ul li ul{
+float:left;
+clear:both}
+
+#bloc_contents ul li ul li{
+padding-left:6px}
+
+#bloc_contents li.titre{
+font-size: 16px;
+color: #777777;
+font-weight:bold;
+padding-left: 20px;
+padding-bottom: 2px;
+border-bottom: 1px solid #C8C8C8;
+margin-bottom: 5px}
+
+#bloc_contents ul li{
+list-style-type:none;
+text-indent: 6px}
+
+#bloc_contents li.collapsible a.collapse{
+padding-left: 10px;
+font-size: 14px;
+background: url(/img/collapsed.png) no-repeat 0 6px}
+
+#bloc_contents > li.collapsible > a.collapse{
+font-weight: bold;
+color: black}
+
+#bloc_contents > li.collapsible > a.expand{
+font-weight: bold;
+color: black}
+
+#bloc_contents li.collapsible a.expand{
+padding-left: 10px;
+font-size: 14px;
+background: url(/img/expanded.png) no-repeat 0 6px}
+
+#bloc_contents a, #bloc_contents a:link{
+padding-left:0px;
+margin-right:5px;
+font-size:14px}
+
+#bloc_contents a:hover, #bloc_contents a:focus{
+text-decoration:underline}
+
+#bloc_07{
+float:left; 
+width:172px; 
+border:1px dotted #CCC;
+margin:6px 6px 0 6px;
+padding:6px;
+overflow:hidden}
+
+#bloc_07 .items{
+display:block;
+float:left; 
+padding:0;
+margin:0;
+width:100%}
+
+#bloc_07 .items ul{
+display:none;
+list-style-type:none;
+padding:0;
+margin:6px 0;
+text-indent:0}
+
+#bloc_07 .items.focused ul{
+display:block}
+
+#bloc_07 .items li{
+display:block;
+list-style-type:none;
+padding:0 0 0 0;
+margin:0;
+text-indent:0}
+
+#bloc_07 .items li a{
+color:#666}
+
+#bloc_07 .items li.last a{
+display:block;
+padding-right:6px;
+color:white;
+background-color:#666}
+
+#bloc_07 .items .cat,#bloc_07 .items .cat:hover{
+display:block;
+width:auto;
+padding:0;
+margin:0;
+font-size:14px;
+font-family:Arial;
+text-decoration:none;
+color:#0167CC}
+
+#bloc_07 .items .selected .cat, #bloc_07 .items .selected .cat:hover{
+background-color:#5E82D8;
+padding:2px;
+color:white}
+
+#bloc_07 .items li span{
+display:none}
+
+.searchform{
+display:block;
+float:left;
+width:472px;
+margin:0;
+margin-left:6px;
+padding:0;
+padding-top:6px}
+
+.searchform h1{
+font-family:Arial;
+font-size:16px;
+margin-bottom:0;
+margin-top:0;
+color:#777}
+
+.searchform .resulthead{
+width:458px;
+float:left;
+margin:0;
+padding:6px;
+display:block;
+color:black;
+background-color: #EBEFF9;
+border:1px solid #999}
+
+.searchform .resulthead select{
+width:180px;
+float:left;
+margin:0;
+height:22px;
+display:block;
+color:black;
+margin-left:6px;
+font-size:12px;
+background-color: white;
+border:1px solid #CCC}
+
+#searchinput{
+float:left;
+font-size:14px;
+height:18px;
+border:1px solid #CCC;
+width:160px}
+
+#searchsubmit{
+float:left;
+clear:none;
+font-size:14px;
+margin-left:4px}
+
+.resultcount{
+width:472px;
+font-size:14px;
+float:left;
+margin:0;
+text-align:right;
+margin-left:6px;
+margin-top:6px;
+padding:0}
+
+#bloc_50{
+float:left; 
+width:472px; 
+margin:0; 
+color:#2C2C2C; 
+overflow:hidden}
+
+#bloc_50 .sub_tit{
+font-weight:bold; 
+text-align:left; 
+background:white;
+font-family:arial;
+font-variant:small-caps;
+font-size:13px;
+color:#999;
+border-bottom:1px solid #CCC;
+white-space:nowrap}
+
+#bloc_50  strong{
+color:#0000CC;
+font-weight:normal;
+text-decoration:underline;
+font-size:14px}
+
+#bloc_50 a{
+color:#333333}
+
+#bloc_50 a.down, #bloc_50 a.down:link{
+background:transparent url(/template/blocs/bloc_50/down.png) no-repeat -40px 2px}
+
+#bloc_50 a.up, #bloc_50 a.up:link{
+background:transparent url(/template/blocs/bloc_50/up.png) no-repeat -40px 2px}
+
+#bloc_50 a:hover, #bloc_50 a:focus{
+color:#a3a3a3; 
+text-decoration:none}
+
+#bloc_50 span.foot2{
+border:0;
+background:white}
+
+#bloc_50 span.num{
+font-weight:normal; 
+float:right; 
+font-size:11px}
+
+#bloc_50 span.omsg{
+display:block; 
+padding:0 0 5px 20px; 
+margin-bottom:5px; 
+background:transparent url(/template/blocs/bloc_50/pic_06.png) no-repeat 0 0; 
+color:#777777; 
+font-weight:bold}
+
+#bloc_50 span.pages{
+display:block; 
+margin:1px; 
+padding:5px; 
+background:white;
+border:none;
+color:#000000}
+
+#bloc_50 span.pages strong{
+float:left;
+font-family: Arial;
+font-weight: bold;
+margin:2px; 
+height: 16px;
+width: 16px;
+text-align:center;
+background: #F95E00;
+border: 1px solid #F95E00;
+color:white}
+
+#bloc_50 span.pages a{
+float:left;
+font-family: Arial;
+margin:2px; 
+height: 16px;
+width: 16px;
+text-align:center;
+border: 1px solid #CBCBCB;
+color:#777777}
+
+#bloc_50 span.titre{
+display:none; 
+font-size:12px; 
+font-weight:bold; 
+text-align:left; 
+color:white; 
+padding:4px; 
+margin:0; 
+border-bottom:1px solid #f4f4f4; 
+background:#a8a8a8 url(/template/blocs/bloc_50/back_titre.jpg) repeat-x 0 0}
+
+#bloc_50 table td{
+padding:5px 0}
+
+#bloc_50 .img_prod{
+float:left; 
+display:block; 
+width:120px; 
+height:80px; 
+margin-right:6px}
+
+#bloc_50 .img_prod td{
+width:120px; 
+height:80px; 
+text-align:center; 
+border:1px solid #CCC;
+background-color:white;
+padding:3px}
+
+#bloc_50 .img_prod a{
+display:inline;
+font-weight:bold;
+color:black;
+vertical-align:middle}
+
+#bloc_50 .desc{
+line-height:1.5em;
+font-family:verdana;
+margin-left:6px;
+width:99%;
+float:left}
+
+#bloc_50 a.category{
+float:left;
+margin-top:0px;
+color:#008000}
+
+#bloc_50 a.category:hover{
+text-decoration:underline;
+color:#008000}
+
+
+.contents .img{
+display:block;
+float:left;
+clear:left;
+padding:0 8px;
+border:1px solid #777;
+width:148px;
+height:115px}
+
+.contents .img:hover{
+border:1px solid #0249B4}
+
+.contents .listing{
+clear:left}
+
+.contents{
+padding:0;
+margin:0;
+clear:left}
+
+.contents #bloc_contents{
+width:675px}
+
+#bloc_contents ul{
+text-align:left;
+width:510px}
+
+#bloc_contents ul li {
+width:auto}
+
+#bloc_contents li{
+padding:10px 0;
+clear:left;
+margin:0;
+list-style-type:none}
+
+#bloc_contents .titre{
+border:0 none;
+font-family:Arial;
+font-size:16px;
+font-weight:bold;
+margin:0 0 2px;
+padding:0;
+text-decoration:none}
+
+#bloc_contents .titre a{
+color:#0249B4}
+
+#bloc_contents .desc{
+color:black;
+display:block;
+font-family:verdana;
+letter-spacing:0.02em;
+line-height:1.4em;
+margin-bottom:5px;
+padding:0;
+text-align:justify}
+
+#bloc_contents .dossier{
+display:none}
+
+#bloc_contents a.more{
+color:#D45000;
+text-align:right;
+font-family:Verdana;
+font-size:13px;
+font-size-adjust:none;
+font-stretch:normal;
+font-style:normal;
+font-variant:normal;
+font-weight:bold;
+line-height:normal;
+margin:5px;
+float:right;
+cursor:pointer;
+text-decoration:underline}
+
+#DF #bloc_contents .dossier li{
+display:inline;float:none}
+
+#DF #bloc_contents .dossier a{
+background:url(/styles/DF/disc.png) no-repeat 0 5px;
+padding-left:12px;
+font-size:12px}
+
+#DF #bloc_contents .dossier li.first a,#DF #bloc_contents .dossier a.first{
+padding-left:0;
+background:none}
+
+#DF #bloc_contents .titre a{
+color:black}
+
+#DF #bloc_contents .dossier {
+float:left;
+width:510px;
+display:block}
+
+#contenu #debutant1{background-image:url('http://static.commentcamarche.net/www.commentcamarche.net/contents/images/debutant1.jpg')}
+#contenu #debutant2{background-image:url('http://static.commentcamarche.net/www.commentcamarche.net/contents/images/debutant2.jpg')}
+#contenu #decideur1{background-image:url('http://static.commentcamarche.net/www.commentcamarche.net/contents/images/decideur1.jpg')}
+#contenu #decideur2{background-image:url('http://static.commentcamarche.net/www.commentcamarche.net/contents/images/decideur2.jpg')}
+#contenu #decideur3{background-image:url('http://static.commentcamarche.net/www.commentcamarche.net/contents/images/decideur3.jpg')}
+#contenu #developpeur1{background-image:url('http://static.commentcamarche.net/www.commentcamarche.net/contents/images/developpeur1.jpg')}
+#contenu #developpeur2{background-image:url('http://static.commentcamarche.net/www.commentcamarche.net/contents/images/developpeur2.jpg')}
+#contenu #internet1{background-image:url('http://static.commentcamarche.net/www.commentcamarche.net/contents/images/internet1.jpg')}
+#contenu #internet2{background-image:url('http://static.commentcamarche.net/www.commentcamarche.net/contents/images/internet2.jpg')}
+#contenu #legislation1{background-image:url('http://static.commentcamarche.net/www.commentcamarche.net/contents/images/legislation1.jpg')}
+#contenu #materiel1{background-image:url('http://static.commentcamarche.net/www.commentcamarche.net/contents/images/materiel1.jpg')}
+#contenu #materiel2{background-image:url('http://static.commentcamarche.net/www.commentcamarche.net/contents/images/materiel2.jpg')}
+#contenu #materiel3{background-image:url('http://static.commentcamarche.net/www.commentcamarche.net/contents/images/materiel3.jpg')}
+#contenu #multimedia1{background-image:url('http://static.commentcamarche.net/www.commentcamarche.net/contents/images/multimedia1.jpg')}
+#contenu #multimedia2{background-image:url('http://static.commentcamarche.net/www.commentcamarche.net/contents/images/multimedia2.jpg')}
+#contenu #reseau1{background-image:url('http://static.commentcamarche.net/www.commentcamarche.net/contents/images/reseau1.jpg')}
+#contenu #reseau2{background-image:url('http://static.commentcamarche.net/www.commentcamarche.net/contents/images/reseau2.jpg')}
+#contenu #reseau3{background-image:url('http://static.commentcamarche.net/www.commentcamarche.net/contents/images/reseau3.jpg')}
+#contenu #reseau4{background-image:url('http://static.commentcamarche.net/www.commentcamarche.net/contents/images/reseau4.jpg')}
+#contenu #securite1{background-image:url('http://static.commentcamarche.net/www.commentcamarche.net/contents/images/securite1.jpg')}
+#contenu #securite2{background-image:url('http://static.commentcamarche.net/www.commentcamarche.net/contents/images/securite2.jpg')}
+#contenu #securite3{background-image:url('http://static.commentcamarche.net/www.commentcamarche.net/contents/images/securite3.jpg')}
+#contenu #systeme1{background-image:url('http://static.commentcamarche.net/www.commentcamarche.net/contents/images/systeme1.jpg')}
+#contenu #systeme2{background-image:url('http://static.commentcamarche.net/www.commentcamarche.net/contents/images/systeme2.jpg')}
+
+
+#contenu #accouchement1{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/accouchement1.jpg')}
+#contenu #accouchement2{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/accouchement2.jpg')}
+#contenu #accouchement3{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/accouchement3.jpg')}
+#contenu #alzheimer1{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/alzheimer1.jpg')}
+#contenu #alzheimer2{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/alzheimer2.jpg')}
+#contenu #allergies1{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/allergies1.jpg')}
+#contenu #allergies2{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/allergies2.jpg')}
+#contenu #asthme1{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/asthme1.jpg')}
+#contenu #asthme2{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/asthme2.jpg')}
+#contenu #audition1{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/audition1.jpg')}
+#contenu #audition2{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/audition2.jpg')}
+#contenu #audition3{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/audition3.jpg')}
+#contenu #audition4{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/audition4.jpg')}
+#contenu #bebe1{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/bebe1.jpg')}
+#contenu #bebe2{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/bebe2.jpg')}
+#contenu #cancer1{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/cancer1.jpg')}
+#contenu #cancer2{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/cancer2.jpg')}
+#contenu #cholesterol1{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/cholesterol1.jpg')}
+#contenu #cholesterol2{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/cholesterol2.jpg')}
+#contenu #contraception1{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/contraception1.jpg')}
+#contenu #contraception2{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/contraception2.jpg')}
+#contenu #contraception3{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/contraception3.jpg')}
+#contenu #diabete1{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/diabete1.jpg')}
+#contenu #diabete2{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/diabete2.jpg')}
+#contenu #diabete3{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/diabete3.jpg')}
+#contenu #enfant1{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/enfant1.jpg')}
+#contenu #enfant2{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/enfant2.jpg')}
+#contenu #forme-fetes1{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/forme-fetes1.jpg')}
+#contenu #forme-fetes2{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/forme-fetes2.jpg')}
+#contenu #forme-fetes3{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/forme-fetes3.jpg')}
+#contenu #forme-fetes4{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/forme-fetes4.jpg')}
+#contenu #forme-fetes5{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/forme-fetes5.jpg')}
+#contenu #grossesse1{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/grossesse1.jpg')}
+#contenu #grossesse2{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/grossesse2.jpg')}
+#contenu #grossesse3{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/grossesse3.jpg')}
+#contenu #grossesse4{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/grossesse4.jpg')}
+#contenu #maigrir1{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/maigrir1.jpg')}
+#contenu #maigrir2{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/maigrir2.jpg')}
+#contenu #maigrir3{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/maigrir3.jpg')}
+#contenu #maigrir4{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/maigrir4.jpg')}
+#contenu #nutrition1{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/nutrition1.jpg')}
+#contenu #nutrition2{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/nutrition2.jpg')}
+#contenu #nutrition3{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/nutrition3.jpg')}
+#contenu #professionnels1{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/professionnels1.jpg')}
+#contenu #professionnels2{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/professionnels2.jpg')}
+#contenu #sexologie1{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/sexologie1.jpg')}
+#contenu #sexologie2{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/sexologie2.jpg')}
+#contenu #sexologie3{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/sexologie3.jpg')}
+#contenu #sport-sante1{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/sport-sante1.jpg')}
+#contenu #sport-sante2{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/sport-sante2.jpg')}
+#contenu #sport-sante3{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/sport-sante3.jpg')}
+#contenu #sport-sante4{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/sport-sante4.jpg')}
+#contenu #sterilite1{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/sterilite1.jpg')}
+#contenu #sterilite2{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/sterilite2.jpg')}
+#contenu #sterilite3{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/sterilite3.jpg')}
+#contenu #sterilite4{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/sterilite4.jpg')}
+#contenu #systeme-sante1{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/systeme-sante1.jpg')}
+#contenu #systeme-sante2{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/systeme-sante2.jpg')}
+#contenu #tabac1{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/tabac1.jpg')}
+#contenu #tabac2{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/tabac2.jpg')}
+#contenu #tabac3{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/tabac3.jpg')}
+#contenu #tabac4{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/tabac4.jpg')}
+#contenu #tabac5{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/tabac5.jpg')}
+#contenu #transit-intestinal1{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/transit-intestinal1.jpg')}
+#contenu #transit-intestinal2{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/transit-intestinal2.jpg')}
+#contenu #transit-intestinal3{background-image:url('http://static.commentcamarche.net/sante-medecine.commentcamarche.net/contents/images/transit-intestinal3.jpg')}
+
+
+#contenu #entreprise1{background-image:url('http://static.commentcamarche.net/droit-finances.commentcamarche.net/contents/images/entreprise1.jpg')}
+#contenu #entreprise2{background-image:url('http://static.commentcamarche.net/droit-finances.commentcamarche.net/contents/images/entreprise2.jpg')}
+#contenu #transmission1{background-image:url('http://static.commentcamarche.net/droit-finances.commentcamarche.net/contents/images/transmission1.jpg')}
+#contenu #transmission2{background-image:url('http://static.commentcamarche.net/droit-finances.commentcamarche.net/contents/images/transmission2.jpg')}
+#contenu #immobilier1{background-image:url('http://static.commentcamarche.net/droit-finances.commentcamarche.net/contents/images/immobilier1.jpg')}
+#contenu #immobilier2{background-image:url('http://static.commentcamarche.net/droit-finances.commentcamarche.net/contents/images/immobilier2.jpg')}
+#contenu #immobilier3{background-image:url('http://static.commentcamarche.net/droit-finances.commentcamarche.net/contents/images/immobilier3.jpg')}
+#contenu #placements1{background-image:url('http://static.commentcamarche.net/droit-finances.commentcamarche.net/contents/images/placements1.jpg')}
+#contenu #placements2{background-image:url('http://static.commentcamarche.net/droit-finances.commentcamarche.net/contents/images/placements2.jpg')}
+#contenu #droits-salaries1{background-image:url('http://static.commentcamarche.net/droit-finances.commentcamarche.net/contents/images/droits-salaries1.jpg')}
+#contenu #droits-salaries2{background-image:url('http://static.commentcamarche.net/droit-finances.commentcamarche.net/contents/images/droits-salaries2.jpg')}
+#contenu #vie-a-deux1{background-image:url('http://static.commentcamarche.net/droit-finances.commentcamarche.net/contents/images/vie-a-deux1.jpg')}
+#contenu #vie-a-deux2{background-image:url('http://static.commentcamarche.net/droit-finances.commentcamarche.net/contents/images/vie-a-deux2.jpg')}
+#contenu #consommation1{background-image:url('http://static.commentcamarche.net/droit-finances.commentcamarche.net/contents/images/consommation1.jpg')}
+#contenu #consommation2{background-image:url('http://static.commentcamarche.net/droit-finances.commentcamarche.net/contents/images/consommation2.jpg')}
+#contenu #impots1{background-image:url('http://static.commentcamarche.net/droit-finances.commentcamarche.net/contents/images/impots1.jpg')}
+#contenu #impots2{background-image:url('http://static.commentcamarche.net/droit-finances.commentcamarche.net/contents/images/impots2.jpg')}
