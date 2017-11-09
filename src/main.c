@@ -24,6 +24,7 @@
 #define FEEP_HIST_REV   "img/feep_reversed_histogram.pgm"
 
 #define MARIO           "img/mario.bmp"
+#define MARIO_COPY      "img/mario_copy.bmp"
 
 int main(int argc, char *argv[])
 {
@@ -70,16 +71,19 @@ int main(int argc, char *argv[])
     
 
     FILE* file = get_file(MARIO, "rb");
+    FILE* out = get_file(MARIO_COPY, "wb");
 
     BMP_image* bmp = BMP_get_image_from_file(file);
 
-    // BMP_show_header(bmp);
+    BMP_show_header(bmp);
 
-    printf("> %d:%d\n", bmp->width, bmp->height);
+    // printf("> %d:%d\n", bmp->width, bmp->height);
+    BMP_save_image_into_file(bmp, out);
 
     free_BMP_image(bmp);
     
     fclose(file);
+    fclose(out);
 
     return 0;
 }

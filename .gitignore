@@ -114,3 +114,6 @@ img/*
 
 #Codeblocks
 *.cbp
+
+#README.pdf
+README.pdf
