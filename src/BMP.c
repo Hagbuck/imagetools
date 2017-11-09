@@ -253,6 +253,7 @@ e__bool BMP_save_image_into_file(BMP_image* const bmp, FILE* const file)
                     fwrite(rgb, 1, 3, file);
                 }
             }
+            return TRUE;
         }
         else
         {
@@ -261,12 +262,9 @@ e__bool BMP_save_image_into_file(BMP_image* const bmp, FILE* const file)
             return FALSE;
         }
     }
-    else
-    {
-        printf("ERROR bmp is NULL : %d\n", ERR_STRUCT_IS_NULL);
-        exit(ERR_STRUCT_IS_NULL);
-        return FALSE;
-    }
+    printf("ERROR bmp is NULL : %d\n", ERR_STRUCT_IS_NULL);
+    exit(ERR_STRUCT_IS_NULL);
+    return FALSE;
 }
 
 e__bool BMP_copy_header(BMP_image* const src, BMP_image* const dest)

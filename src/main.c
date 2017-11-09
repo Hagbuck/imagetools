@@ -80,13 +80,17 @@ int main(int argc, char *argv[])
     BMP_image* bmp = BMP_get_image_from_file(file);
     BMP_image* copy = BMP_get_copy(bmp);
 
+    if(copy == NULL)
+        puts("NULL");
+
     BMP_set_vertical_reversed(copy);
 
     // BMP_show_header(bmp);
 
-    // printf("> %d:%d\n", bmp->width, bmp->height);
+    // printf("> %d:%d\n", bmp->width, bmp->height); 
+    
     BMP_save_image_into_file(copy, out);
-
+    
     free_BMP_image(bmp);
     free_BMP_image(copy);
     
