@@ -25,6 +25,7 @@
 
 #define MARIO           "img/mario.bmp"
 #define MARIO_COPY      "img/mario_copy.bmp"
+#define MARIO_GRAY      "img/mario_gray.bmp"
 
 int main(int argc, char *argv[])
 {
@@ -71,16 +72,20 @@ int main(int argc, char *argv[])
     
 
     FILE* file = get_file(MARIO, "rb");
-    FILE* out = get_file(MARIO_COPY, "wb");
+    FILE* out = get_file(MARIO_GRAY, "wb");
 
     BMP_image* bmp = BMP_get_image_from_file(file);
+    BMP_image* copy = BMP_get_copy(bmp);
 
-    BMP_show_header(bmp);
+    BMP_set_gray_filter(copy);
+
+    // BMP_show_header(bmp);
 
     // printf("> %d:%d\n", bmp->width, bmp->height);
-    BMP_save_image_into_file(bmp, out);
+    BMP_save_image_into_file(copy, out);
 
     free_BMP_image(bmp);
+    free_BMP_image(copy);
     
     fclose(file);
     fclose(out);

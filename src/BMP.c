@@ -269,6 +269,131 @@ e__bool BMP_save_image_into_file(BMP_image* const bmp, FILE* const file)
     }
 }
 
+e__bool BMP_copy_header(BMP_image* const src, BMP_image* const dest)
+{
+    if(src != NULL && dest != NULL)
+    {
+        int i;
+
+        /*** HEADER FILE ***/
+        for(i = 0; i < 2; ++i)
+            dest->bfType[i] = src->bfType[i];
+
+        for(i = 0; i < 4; ++i)
+            dest->bfSize[i] = src->bfSize[i];
+
+        for(i = 0; i < 2; ++i)
+            dest->bfReserved1[i] = src->bfReserved1[i];
+
+        for(i = 0; i < 2; ++i)
+            dest->bfReserved2[i] = src->bfReserved2[i];
+
+        for(i = 0; i < 4; ++i)
+            dest->bfOffBits[i] = src->bfOffBits[i];
+
+        /*** HEADER BITMAP ***/
+        for(i = 0; i < 4; ++i)
+            dest->biSize[i] = src->biSize[i];
+
+        for(i = 0; i < 4; ++i)
+            dest->biWidth[i] = src->biWidth[i];
+
+        for(i = 0; i < 4; ++i)
+            dest->biHeight[i] = src->biHeight[i];
+
+        for(i = 0; i < 2; ++i)
+            dest->biPlane[i] = src->biPlane[i];
+
+        for(i = 0; i < 2; ++i)
+            dest->biBitCount[i] = src->biBitCount[i];
+
+        for(i = 0; i < 4; ++i)
+            dest->biCompression[i] = src->biCompression[i];
+
+        for(i = 0; i < 4; ++i)
+            dest->biSizeImage[i] = src->biSizeImage[i];
+
+        for(i = 0; i < 4; ++i)
+            dest->biXpelsPerMeter[i] = src->biXpelsPerMeter[i];
+
+        for(i = 0; i < 4; ++i)
+            dest->biYpelsPerMeter[i] = src->biYpelsPerMeter[i];
+
+        for(i = 0; i < 4; ++i)
+            dest->biClrUsed[i] = src->biClrUsed[i];
+
+        for(i = 0; i < 4; ++i)
+            dest->biClrImportant[i] = src->biClrImportant[i];
+
+        return TRUE;
+    }
+    return FALSE;
+}
+
+BMP_image* BMP_get_copy(BMP_image* const bmp)
+{
+    BMP_image* copy = malloc(sizeof(BMP_image));
+    if(copy != NULL)
+    {
+        int i, j;
+
+        BMP_copy_header(bmp, copy);
+
+        copy->width = bmp->width;
+        copy->height = bmp->height;
+
+        // Allocate the memory for the pixels
+        copy->pixels = malloc(copy->height * sizeof(rgb*));
+        for(i = 0; i < copy->height; ++i)
+        {
+            copy->pixels[i] = malloc(copy->width * sizeof(rgb));
+            if(copy->pixels[i] == NULL)
+            {
+                printf("ERROR bad alloc : %d\n", ERR_BAD_ALLOC);
+                exit(ERR_BAD_ALLOC);
+            }
+        }
+
+        // Copy pixels
+        for(i = 0; i < copy->height; ++i)
+        {
+            for(j = 0; j < copy->width; ++j)
+            {
+                copy->pixels[i][j].r = bmp->pixels[i][j].r;
+                copy->pixels[i][j].g = bmp->pixels[i][j].g;
+                copy->pixels[i][j].b = bmp->pixels[i][j].b;
+            }
+        }
+        return copy;
+    }
+    return NULL;
+}
+
+e__bool BMP_set_gray_filter(BMP_image* const bmp)
+{
+    if(bmp != NULL)
+    {
+        unsigned char color;
+        int i,j;
+        for(i = 0; i < bmp->height; ++i)
+        {
+            for(j = 0; j < bmp->width; ++j)
+            {
+                color = bmp->pixels[i][j].r +
+                        bmp->pixels[i][j].g +
+                        bmp->pixels[i][j].b ;
+                color /= 3;
+
+                bmp->pixels[i][j].r = color;
+                bmp->pixels[i][j].g = color;
+                bmp->pixels[i][j].b = color;
+            }
+        }
+        return TRUE;
+    }
+    return FALSE;
+}
+
 void BMP_show_header(const BMP_image* const bmp)
 {
     printf("-------------------------------------\n");
