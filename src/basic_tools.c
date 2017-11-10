@@ -23,7 +23,8 @@ FILE * get_file(char* file_name, char* method)
         return file;
     }
     printf("ERROR : %d\n", ERR_FAILED_OPENED_FILE);
-    exit(ERR_FAILED_OPENED_FILE);
+    return NULL;
+    // exit(ERR_FAILED_OPENED_FILE);
 }
 
 /**

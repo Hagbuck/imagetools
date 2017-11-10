@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "console_interface.h"
 #include "basic_tools.h"
 #include "PGM_P2.h"
 #include "BMP.h"
@@ -73,25 +74,26 @@ int main(int argc, char *argv[])
     // fclose(out_histo);
     // fclose(out_histo_reversed);
     
+    main_menu();
 
-    FILE* file = get_file(MARIO, "rb");
-    FILE* out = get_file(MARIO_V_REV, "wb");
+    // FILE* file = get_file(MARIO, "rb");
+    // FILE* out = get_file(MARIO_V_REV, "wb");
 
-    BMP_image* bmp = BMP_get_image_from_file(file);
-    BMP_image* copy = BMP_get_copy(bmp);
+    // BMP_image* bmp = BMP_get_image_from_file(file);
+    // BMP_image* copy = BMP_get_copy(bmp);
 
-    BMP_set_vertical_reversed(copy);
+    // BMP_set_vertical_reversed(copy);
 
     // BMP_show_header(bmp);
 
     // printf("> %d:%d\n", bmp->width, bmp->height);
-    BMP_save_image_into_file(copy, out);
+    // BMP_save_image_into_file(copy, out);
 
-    free_BMP_image(bmp);
-    free_BMP_image(copy);
+    // free_BMP_image(bmp);
+    // free_BMP_image(copy);
     
-    fclose(file);
-    fclose(out);
+    // fclose(file);
+    // fclose(out);
 
     return 0;
 }
