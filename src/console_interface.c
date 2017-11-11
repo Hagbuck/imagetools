@@ -25,7 +25,7 @@ void main_menu(void)
         puts("\t| [MAIN] .............................. |");
         puts("\t+---------------------------------------+");
         puts("\t| b. BMP image ........................ |");
-        puts("\t| b. PGM P2 image ..................... |");
+        puts("\t| p. PGM P2 image ..................... |");
         puts("\t| q. Quit program ..................... |");
         puts("\t+---------------------------------------+");
         printf("\t: ");
@@ -37,6 +37,11 @@ void main_menu(void)
             case 'b':
             case 'B':
                 bmp_menu();
+            break;
+
+            case 'p':
+            case 'P':
+                pgm_p2_menu();
             break;
 
             case 'q':
@@ -118,8 +123,8 @@ void bmp_menu(void)
                         puts("\t> Creating manipulated structure failed !");
                         printf("\t> Closing file [%s] ...", file_path);
                         strcpy(file_path, "");
-                        fclose(in);
                     }
+                    fclose(in);
                 }
             break;
 
@@ -154,10 +159,7 @@ void bmp_menu(void)
             case 'Q':
                 puts("Closing program");
                 is_end = TRUE;
-                if(in != NULL)
-                {
-                    fclose(in);
-                }
+
                 if(bmp != NULL)
                 {
                     free_BMP_image(bmp);
@@ -221,6 +223,11 @@ void bmp_menu(void)
             break;
         }
     }while(is_end == FALSE);
+}
+
+void pgm_p2_menu(void)
+{
+
 }
 
 void jump_clear(void)
