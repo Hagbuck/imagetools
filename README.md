@@ -18,6 +18,8 @@ Les fonctionnalitées seront si possible pour les deux formats mais d'après le 
 * Sauvegarde d'une image
 * Application de différents filtres:
     * Inverse
+    * Rotation horizontal
+    * Rotation vertical
 * Histogramme
 
 ## PGM
@@ -26,7 +28,6 @@ Les fonctionnalitées seront si possible pour les deux formats mais d'après le 
 ## BMP
 * Application de différents filtres:
     * Nuance de gris
-    * Noir et blanc
 * Égalisation
 * Filtrage linéaire
 * Extraction des contours (filtre de sobel)
