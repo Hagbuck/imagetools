@@ -70,6 +70,9 @@ void bmp_menu(void)
     e__bool is_end = FALSE;
     char action;
 
+    int nb_dot = NB_DOT;
+    int i;
+
     char file_path[256] = "";
     char save_path[256] = "";
     FILE *in = NULL;
@@ -81,11 +84,14 @@ void bmp_menu(void)
         jump_clear();
         show_logo();
         puts("\t| [MAIN] > [BMP] ...................... |");
-        printf("\t| FILE : [%s]\n", file_path);
+        printf("\t| FILE : [%s] ", file_path); for(i = 0; i < nb_dot; ++i){printf(".");} puts(" |");
         puts("\t+---------------------------------------+");
         puts("\t| l. Load BMP ......................... |");
         puts("\t| s. Save BMP ......................... |");
         puts("\t| q. Quit BMP ......................... |");
+        puts("\t+---------------------------------------+");
+        puts("\t| i. Informations BMP ................. |");
+        puts("\t| j. Show BMP header .................. |");
         puts("\t+---------------------------------------+");
         puts("\t| g. Gray filter ...................... |");
         puts("\t| r. Reversed filter .................. |");
@@ -112,11 +118,21 @@ void bmp_menu(void)
                 else
                 {
                     printf("\t> Openning [%s] succesfull !\n", file_path);
+
+                    if(bmp != NULL) // BMP is already loaded
+                    {
+                        free_BMP_image(bmp);
+                    }
+
                     bmp = BMP_get_image_from_file(in);
                     puts("\t> Creating manipulated structure ...");
                     if(bmp != NULL)
                     {
                         puts("\t> Creating manipulated structure succesfull !");
+                        nb_dot = NB_DOT - strlen(file_path);
+                        /* Couper au milieur les caractères en trop */
+                        if(nb_dot < 0)
+                            nb_dot = 0;
                     }
                     else
                     {
@@ -136,7 +152,7 @@ void bmp_menu(void)
                     scanf("%[^\n]%*c", save_path);
                     printf("\t> Openning %s...\n", save_path);
                     out = get_file(save_path, "wb");
-                    if(in == NULL)
+                    if(out == NULL)
                     {
                         printf("\t> Openning [%s] failed !", save_path);
                         strcpy(save_path, "");
@@ -163,6 +179,31 @@ void bmp_menu(void)
                 if(bmp != NULL)
                 {
                     free_BMP_image(bmp);
+                }
+            break;
+
+            case 'i':
+            case 'I':
+                if(bmp != NULL)
+                {
+                    printf("\t> FILE NAME           : %s\n", file_path);
+                    printf("\t> Size (width:height) : (%d : %d)\n", bmp->width, bmp->height);
+                }
+                else
+                {
+                    puts("\t> ERROR any BMP_image is load !");
+                }
+            break;
+
+            case 'j':
+            case 'J':
+                if(bmp != NULL)
+                {
+                    BMP_show_header(bmp);
+                }
+                else
+                {
+                    puts("\t> ERROR any BMP_image is load !");
                 }
             break;
 
@@ -227,7 +268,217 @@ void bmp_menu(void)
 
 void pgm_p2_menu(void)
 {
+    e__bool is_end = FALSE;
+    char action;
 
+    int nb_dot = NB_DOT;
+    int i;
+
+    char file_path[256] = "";
+    char save_path[256] = "";
+    FILE *in = NULL;
+    FILE *out = NULL;
+    PGM_P2_image *pgm = NULL;
+
+    do
+    {
+        jump_clear();
+        show_logo();
+        puts("\t| [MAIN] > [PGM] ...................... |");
+        printf("\t| FILE : [%s] ", file_path); for(i = 0; i < nb_dot; ++i){printf(".");} puts(" |");
+        puts("\t+---------------------------------------+");
+        puts("\t| l. Load PGM ......................... |");
+        puts("\t| s. Save PGM ......................... |");
+        puts("\t| q. Quit PGM ......................... |");
+        puts("\t+---------------------------------------+");
+        puts("\t| i. Informations PGM ................. |");
+        puts("\t| j. Show PGM Histogram ............... |");
+        puts("\t| k. Save PGM Histogram ............... |");
+        puts("\t+---------------------------------------+");
+        puts("\t| r. Reversed filter .................. |");
+        // puts("\t| h. Horizontal reversed .............. |");
+        // puts("\t| v. Vertical reversed ................ |");
+        puts("\t+---------------------------------------+");
+        printf("\t: ");
+        action = get_action();
+        puts("");
+
+        switch(action)
+        {
+            case 'l':
+            case 'L':
+                printf("\t FILE PATH : ");
+                scanf("%[^\n]%*c", file_path);
+                printf("\t> Openning %s...\n", file_path);
+                in = get_file(file_path, "rb");
+                if(in == NULL)
+                {
+                    printf("\t> Openning [%s] failed !", file_path);
+                    strcpy(file_path, "");
+                }
+                else
+                {
+                    printf("\t> Openning [%s] succesfull !\n", file_path);
+
+                    if(pgm != NULL) // BMP is already loaded
+                    {
+                        free_PGM_P2_image(pgm);
+                    }
+
+                    pgm = PGM_P2_get_image_from_file(in);
+                    puts("\t> Creating manipulated structure ...");
+                    if(pgm != NULL)
+                    {
+                        puts("\t> Creating manipulated structure succesfull !");
+                        nb_dot = NB_DOT - strlen(file_path);
+                        /* Couper au milieur les caractères en trop */
+                        if(nb_dot < 0)
+                            nb_dot = 0;
+                    }
+                    else
+                    {
+                        puts("\t> Creating manipulated structure failed !");
+                        printf("\t> Closing file [%s] ...", file_path);
+                        strcpy(file_path, "");
+                    }
+                    fclose(in);
+                }
+            break;
+
+            case 's':
+            case 'S':
+                if(pgm != NULL)
+                {
+                    printf("\tSAVE FILE PATH : ");
+                    scanf("%[^\n]%*c", save_path);
+                    printf("\t> Openning %s...\n", save_path);
+                    out = get_file(save_path, "wb");
+                    if(out == NULL)
+                    {
+                        printf("\t> Openning [%s] failed !", save_path);
+                        strcpy(save_path, "");
+                    }
+                    else
+                    {
+                        printf("\t> Openning [%s] succesfull !\n", save_path);
+                        PGM_P2_save_image_into_file(pgm, out);
+                        fclose(out);
+                        printf("\t> [%s] saved into [%s] successfull !\n", file_path, save_path);
+                    }
+                }
+                else
+                {
+                    puts("\t> ERROR any PGM_image is load !");
+                }
+            break;
+
+            case 'q':
+            case 'Q':
+                puts("Closing program");
+                is_end = TRUE;
+
+                if(pgm != NULL)
+                {
+                    free_PGM_P2_image(pgm);
+                }
+            break;
+
+            case 'i':
+            case 'I':
+                if(pgm != NULL)
+                {
+                    printf("\t> FILE NAME           : %s\n", file_path);
+                    printf("\t> Size (width:height) : (%d : %d)\n", pgm->width, pgm->height);
+                    printf("\t> Max value_comp()    : %d\n", pgm->v_max);
+                }
+                else
+                {
+                    puts("\t> ERROR any PGM_image is load !");
+                }
+            break;
+
+            case 'j':
+            case 'J':
+                if(pgm != NULL)
+                {
+                    PGM_P2_histogram* hist = NULL;
+                    puts("\t> Loading histogram ...");
+                    hist = PGM_P2_get_histogram(pgm);
+
+                    if(hist != NULL)
+                    {
+                        puts("\t> Loading histogram successful");
+                        display_PGM_P2_histogram(hist);
+                    }
+                    else
+                    {
+                        puts("\t> ERROR Getting histogram !");
+                    }
+                }
+                else
+                {
+                    puts("\t> ERROR any PGM_image is load !");
+                }
+            break;
+
+            case 'k':
+            case 'K':
+                if(pgm != NULL)
+                {
+                    PGM_P2_histogram* hist = NULL;
+                    puts("\t> Loading histogram ...");
+                    hist = PGM_P2_get_histogram(pgm);
+
+                    if(hist != NULL)
+                    {
+                        puts("\t> Loading histogram successful");
+
+                        printf("\tSAVE HISTOGRAM FILE PATH : ");
+                        scanf("%[^\n]%*c", save_path);
+                        printf("\t> Openning %s...\n", save_path);
+                        out = get_file(save_path, "wb");
+                        if(out == NULL)
+                        {
+                            printf("\t> Openning [%s] failed !", save_path);
+                            strcpy(save_path, "");
+                        }
+                        else
+                        {
+                            printf("\t> Openning [%s] succesfull !\n", save_path);
+                            PGM_P2_save_histogram_as_PGM_P2_file(hist, out);
+                            fclose(out);
+                            printf("\t> [%s] saved into [%s] successfull !\n", file_path, save_path);
+                        }
+                    }
+                    else
+                    {
+                        puts("\t> ERROR Getting histogram !");
+                    }
+                }
+                else
+                {
+                    puts("\t> ERROR any PGM_image is load !");
+                }
+            break;
+
+            case 'r':
+            case 'R':
+                if(pgm != NULL)
+                {
+                    PGM_P2_set_reversed_filter(pgm);
+                    puts("\t> Reversed filter setted");
+                }
+                else
+                {
+                    puts("\t> ERROR any PGM_image is load !");
+                }
+            break;                      
+
+            default:
+                printf("Command [%c] doesn't exist !\n", action);
+            break;
+        }
+    }while(is_end == FALSE);
 }
 
 void jump_clear(void)

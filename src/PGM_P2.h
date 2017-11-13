@@ -47,6 +47,7 @@ struct PGM_P2_histogram
 
 
 PGM_P2_image*       PGM_P2_get_image_from_file(FILE* file);
+e__bool             PGM_P2_set_reversed_filter(PGM_P2_image* const img);
 PGM_P2_image*       PGM_P2_reversed_filter(PGM_P2_image *img);
 PGM_P2_histogram*   PGM_P2_get_histogram(PGM_P2_image *img);
 e__bool             PGM_P2_save_image_into_file(PGM_P2_image* pgm, FILE* file);

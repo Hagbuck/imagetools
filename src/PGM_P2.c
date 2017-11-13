@@ -176,6 +176,35 @@ PGM_P2_image* PGM_P2_get_image_from_file(FILE* file)
 }
 
 /**
+ * @brief      Set the reversed filter on a PGM_P2_image
+ *
+ * @param      img   The image
+ *
+ * @return     True if success, otherwise False
+ */
+e__bool PGM_P2_set_reversed_filter(PGM_P2_image* const img)
+{
+    if(img != NULL)
+    {
+        int i,j;
+        int pixel_value;
+
+        for(i = 0; i < img->height; ++i)
+        {
+            for(j = 0; j < img->width; ++j)
+            {
+                pixel_value = img->pixels[i][j];           // Get the pixel value
+                pixel_value = img->v_max - pixel_value;    // Reverse pixel value
+
+                img->pixels[i][j] = pixel_value;           // Set the new pixel value
+            }
+        }
+        return TRUE;
+    }
+    return FALSE;
+}
+
+/**
  * @brief      Create a new PGM_P2_image based on img
  *             with a reversed filter
  *
@@ -186,19 +215,20 @@ PGM_P2_image* PGM_P2_get_image_from_file(FILE* file)
 PGM_P2_image* PGM_P2_reversed_filter(PGM_P2_image *img)
 {
     PGM_P2_image* reversed = PGM_P2_get_copy(img);
-    int i,j;
-    int pixel_value;
+    PGM_P2_set_reversed_filter(reversed);
+    // int i,j;
+    // int pixel_value;
 
-    for(i = 0; i < reversed->height; ++i)
-    {
-        for(j = 0; j < reversed->width; ++j)
-        {
-            pixel_value = reversed->pixels[i][j];           // Get the pixel value
-            pixel_value = reversed->v_max - pixel_value;    // Reverse pixel value
+    // for(i = 0; i < reversed->height; ++i)
+    // {
+    //     for(j = 0; j < reversed->width; ++j)
+    //     {
+    //         pixel_value = reversed->pixels[i][j];           // Get the pixel value
+    //         pixel_value = reversed->v_max - pixel_value;    // Reverse pixel value
 
-            reversed->pixels[i][j] = pixel_value;           // Set the new pixel value
-        }
-    }
+    //         reversed->pixels[i][j] = pixel_value;           // Set the new pixel value
+    //     }
+    // }
     return reversed;
 }
 

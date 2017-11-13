@@ -15,6 +15,7 @@
 #include "BMP.h"
 
 #define JUMP    6
+#define NB_DOT  27
 
 void    show_logo(void);
 void    main_menu(void);
