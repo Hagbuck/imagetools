@@ -6,6 +6,14 @@
 
 #include "BMP.h"
 
+/**
+ * @brief      Get a BMP_image from a BMP file
+ *             And fill the struct PGM_P2_image
+ *
+ * @param      file  The file
+ *
+ * @return     The BMP_image
+ */
 BMP_image* BMP_get_image_from_file(FILE* file)
 {
     if(file != NULL)
@@ -72,68 +80,89 @@ BMP_image* BMP_get_image_from_file(FILE* file)
     }
 }
 
+/**
+ * @brief      Fill the header var from the file informations
+ *
+ * @param      bmp   The bitmap
+ * @param      file  The file
+ *
+ * @return     TRUE if success, otherwise FALSE
+ */
 e__bool BMP_fill_header(BMP_image* const bmp, FILE* const file)
 {
-    int i;
-    fseek(file, 0, SEEK_SET);           // Go the beginning of the file
-    fread(&bmp->bfType[0], 1, 1, file);
-    fread(&bmp->bfType[1], 1, 1, file);
-    if(bmp->bfType[0] == 'B' && bmp->bfType[1] == 'M')
+    if(file != NULL && bmp != NULL)
     {
-        for(i = 3; i >= 0; --i)  // READ THE FOUR HEXA CODE FOR THE SIZE
-            fread(&bmp->bfSize[i], 1, 1, file);
+        int i;
+        fseek(file, 0, SEEK_SET);           // Go the beginning of the file
+        fread(&bmp->bfType[0], 1, 1, file);
+        fread(&bmp->bfType[1], 1, 1, file);
+        if(bmp->bfType[0] == 'B' && bmp->bfType[1] == 'M')
+        {
+            for(i = 3; i >= 0; --i)  // READ THE FOUR HEXA CODE FOR THE SIZE
+                fread(&bmp->bfSize[i], 1, 1, file);
 
-        for(i = 1; i >= 0; --i)
-            fread(&bmp->bfReserved1[i], 1, 1, file);
+            for(i = 1; i >= 0; --i)
+                fread(&bmp->bfReserved1[i], 1, 1, file);
 
-        for(i = 1; i >= 0; --i)
-            fread(&bmp->bfReserved2[i], 1, 1, file);
+            for(i = 1; i >= 0; --i)
+                fread(&bmp->bfReserved2[i], 1, 1, file);
 
-        for(i = 3; i >= 0; --i)
-            fread(&bmp->bfOffBits[i], 1, 1, file);
+            for(i = 3; i >= 0; --i)
+                fread(&bmp->bfOffBits[i], 1, 1, file);
 
-        /*** HEADER BITMAP ***/
-        for(i = 3; i >= 0; --i)
-            fread(&bmp->biSize[i], 1, 1, file);
+            /*** HEADER BITMAP ***/
+            for(i = 3; i >= 0; --i)
+                fread(&bmp->biSize[i], 1, 1, file);
 
-        for(i = 3; i >= 0; --i)
-            fread(&bmp->biWidth[i], 1, 1, file);
+            for(i = 3; i >= 0; --i)
+                fread(&bmp->biWidth[i], 1, 1, file);
 
-        for(i = 3; i >= 0; --i)
-            fread(&bmp->biHeight[i], 1, 1, file);
+            for(i = 3; i >= 0; --i)
+                fread(&bmp->biHeight[i], 1, 1, file);
 
-        for(i = 1; i >= 0; --i)
-            fread(&bmp->biPlane[i], 1, 1, file);
+            for(i = 1; i >= 0; --i)
+                fread(&bmp->biPlane[i], 1, 1, file);
 
-        for(i = 1; i >= 0; --i)
-            fread(&bmp->biBitCount[i], 1, 1, file);
+            for(i = 1; i >= 0; --i)
+                fread(&bmp->biBitCount[i], 1, 1, file);
 
-         for(i = 3; i >= 0; --i)
-            fread(&bmp->biCompression[i], 1, 1, file);
+             for(i = 3; i >= 0; --i)
+                fread(&bmp->biCompression[i], 1, 1, file);
 
-        for(i = 3; i >= 0; --i)
-            fread(&bmp->biSizeImage[i], 1, 1, file);
+            for(i = 3; i >= 0; --i)
+                fread(&bmp->biSizeImage[i], 1, 1, file);
 
-        for(i = 3; i >= 0; --i)
-            fread(&bmp->biXpelsPerMeter[i], 1, 1, file);
+            for(i = 3; i >= 0; --i)
+                fread(&bmp->biXpelsPerMeter[i], 1, 1, file);
 
-        for(i = 3; i >= 0; --i)
-            fread(&bmp->biYpelsPerMeter[i], 1, 1, file);
+            for(i = 3; i >= 0; --i)
+                fread(&bmp->biYpelsPerMeter[i], 1, 1, file);
 
-        for(i = 3; i >= 0; --i)
-            fread(&bmp->biClrUsed[i], 1, 1, file);
+            for(i = 3; i >= 0; --i)
+                fread(&bmp->biClrUsed[i], 1, 1, file);
 
-        for(i = 3; i >= 0; --i)
-            fread(&bmp->biClrImportant[i], 1, 1, file);
+            for(i = 3; i >= 0; --i)
+                fread(&bmp->biClrImportant[i], 1, 1, file);
 
-        return TRUE;
+            return TRUE;
+        }
+        else
+        {
+            return FALSE;
+        }
     }
-    else
-    {
-        return FALSE;
-    }
+    return FALSE;
 }
 
+/**
+ * @brief      Convert header value into a string
+ *             Usefull for writing the BMP_image into a file
+ *
+ * @param      bmp   The bitmap
+ * @param      str   The string
+ *
+ * @return     TRUE if sucess, otherwise FALSE
+ */
 e__bool BMP_header_to_str(BMP_image* const bmp, unsigned char* str)
 {
     if(bmp != NULL && str != NULL)
@@ -194,6 +223,14 @@ e__bool BMP_header_to_str(BMP_image* const bmp, unsigned char* str)
     return FALSE;
 }
 
+/**
+ * @brief      Fill BMP_image pixel array from pixel value into the file
+ *
+ * @param      bmp   The bitmap
+ * @param      file  The file
+ *
+ * @return     TRUE if success, otherwise FALSE
+ */
 e__bool BMP_fill_pixels(BMP_image* const bmp, FILE* const file)
 {
     unsigned char pixel[3];     // An array which will contain the pixels value (rgb)
@@ -227,6 +264,14 @@ e__bool BMP_fill_pixels(BMP_image* const bmp, FILE* const file)
     return FALSE;
 }
 
+/**
+ * @brief      Save the BMP_image into a file
+ *
+ * @param      bmp   The bitmap
+ * @param      file  The file
+ *
+ * @return     TRUE if success, otherwise FALSE
+ */
 e__bool BMP_save_image_into_file(BMP_image* const bmp, FILE* const file)
 {
     if(bmp != NULL)
@@ -269,6 +314,14 @@ e__bool BMP_save_image_into_file(BMP_image* const bmp, FILE* const file)
     }
 }
 
+/**
+ * @brief      Copy header value from src to dest
+ *
+ * @param      src   The source
+ * @param      dest  The destination
+ *
+ * @return     TRUE if success, otherwise FALSE
+ */
 e__bool BMP_copy_header(BMP_image* const src, BMP_image* const dest)
 {
     if(src != NULL && dest != NULL)
@@ -330,6 +383,13 @@ e__bool BMP_copy_header(BMP_image* const src, BMP_image* const dest)
     return FALSE;
 }
 
+/**
+ * @brief      Get a copy of the BMP_image
+ *
+ * @param      bmp   The bitmap
+ *
+ * @return     The copy
+ */
 BMP_image* BMP_get_copy(BMP_image* const bmp)
 {
     BMP_image* copy = malloc(sizeof(BMP_image));
@@ -369,6 +429,13 @@ BMP_image* BMP_get_copy(BMP_image* const bmp)
     return NULL;
 }
 
+/**
+ * @brief      Apply Gray filter on the BMP_image pixels
+ *
+ * @param      bmp   The bitmap
+ *
+ * @return     TRUE if success, otherwise FALSE
+ */
 e__bool BMP_set_gray_filter(BMP_image* const bmp)
 {
     if(bmp != NULL)
@@ -394,6 +461,13 @@ e__bool BMP_set_gray_filter(BMP_image* const bmp)
     return FALSE;
 }
 
+/**
+ * @brief      Apply reversed filter on the BMP_image pixels
+ *
+ * @param      bmp   The bitmap
+ *
+ * @return     TRUE if success, otherwise FALSE
+ */
 e__bool BMP_set_reversed_filter(BMP_image* const bmp)
 {
     if(bmp != NULL)
@@ -413,6 +487,13 @@ e__bool BMP_set_reversed_filter(BMP_image* const bmp)
     return FALSE;
 }
 
+/**
+ * @brief      Apply a horizontal reverse on the BMP_image pixels
+ *
+ * @param      bmp   The bitmap
+ *
+ * @return     TRUE if success, otherwise FALSE
+ */
 e__bool BMP_set_horizontal_reversed(BMP_image* const bmp)
 {
     if(bmp != NULL)
@@ -431,6 +512,13 @@ e__bool BMP_set_horizontal_reversed(BMP_image* const bmp)
     return FALSE;
 }
 
+/**
+ * @brief      Apply a vertical reverse on the BMP_image pixels
+ *
+ * @param      bmp   The bitmap
+ *
+ * @return     TRUE if success, otherwise FALSE
+ */
 e__bool BMP_set_vertical_reversed(BMP_image* const bmp)
 {
     if(bmp != NULL)
@@ -451,6 +539,11 @@ e__bool BMP_set_vertical_reversed(BMP_image* const bmp)
     return FALSE; 
 }
 
+/**
+ * @brief      Display BMP_image's header
+ *
+ * @param[in]  bmp   The bitmap
+ */
 void BMP_show_header(const BMP_image* const bmp)
 {
     printf("-------------------------------------\n");
@@ -477,6 +570,11 @@ void BMP_show_header(const BMP_image* const bmp)
     printf("-------------------------------------\n");
 }
 
+/**
+ * @brief      Free a BMP_image
+ *
+ * @param      bmp   The bitmap
+ */
 void free_BMP_image(BMP_image* bmp)
 {
     int i;
