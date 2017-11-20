@@ -233,6 +233,58 @@ PGM_P2_image* PGM_P2_reversed_filter(PGM_P2_image *img)
 }
 
 /**
+ * @brief      Apply a horizontal reverse on the PGM_P2_image pixels
+ *
+ * @param      img   The pgm
+ *
+ * @return     TRUE if success, otherwise FALSE
+ */
+e__bool PGM_P2_set_horizontal_reversed(PGM_P2_image* const img)
+{
+    if(img != NULL)
+    {
+        int i;
+        int mid = img->height / 2;
+        for(i = 0; i < mid; ++i)
+        {
+            // PAS BON
+            int* line = img->pixels[i];
+            img->pixels[i] = img->pixels[img->height-1 - i];
+            img->pixels[img->height-1 - i] = line;
+        }
+        return TRUE;
+    }
+    return FALSE;
+}
+
+/**
+ * @brief      Apply a vertical reverse on the PGM_P2_image pixels
+ *
+ * @param      img   The pgm
+ *
+ * @return     TRUE if success, otherwise FALSE
+ */
+e__bool PGM_P2_set_vertical_reversed(PGM_P2_image* const img)
+{
+    if(img != NULL)
+    {
+        int i,j;
+        int half_width = img->width / 2;
+        for(i = 0; i < img->height; ++i)
+        {
+            for(j = 0; j < half_width; ++j)
+            {
+                int temp = img->pixels[i][j];
+                img->pixels[i][j] = img->pixels[i][img->width-1 - j];
+                img->pixels[i][img->width-1 - j] = temp;
+            }
+        }
+        return TRUE;
+    }
+    return FALSE; 
+}
+
+/**
  * @brief      Get the histogram of a PGM_P2_image
  *
  * @param      img   The image

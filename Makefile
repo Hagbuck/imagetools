@@ -8,7 +8,7 @@ SRCF=src
 
 all: $(EXEC)
 
-imagetools: basic_tools.o console_interface.o main.o PGM_P2.o BMP.o
+imagetools: basic_tools.o PGM_P2.o BMP.o console_interface.o main.o
 	$(CC) -o $@.$(OUTEXT) $(OBJF)/basic_tools.o $(OBJF)/console_interface.o $(OBJF)/PGM_P2.o $(OBJF)/BMP.o $(OBJF)/main.o $(LDFLAGS)
 
 basic_tools.o: $(SRCF)/basic_tools.c

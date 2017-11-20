@@ -296,8 +296,8 @@ void pgm_p2_menu(void)
         puts("\t| k. Save PGM Histogram ............... |");
         puts("\t+---------------------------------------+");
         puts("\t| r. Reversed filter .................. |");
-        // puts("\t| h. Horizontal reversed .............. |");
-        // puts("\t| v. Vertical reversed ................ |");
+        puts("\t| h. Horizontal reversed .............. |");
+        puts("\t| v. Vertical reversed ................ |");
         puts("\t+---------------------------------------+");
         printf("\t: ");
         action = get_action();
@@ -472,7 +472,33 @@ void pgm_p2_menu(void)
                 {
                     puts("\t> ERROR any PGM_image is load !");
                 }
-            break;                      
+            break;
+
+            case 'h':
+            case 'H':
+                if(pgm != NULL)
+                {
+                    PGM_P2_set_horizontal_reversed(pgm);
+                    puts("\t> Horizontal reversed setted");
+                }
+                else
+                {
+                    puts("\t> ERROR any PGM_image is load !");
+                }
+            break;
+
+            case 'v':
+            case 'V':
+                if(pgm != NULL)
+                {
+                    PGM_P2_set_vertical_reversed(pgm);
+                    puts("\t> Vertical reversed setted");
+                }
+                else
+                {
+                    puts("\t> ERROR any PGM_image is load !");
+                }
+            break;
 
             default:
                 printf("Command [%c] doesn't exist !\n", action);
