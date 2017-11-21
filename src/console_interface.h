@@ -20,6 +20,7 @@
 void    show_logo(void);
 void    main_menu(void);
 char    get_action(void);
+int     get_number(void);
 void    bmp_menu(void);
 void    pgm_p2_menu(void);
 

@@ -284,12 +284,69 @@ e__bool PGM_P2_set_vertical_reversed(PGM_P2_image* const img)
     return FALSE; 
 }
 
+/**
+ * @brief      Set the FIR 1D filter on a PGM_P2_image
+ *
+ * @param      img   The image
+ *
+ * @return     TRUE if sucess, FALSE otherwise
+ */
 e__bool PGM_P2_set_FIR_1D_filter(PGM_P2_image* const img)
+{
+    return PGM_P2_set_FIR_1D_filter_with_depth(img, 1);
+    // if(img != NULL)
+    // {
+    //     int     i, j;
+    //     int**   pixels_out = NULL;
+
+    //     // Allocate memory for the pixels out
+    //     pixels_out = malloc(img->height * sizeof(int*));
+    //     for(i = 0; i < img->height; ++i)
+    //     {
+    //         pixels_out[i] = malloc(img->width * sizeof(int));
+            
+    //         // Copy the first and last value for each line (because the filter will not copy them)
+    //         // And it's not necessary to copy the whole matrix because the next loop will fill it
+    //         pixels_out[i][0] = img->pixels[i][0];
+    //         pixels_out[i][img->width -1] = img->pixels[i][img->width -1];
+    //     }
+
+    //     // Set the FIR 1D filter
+    //     for(i = 0; i < img->height; ++i) // HEIGHT
+    //     {
+    //         for(j = 1; j < img->width - 1; ++j) // WIDTH [+1;-1]
+    //         {
+    //             pixels_out[i][j] = (img->pixels[i][j - 1] + img->pixels[i][j] + img->pixels[i][j + 1]) / 3;
+    //         }
+    //     }
+
+    //     // Free the last pixels array, and set the new
+    //     for(i = 0; i < img->height; ++i)
+    //         free(img->pixels[i]);
+    //     free(img->pixels);
+    //     img->pixels = pixels_out;
+    //     return TRUE;
+    // }
+    // return FALSE;
+}
+
+/**
+ * @brief      Set the FIR 1D with depth on a PGM_P2_image
+ *
+ * @param      img    The image
+ * @param[in]  depth  The depth
+ *
+ * @return     TRUE if sucess, FALSE otherwise
+ */
+e__bool PGM_P2_set_FIR_1D_filter_with_depth(PGM_P2_image* const img, int depth)
 {
     if(img != NULL)
     {
-        int i, j;
-        int** pixels_out = NULL;
+        int     i, j, k;
+        int     x_after, x_before;
+        int     pixel;
+        int     value_taken = 0;
+        int**   pixels_out = NULL;
 
         // Allocate memory for the pixels out
         pixels_out = malloc(img->height * sizeof(int*));
@@ -299,23 +356,49 @@ e__bool PGM_P2_set_FIR_1D_filter(PGM_P2_image* const img)
             
             // Copy the first and last value for each line (because the filter will not copy them)
             // And it's not necessary to copy the whole matrix because the next loop will fill it
-            pixels_out[i][0] = img->pixels[i][0];
-            pixels_out[i][img->width -1] = img->pixels[i][img->width -1];
         }
 
         // Set the FIR 1D filter
         for(i = 0; i < img->height; ++i) // HEIGHT
         {
-            for(j = 1; j < img->width - 1; ++j) // WIDTH [+1;-1]
+            for(j = 0; j < img->width; ++j) // WIDTH [+1;-1]
             {
-                pixels_out[i][j] = (img->pixels[i][j - 1] + img->pixels[i][j] + img->pixels[i][j + 1]) / 3;
+                // Reading the pixel
+                value_taken = 1;
+                pixel = img->pixels[i][j];
+
+                // Reading around the pixel
+                for(k = 1; k <= depth; ++k)
+                {
+                    // Before the pixel
+                    x_before = j - k;
+                    if(x_before >= 0)
+                    {
+                        ++value_taken;
+                        pixel += img->pixels[i][x_before];
+                    }
+
+                    // After the pixel
+                    x_after = j + k;
+                    if(x_after < img->width)
+                    {
+                        ++value_taken;
+                        pixel += img->pixels[i][x_after];
+                    }
+                }
+                pixel /= value_taken;
+
+                pixels_out[i][j] = pixel;
             }
         }
 
+        // Free the last pixels array, and set the new
         for(i = 0; i < img->height; ++i)
             free(img->pixels[i]);
         free(img->pixels);
+
         img->pixels = pixels_out;
+
         return TRUE;
     }
     return FALSE;

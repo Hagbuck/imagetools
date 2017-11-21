@@ -65,6 +65,15 @@ char get_action(void)
     return action;
 }
 
+int get_number(void)
+{
+    int nb;
+    scanf("%d", &nb);
+    scanf("%*[^\n]");
+    getchar();
+    return nb;
+}
+
 void bmp_menu(void)
 {
     e__bool is_end = FALSE;
@@ -273,6 +282,7 @@ void pgm_p2_menu(void)
 
     int nb_dot = NB_DOT;
     int i;
+    int depth_fir;
 
     char file_path[256] = "";
     char save_path[256] = "";
@@ -506,8 +516,11 @@ void pgm_p2_menu(void)
             case 'F':
                 if(pgm != NULL)
                 {
-                    PGM_P2_set_FIR_1D_filter(pgm);
-                    puts("\t> FIR 1D filter setted");
+                    printf("\tDEPTH : ");
+                    depth_fir = get_number();
+
+                    PGM_P2_set_FIR_1D_filter_with_depth(pgm, depth_fir);
+                    printf("\t> FIR 1D filter setted with %d deeply\n", depth_fir);
                 }
                 else
                 {
