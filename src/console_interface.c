@@ -519,6 +519,11 @@ void pgm_p2_menu(void)
                     printf("\tDEPTH : ");
                     depth_fir = get_number();
 
+                    if(depth_fir < 0)
+                        depth_fir = 0;
+                    if(depth_fir > pgm->width)
+                        depth_fir = pgm->width;
+
                     PGM_P2_set_FIR_1D_filter_with_depth(pgm, depth_fir);
                     printf("\t> FIR 1D filter setted with %d deeply\n", depth_fir);
                 }
