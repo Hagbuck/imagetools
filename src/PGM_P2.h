@@ -51,6 +51,7 @@ e__bool             PGM_P2_set_reversed_filter(PGM_P2_image* const img);
 PGM_P2_image*       PGM_P2_reversed_filter(PGM_P2_image *img);
 e__bool             PGM_P2_set_horizontal_reversed(PGM_P2_image* const img);
 e__bool             PGM_P2_set_vertical_reversed(PGM_P2_image* const img);
+e__bool             PGM_P2_set_FIR_1D_filter(PGM_P2_image* const img);
 PGM_P2_histogram*   PGM_P2_get_histogram(PGM_P2_image *img);
 e__bool             PGM_P2_save_image_into_file(PGM_P2_image* pgm, FILE* file);
 e__bool             PGM_P2_save_histogram_as_PGM_P2_file(PGM_P2_histogram* histogram, FILE* file);

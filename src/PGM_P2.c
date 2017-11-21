@@ -284,6 +284,43 @@ e__bool PGM_P2_set_vertical_reversed(PGM_P2_image* const img)
     return FALSE; 
 }
 
+e__bool PGM_P2_set_FIR_1D_filter(PGM_P2_image* const img)
+{
+    if(img != NULL)
+    {
+        int i, j;
+        int** pixels_out = NULL;
+
+        // Allocate memory for the pixels out
+        pixels_out = malloc(img->height * sizeof(int*));
+        for(i = 0; i < img->height; ++i)
+        {
+            pixels_out[i] = malloc(img->width * sizeof(int));
+            
+            // Copy the first and last value for each line (because the filter will not copy them)
+            // And it's not necessary to copy the whole matrix because the next loop will fill it
+            pixels_out[i][0] = img->pixels[i][0];
+            pixels_out[i][img->width -1] = img->pixels[i][img->width -1];
+        }
+
+        // Set the FIR 1D filter
+        for(i = 0; i < img->height; ++i) // HEIGHT
+        {
+            for(j = 1; j < img->width - 1; ++j) // WIDTH [+1;-1]
+            {
+                pixels_out[i][j] = (img->pixels[i][j - 1] + img->pixels[i][j] + img->pixels[i][j + 1]) / 3;
+            }
+        }
+
+        for(i = 0; i < img->height; ++i)
+            free(img->pixels[i]);
+        free(img->pixels);
+        img->pixels = pixels_out;
+        return TRUE;
+    }
+    return FALSE;
+}
+
 /**
  * @brief      Get the histogram of a PGM_P2_image
  *

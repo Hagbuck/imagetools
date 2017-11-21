@@ -298,6 +298,8 @@ void pgm_p2_menu(void)
         puts("\t| r. Reversed filter .................. |");
         puts("\t| h. Horizontal reversed .............. |");
         puts("\t| v. Vertical reversed ................ |");
+        puts("\t| v. Vertical reversed ................ |");
+        puts("\t| f. FIR 1D reversed .................. |");
         puts("\t+---------------------------------------+");
         printf("\t: ");
         action = get_action();
@@ -493,6 +495,19 @@ void pgm_p2_menu(void)
                 {
                     PGM_P2_set_vertical_reversed(pgm);
                     puts("\t> Vertical reversed setted");
+                }
+                else
+                {
+                    puts("\t> ERROR any PGM_image is load !");
+                }
+            break;
+
+            case 'f':
+            case 'F':
+                if(pgm != NULL)
+                {
+                    PGM_P2_set_FIR_1D_filter(pgm);
+                    puts("\t> FIR 1D filter setted");
                 }
                 else
                 {
