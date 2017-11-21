@@ -60,17 +60,61 @@ void main_menu(void)
 
 char get_action(void)
 {
-    char action;
-    scanf("%[^\n]%*c", &action);
+    // char action;
+    // scanf("%[^\n]%*c", &action);
+
+    char    action;
+    int     scanf_return;
+    int     c;
+    e__bool number_ok = FALSE;
+
+    do
+    {
+        scanf_return = scanf("%c%*[^\n]", &action);
+
+        if(!scanf_return) // ERROR input
+        {
+            while ( ((c = getchar()) != '\n') && c != EOF); // Clear
+            printf("\tIncorrect input, please enter an integer : ");
+        }
+        else // VALID input
+        {
+            getchar(); // Remove the '\n'
+            number_ok = 1;
+        }
+    }while (number_ok == FALSE);
+
     return action;
 }
 
 int get_number(void)
 {
-    int nb;
-    scanf("%d", &nb);
-    scanf("%*[^\n]");
-    getchar();
+    // int nb;
+    // scanf("%d", &nb);
+    // scanf("%*[^\n]");
+    // getchar();
+
+    int     nb;
+    int     scanf_return;
+    int     c;
+    e__bool number_ok = FALSE;
+
+    do
+    {
+        scanf_return = scanf("%d%*[^\n]", &nb);
+
+        if(!scanf_return) // ERROR input
+        {
+            while ( ((c = getchar()) != '\n') && c != EOF); // Clear
+            printf("\tIncorrect input, please enter an integer : ");
+        }
+        else // VALID input
+        {
+            getchar(); // Remove the '\n'
+            number_ok = 1;
+        }
+    }while (number_ok == FALSE);
+
     return nb;
 }
 
