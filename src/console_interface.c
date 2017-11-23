@@ -560,16 +560,56 @@ void pgm_p2_menu(void)
             case 'F':
                 if(pgm != NULL)
                 {
-                    printf("\tDEPTH : ");
-                    depth_fir = get_number();
+                    jump_clear();
+                    show_logo();
+                    puts("\t| [MAIN] > [PGM] > [FIR] .............. |");
+                    printf("\t| FILE : [%s] ", file_path); for(i = 0; i < nb_dot; ++i){printf(".");} puts(" |");
+                    puts("\t+---------------------------------------+");
+                    puts("\t| q. Quit PGM ......................... |");
+                    puts("\t+---------------------------------------+");
+                    puts("\t| h. FIR 1D Horinzontal ............... |");
+                    puts("\t| v. FIR 1D Vertical .................. |");
+                    puts("\t+---------------------------------------+");
+                    printf("\t: ");
 
-                    if(depth_fir < 0)
-                        depth_fir = 0;
-                    if(depth_fir > pgm->width)
-                        depth_fir = pgm->width;
+                    action = get_action();
 
-                    PGM_P2_set_FIR_1D_filter_with_depth(pgm, depth_fir);
-                    printf("\t> FIR 1D filter setted with %d deeply\n", depth_fir);
+                    switch(action)
+                    {
+                        case 'h':
+                        case 'H':
+                            puts("\tFIR 1D Horizontal filter selected");
+                            printf("\tDEPTH : ");
+                            depth_fir = get_number();
+
+                            if(depth_fir < 0)
+                                depth_fir = 0;
+                            if(depth_fir > pgm->width)
+                                depth_fir = pgm->width;
+
+                            PGM_P2_set_FIR_1D_horizontal_filter_with_depth(pgm, depth_fir);
+                            printf("\t> FIR 1D Horizontal filter setted with %d deeply\n", depth_fir);
+                        break;
+
+                        case 'v':
+                        case 'V':
+                            puts("\tFIR 1D Vertical filter selected");
+                            printf("\tDEPTH : ");
+                            depth_fir = get_number();
+
+                            if(depth_fir < 0)
+                                depth_fir = 0;
+                            if(depth_fir > pgm->height)
+                                depth_fir = pgm->height;
+
+                            PGM_P2_set_FIR_1D_vertical_filter_with_depth(pgm, depth_fir);
+                            printf("\t> FIR 1D Vertical filter setted with %d deeply\n", depth_fir);
+                        break;
+
+                        default:
+                            puts("Closing FIR");
+                        break;
+                    }
                 }
                 else
                 {

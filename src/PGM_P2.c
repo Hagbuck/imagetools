@@ -285,15 +285,15 @@ e__bool PGM_P2_set_vertical_reversed(PGM_P2_image* const img)
 }
 
 /**
- * @brief      Set the FIR 1D filter on a PGM_P2_image
+ * @brief      Set the FIR 1D horizontal filter on a PGM_P2_image
  *
  * @param      img   The image
  *
  * @return     TRUE if sucess, FALSE otherwise
  */
-e__bool PGM_P2_set_FIR_1D_filter(PGM_P2_image* const img)
+e__bool PGM_P2_set_FIR_1D_horizontal_filter(PGM_P2_image* const img)
 {
-    return PGM_P2_set_FIR_1D_filter_with_depth(img, 1);
+    return PGM_P2_set_FIR_1D_horizontal_filter_with_depth(img, 1);
     // if(img != NULL)
     // {
     //     int     i, j;
@@ -331,14 +331,14 @@ e__bool PGM_P2_set_FIR_1D_filter(PGM_P2_image* const img)
 }
 
 /**
- * @brief      Set the FIR 1D with depth on a PGM_P2_image
+ * @brief      Set the FIR 1D horizontal with depth on a PGM_P2_image
  *
  * @param      img    The image
  * @param[in]  depth  The depth
  *
  * @return     TRUE if sucess, FALSE otherwise
  */
-e__bool PGM_P2_set_FIR_1D_filter_with_depth(PGM_P2_image* const img, int depth)
+e__bool PGM_P2_set_FIR_1D_horizontal_filter_with_depth(PGM_P2_image* const img, int depth)
 {
     if(img != NULL)
     {
@@ -386,6 +386,87 @@ e__bool PGM_P2_set_FIR_1D_filter_with_depth(PGM_P2_image* const img, int depth)
                 pixel /= value_taken;
 
                 pixels_out[i][j] = pixel;
+            }
+        }
+
+        // Free the last pixels array
+        free_PGM_P2_pixels(img);
+        // And set the new
+        img->pixels = pixels_out;
+
+        return TRUE;
+    }
+    return FALSE;
+}
+
+/**
+ * @brief      Set the FIR 1D vertical filter on a PGM_P2_image
+ *
+ * @param      img   The image
+ *
+ * @return     TRUE if sucess, FALSE otherwise
+ */
+e__bool PGM_P2_set_FIR_1D_vertical_filter(PGM_P2_image* const img)
+{
+    return PGM_P2_set_FIR_1D_vertical_filter_with_depth(img, 1);
+}
+
+/**
+ * @brief      Set the FIR 1D vertical with depth on a PGM_P2_image
+ *
+ * @param      img    The image
+ * @param[in]  depth  The depth
+ *
+ * @return     TRUE if sucess, FALSE otherwise
+ */
+e__bool PGM_P2_set_FIR_1D_vertical_filter_with_depth(PGM_P2_image* const img, int depth)
+{
+    if(img != NULL)
+    {
+        int     i, j, k;
+        int     y_after, y_before;
+        int     pixel;
+        int     value_taken = 0;
+        int**   pixels_out = NULL;
+
+        // Allocate memory for the pixels out
+        pixels_out = malloc(img->height * sizeof(int*));
+        for(i = 0; i < img->height; ++i)
+        {
+            pixels_out[i] = malloc(img->width * sizeof(int));
+        }
+
+        // Set the FIR 1D filter
+        for(i = 0; i < img->width; ++i) // WIDTH
+        {
+            for(j = 0; j < img->height; ++j) // HEIGHT
+            {
+                // Reading the pixel
+                value_taken = 1;
+                pixel = img->pixels[j][i];
+
+                // Reading around the pixel
+                for(k = 1; k <= depth; ++k)
+                {
+                    // Before the pixel
+                    y_before = j - k;
+                    if(y_before >= 0)
+                    {
+                        ++value_taken;
+                        pixel += img->pixels[y_before][i];
+                    }
+
+                    // After the pixel
+                    y_after = j + k;
+                    if(y_after < img->width)
+                    {
+                        ++value_taken;
+                        pixel += img->pixels[y_after][i];
+                    }
+                }
+                pixel /= value_taken;
+
+                pixels_out[j][i] = pixel;
             }
         }
 
