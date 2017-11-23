@@ -62,6 +62,7 @@ PGM_P2_image*       PGM_P2_get_PGM_P2_image_from_PGM_P2_histogram(PGM_P2_histogr
 
 e__bool             is_separator(char char_readed);
 
+void                free_PGM_P2_pixels(PGM_P2_image* pgm);
 void                free_PGM_P2_image(PGM_P2_image* pgm);
 void                free_PGM_P2_histogram(PGM_P2_histogram* histogram);
 void                display_PGM_P2_image(PGM_P2_image* pgm);

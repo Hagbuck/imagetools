@@ -353,15 +353,12 @@ e__bool PGM_P2_set_FIR_1D_filter_with_depth(PGM_P2_image* const img, int depth)
         for(i = 0; i < img->height; ++i)
         {
             pixels_out[i] = malloc(img->width * sizeof(int));
-            
-            // Copy the first and last value for each line (because the filter will not copy them)
-            // And it's not necessary to copy the whole matrix because the next loop will fill it
         }
 
         // Set the FIR 1D filter
         for(i = 0; i < img->height; ++i) // HEIGHT
         {
-            for(j = 0; j < img->width; ++j) // WIDTH [+1;-1]
+            for(j = 0; j < img->width; ++j) // WIDTH
             {
                 // Reading the pixel
                 value_taken = 1;
@@ -392,11 +389,9 @@ e__bool PGM_P2_set_FIR_1D_filter_with_depth(PGM_P2_image* const img, int depth)
             }
         }
 
-        // Free the last pixels array, and set the new
-        for(i = 0; i < img->height; ++i)
-            free(img->pixels[i]);
-        free(img->pixels);
-
+        // Free the last pixels array
+        free_PGM_P2_pixels(img);
+        // And set the new
         img->pixels = pixels_out;
 
         return TRUE;
@@ -622,6 +617,14 @@ e__bool is_separator(char char_readed)
     return FALSE;
 }
 
+void free_PGM_P2_pixels(PGM_P2_image* pgm)
+{
+    int i;
+    for(i = 0; i < pgm->height; ++i)
+        free(pgm->pixels[i]);
+    free(pgm->pixels);
+}
+
 /**
  * @brief      Delete a PGM_P2_image
  *
@@ -629,11 +632,7 @@ e__bool is_separator(char char_readed)
  */
 void free_PGM_P2_image(PGM_P2_image* pgm)
 {
-    int i;
-    for(i = 0; i < pgm->height; ++i)
-        free(pgm->pixels[i]);
-    free(pgm->pixels);
-
+    free_PGM_P2_pixels(pgm);
     free(pgm);
 }
 
