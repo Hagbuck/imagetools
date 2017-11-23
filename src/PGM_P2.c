@@ -19,7 +19,7 @@ PGM_P2_image* PGM_P2_get_image_from_file(FILE* file)
 {
     if(file)
     {
-        PGM_P2_image* pgm = malloc(sizeof(PGM_P2_image*));
+        PGM_P2_image* pgm = malloc(sizeof(PGM_P2_image));
 
         char buffer[MAX_CHAR_PER_LINE];       // Contain the line readed.
         int buffer_index;

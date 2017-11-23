@@ -11,6 +11,7 @@
 #include "basic_tools.h"
 #include "PGM_P2.h"
 #include "BMP.h"
+#include "Matrix.h"
 
 #define LENA            "img/lena.ascii.pgm"
 #define LENA_REV        "img/lena.ascii_reversed.pgm"

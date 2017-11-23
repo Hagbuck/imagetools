@@ -23,6 +23,7 @@
 #include <string.h>
 
 #include "basic_tools.h"
+#include "Matrix.h"
 
 #define BUFFER_SIZE         2048
 #define MAX_CHAR_PER_LINE   70
