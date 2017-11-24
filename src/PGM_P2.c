@@ -550,7 +550,7 @@ e__bool PGM_P2_convolution_with_Matrix(PGM_P2_image* const pgm, Matrix* const ma
                         pixel = 0;
                     else if(pixel > pgm->v_max)
                         pixel = pgm->v_max;
-                    pixels_out[j][i] = pixel;
+                    pixels_out[i][j] = pixel;
                 }
             }
 
