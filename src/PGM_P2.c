@@ -480,6 +480,13 @@ e__bool PGM_P2_set_FIR_1D_vertical_filter_with_depth(PGM_P2_image* const img, in
     return FALSE;
 }
 
+/**
+ * @brief      Set the FIR border filter x on a PGM_P2_image
+ *
+ * @param      pgm   The pgm
+ *
+ * @return     TRUE if sucess, FALSE otherwise
+ */
 e__bool PGM_P2_set_FIR_2D_border_filter_x(PGM_P2_image* const pgm)
 {
     Matrix* matrix = create_Matrix(3,3);
@@ -495,6 +502,13 @@ e__bool PGM_P2_set_FIR_2D_border_filter_x(PGM_P2_image* const pgm)
     return res;
 }
 
+/**
+ * @brief      Set the FIR border filter y on a PGM_P2_image
+ *
+ * @param      pgm   The pgm
+ *
+ * @return     TRUE if sucess, FALSE otherwise
+ */
 e__bool PGM_P2_set_FIR_2D_border_filter_y(PGM_P2_image* const pgm)
 {
     Matrix* matrix = create_Matrix(3,3);
@@ -549,7 +563,6 @@ e__bool PGM_P2_convolution_with_Matrix(PGM_P2_image* const pgm, Matrix* const ma
             {
                 for(j = 0; j < pgm->width; ++j)
                 {
-                    // printf("------------------\n>(%d:%d)\n", i, j);
                     nb_values_taken = 0;
                     pixel = 0;
                     // Browse the whole matrix
@@ -558,28 +571,29 @@ e__bool PGM_P2_convolution_with_Matrix(PGM_P2_image* const pgm, Matrix* const ma
                     for(y_matrix = 0, k = -y_mid_matrix; y_matrix < matrix->height; ++y_matrix, ++k)
                     {
                         y_index = i + k;
+                        // Check if y coord is inside the pixels array
                         if(y_index >= 0 && y_index < pgm->height)
                         {
                             for(x_matrix = 0, l = -x_mid_matrix; x_matrix < matrix->width; ++x_matrix, ++l)
                             {
                                 x_index = j + l;
 
-                                // The coord are inside the pixels array
+                                // The x coord is inside the pixels array
                                 if(x_index >= 0 && x_index < pgm->width)
                                 {                                    
                                     pixel += (pgm->pixels[y_index][x_index] * matrix->values[y_matrix][x_matrix]);
                                     ++nb_values_taken;
-                                    // printf("\t (%d:%d) : %d * (%d;%d) : %d = %d\n", y_index,x_index, pgm->pixels[y_index][x_index], y_matrix,x_matrix, matrix->values[y_matrix][x_matrix], pixel);
                                 }
                             }
                         }
                     }
-                    // if(nb_values_taken != 0)
-                    //     pixel /= nb_values_taken;
+
+                    // Adjust pixel value
                     if(pixel < 0)
                         pixel = 0;
                     else if(pixel > pgm->v_max)
                         pixel = pgm->v_max;
+
                     pixels_out[i][j] = pixel;
                 }
             }

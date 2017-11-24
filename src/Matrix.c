@@ -6,6 +6,14 @@
 
 #include "Matrix.h"
 
+/**
+ * @brief      Creates a matrix. All value will be setted to 0
+ *
+ * @param[in]  width   The width
+ * @param[in]  height  The height
+ *
+ * @return     The matrix
+ */
 Matrix* create_Matrix(int width, int height)
 {
     if(width > 0 && height > 0)
@@ -51,6 +59,16 @@ Matrix* create_Matrix(int width, int height)
     return NULL;
 }
 
+/**
+ * @brief      Sets the value into matrix.
+ *
+ * @param      matrix  The matrix
+ * @param[in]  x       x index
+ * @param[in]  y       y index
+ * @param[in]  value   The value
+ *
+ * @return     TRUE if success, FALSE otherwise
+ */
 e__bool set_value_into_Matrix(Matrix* const matrix, int x, int y, int value)
 {
     if(matrix != NULL)
@@ -66,6 +84,15 @@ e__bool set_value_into_Matrix(Matrix* const matrix, int x, int y, int value)
     return FALSE;
 }
 
+/**
+ * @brief      Gets the value from matrix.
+ *
+ * @param      matrix  The matrix
+ * @param[in]  x       x index
+ * @param[in]  y       y index
+ *
+ * @return     The value from matrix.
+ */
 int get_value_from_Matrix(Matrix* const matrix, int x, int y)
 {
     if(matrix != NULL)
@@ -78,6 +105,11 @@ int get_value_from_Matrix(Matrix* const matrix, int x, int y)
     }
 }
 
+/**
+ * @brief      Free the memory of a Matrix
+ *
+ * @param      matrix  The matrix
+ */
 void free_Matrix(Matrix* const matrix)
 {
     if(matrix != NULL)
@@ -89,6 +121,11 @@ void free_Matrix(Matrix* const matrix)
     }
 }
 
+/**
+ * @brief      Display a matrix
+ *
+ * @param      matrix  The matrix
+ */
 void display_Matrix(Matrix* const matrix)
 {
     if(matrix != NULL)
