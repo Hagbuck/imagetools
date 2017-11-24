@@ -56,6 +56,7 @@ e__bool             PGM_P2_set_FIR_1D_horizontal_filter(PGM_P2_image* const img)
 e__bool             PGM_P2_set_FIR_1D_horizontal_filter_with_depth(PGM_P2_image* const img, int depth);
 e__bool             PGM_P2_set_FIR_1D_vertical_filter(PGM_P2_image* const img);
 e__bool             PGM_P2_set_FIR_1D_vertical_filter_with_depth(PGM_P2_image* const img, int depth);
+e__bool             PGM_P2_convolution_with_Matrix(PGM_P2_image* const pgm, Matrix* const matrix);
 PGM_P2_histogram*   PGM_P2_get_histogram(PGM_P2_image *img);
 e__bool             PGM_P2_save_image_into_file(PGM_P2_image* pgm, FILE* file);
 e__bool             PGM_P2_save_histogram_as_PGM_P2_file(PGM_P2_histogram* histogram, FILE* file);

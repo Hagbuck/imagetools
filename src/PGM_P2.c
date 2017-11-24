@@ -458,7 +458,7 @@ e__bool PGM_P2_set_FIR_1D_vertical_filter_with_depth(PGM_P2_image* const img, in
 
                     // After the pixel
                     y_after = j + k;
-                    if(y_after < img->width)
+                    if(y_after < img->height)
                     {
                         ++value_taken;
                         pixel += img->pixels[y_after][i];
@@ -476,6 +476,89 @@ e__bool PGM_P2_set_FIR_1D_vertical_filter_with_depth(PGM_P2_image* const img, in
         img->pixels = pixels_out;
 
         return TRUE;
+    }
+    return FALSE;
+}
+
+/**
+ * @brief      Apply the convolution between the pgm pixels and the matrix
+ *
+ * @param      pgm     The pgm
+ * @param      matrix  The matrix
+ *
+ * @return     TRUE if sucess, FALSE otherwise
+ */
+e__bool PGM_P2_convolution_with_Matrix(PGM_P2_image* const pgm, Matrix* const matrix)
+{
+    if(pgm != NULL && matrix != NULL)
+    {
+        if(matrix->width % 2 != 0
+        && matrix->height % 2 != 0) // We need a matrix with odd width and height
+        {
+            int     i, j;   // For the pgm
+            int     k, l;   // For the matrix
+            int     x_matrix, y_matrix;
+            int     x_mid_matrix = matrix->width / 2;
+            int     y_mid_matrix = matrix->height / 2;
+            int     x_index, y_index;
+            
+            int     pixel;   
+            int     nb_values_taken;
+
+            int**   pixels_out = NULL;
+
+            // Allocate memory for the pixels out
+            pixels_out = malloc(pgm->height * sizeof(int*));
+            for(i = 0; i < pgm->height; ++i)
+            {
+                pixels_out[i] = malloc(pgm->width * sizeof(int));
+            }
+            
+            // PARCOUR the whole image
+            for(i = 0; i < pgm->height; ++i)
+            {
+                for(j = 0; j < pgm->width; ++j)
+                {
+                    // printf("------------------\n>(%d:%d)\n", i, j);
+                    nb_values_taken = 0;
+                    pixel = 0;
+                    // Browse the whole matrix
+                    // x_matrix and y_matrix are used to browse the Matrix
+                    // k and l are used to browse the pixels array
+                    for(y_matrix = 0, k = -y_mid_matrix; y_matrix < matrix->height; ++y_matrix, ++k)
+                    {
+                        y_index = i + k;
+                        if(y_index >= 0 && y_index < pgm->height)
+                        {
+                            for(x_matrix = 0, l = -x_mid_matrix; x_matrix < matrix->width; ++x_matrix, ++l)
+                            {
+                                x_index = j + l;
+
+                                // The coord are inside the pixels array
+                                if(x_index >= 0 && x_index < pgm->width)
+                                {                                    
+                                    pixel += (pgm->pixels[y_index][x_index] * matrix->values[y_matrix][x_matrix]);
+                                    ++nb_values_taken;
+                                    // printf("\t (%d:%d) : %d * (%d;%d) : %d = %d\n", y_index,x_index, pgm->pixels[y_index][x_index], y_matrix,x_matrix, matrix->values[y_matrix][x_matrix], pixel);
+                                }
+                            }
+                        }
+                    }
+                    // if(nb_values_taken != 0)
+                    //     pixel /= nb_values_taken;
+                    if(pixel < 0)
+                        pixel = 0;
+                    else if(pixel > pgm->v_max)
+                        pixel = pgm->v_max;
+                    pixels_out[j][i] = pixel;
+                }
+            }
+
+            free_PGM_P2_pixels(pgm);
+            pgm->pixels = pixels_out;
+
+            return TRUE;
+        }
     }
     return FALSE;
 }

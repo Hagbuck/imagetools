@@ -30,6 +30,7 @@ Matrix* create_Matrix(int width, int height)
                         exit(ERR_BAD_ALLOC);   
                     }
 
+                    // Fill the matrix values with 0
                     for(j = 0; j < width; ++j)
                         matrix->values[i][j] = 0;
                 }
