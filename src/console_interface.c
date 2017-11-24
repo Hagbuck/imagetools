@@ -353,7 +353,7 @@ void pgm_p2_menu(void)
         puts("\t| h. Horizontal reversed .............. |");
         puts("\t| v. Vertical reversed ................ |");
         puts("\t| v. Vertical reversed ................ |");
-        puts("\t| f. FIR 1D reversed .................. |");
+        puts("\t| f. FIR filter reversed .............. |");
         puts("\t+---------------------------------------+");
         printf("\t: ");
         action = get_action();
@@ -569,6 +569,8 @@ void pgm_p2_menu(void)
                     puts("\t+---------------------------------------+");
                     puts("\t| h. FIR 1D Horinzontal ............... |");
                     puts("\t| v. FIR 1D Vertical .................. |");
+                    puts("\t| x. FIR 2D Border x .................. |");
+                    puts("\t| y. FIR 2D Border y .................. |");
                     puts("\t+---------------------------------------+");
                     printf("\t: ");
 
@@ -604,6 +606,18 @@ void pgm_p2_menu(void)
 
                             PGM_P2_set_FIR_1D_vertical_filter_with_depth(pgm, depth_fir);
                             printf("\t> FIR 1D Vertical filter setted with %d deeply\n", depth_fir);
+                        break;
+
+                        case 'x':
+                        case 'X':
+                            PGM_P2_set_FIR_2D_border_filter_x(pgm);
+                            puts("\t> FIR 2D Border filter X setted");
+                        break;
+
+                        case 'y':
+                        case 'Y':
+                            PGM_P2_set_FIR_2D_border_filter_y(pgm);
+                            puts("\t> FIR 2D Border filter Y setted");
                         break;
 
                         default:

@@ -76,31 +76,31 @@ int main(int argc, char *argv[])
     // fclose(out_histo);
     // fclose(out_histo_reversed);
     
-    // main_menu();
+    main_menu();
     
-    FILE* file = get_file(LENA, "r");
-    FILE* out = get_file(LENA_FIR, "w");
+    // FILE* file = get_file(LENA, "r");
+    // FILE* out = get_file(LENA_FIR, "w");
 
-    Matrix* m = create_Matrix(3,3);
-    set_value_into_Matrix(m, 0, 0, -1);
-    set_value_into_Matrix(m, 0, 1, -2);
-    set_value_into_Matrix(m, 0, 2, -1);
+    // Matrix* m = create_Matrix(3,3);
+    // set_value_into_Matrix(m, 0, 0, -1);
+    // set_value_into_Matrix(m, 0, 1, -2);
+    // set_value_into_Matrix(m, 0, 2, -1);
 
-    set_value_into_Matrix(m, 2, 0, 1);
-    set_value_into_Matrix(m, 2, 1, 2);
-    set_value_into_Matrix(m, 2, 2, 1);
+    // set_value_into_Matrix(m, 2, 0, 1);
+    // set_value_into_Matrix(m, 2, 1, 2);
+    // set_value_into_Matrix(m, 2, 2, 1);
 
-    display_Matrix(m);
+    // display_Matrix(m);
 
-    PGM_P2_image* pgm = PGM_P2_get_image_from_file(file);
+    // PGM_P2_image* pgm = PGM_P2_get_image_from_file(file);
 
-    PGM_P2_convolution_with_Matrix(pgm, m);
+    // PGM_P2_convolution_with_Matrix(pgm, m);
 
-    PGM_P2_save_image_into_file(pgm, out);    
+    // PGM_P2_save_image_into_file(pgm, out);    
 
-    free_Matrix(m);
-    fclose(file);
-    fclose(out);
+    // free_Matrix(m);
+    // fclose(file);
+    // fclose(out);
 
     // FILE* file = get_file(MARIO, "rb");
     // FILE* out = get_file(MARIO_V_REV, "wb");

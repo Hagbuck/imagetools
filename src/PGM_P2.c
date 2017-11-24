@@ -480,6 +480,36 @@ e__bool PGM_P2_set_FIR_1D_vertical_filter_with_depth(PGM_P2_image* const img, in
     return FALSE;
 }
 
+e__bool PGM_P2_set_FIR_2D_border_filter_x(PGM_P2_image* const pgm)
+{
+    Matrix* matrix = create_Matrix(3,3);
+    set_value_into_Matrix(matrix, 0, 0, -1);
+    set_value_into_Matrix(matrix, 0, 1, -2);
+    set_value_into_Matrix(matrix, 0, 2, -1);
+
+    set_value_into_Matrix(matrix, 2, 0, 1);
+    set_value_into_Matrix(matrix, 2, 1, 2);
+    set_value_into_Matrix(matrix, 2, 2, 1);
+
+    e__bool res = PGM_P2_convolution_with_Matrix(pgm, matrix);
+    return res;
+}
+
+e__bool PGM_P2_set_FIR_2D_border_filter_y(PGM_P2_image* const pgm)
+{
+    Matrix* matrix = create_Matrix(3,3);
+    set_value_into_Matrix(matrix, 0, 0, -1);
+    set_value_into_Matrix(matrix, 1, 0, -2);
+    set_value_into_Matrix(matrix, 2, 0, -1);
+
+    set_value_into_Matrix(matrix, 0, 2, 1);
+    set_value_into_Matrix(matrix, 1, 2, 2);
+    set_value_into_Matrix(matrix, 2, 2, 1);
+
+    e__bool res = PGM_P2_convolution_with_Matrix(pgm, matrix);
+    return res;
+}
+
 /**
  * @brief      Apply the convolution between the pgm pixels and the matrix
  *
