@@ -547,7 +547,6 @@ e__bool PGM_P2_convolution_with_Matrix(PGM_P2_image* const pgm, Matrix* const ma
             int     x_index, y_index;
             
             int     pixel;   
-            int     nb_values_taken;
 
             int**   pixels_out = NULL;
 
@@ -563,7 +562,6 @@ e__bool PGM_P2_convolution_with_Matrix(PGM_P2_image* const pgm, Matrix* const ma
             {
                 for(j = 0; j < pgm->width; ++j)
                 {
-                    nb_values_taken = 0;
                     pixel = 0;
                     // Browse the whole matrix
                     // x_matrix and y_matrix are used to browse the Matrix
@@ -582,7 +580,6 @@ e__bool PGM_P2_convolution_with_Matrix(PGM_P2_image* const pgm, Matrix* const ma
                                 if(x_index >= 0 && x_index < pgm->width)
                                 {                                    
                                     pixel += (pgm->pixels[y_index][x_index] * matrix->values[y_matrix][x_matrix]);
-                                    ++nb_values_taken;
                                 }
                             }
                         }
