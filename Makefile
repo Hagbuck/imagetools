@@ -1,6 +1,6 @@
 CC=gcc
 CFLAGS=-W -Wall -pedantic
-LDFLAGS=
+LDFLAGS= -lm
 EXEC=imagetools
 OUTEXT=out
 OBJF=obj

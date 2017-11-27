@@ -525,6 +525,72 @@ e__bool PGM_P2_set_FIR_2D_border_filter_y(PGM_P2_image* const pgm)
 }
 
 /**
+ * @brief      Apply the sobel filter on a PGM_P2_image
+ *
+ * @param      pgm   The pgm
+ *
+ * @return     TRUE if sucess, FALSE otherwise
+ */
+e__bool PGM_P2_set_sobel_filter(PGM_P2_image* const pgm)
+{
+    if(pgm != NULL)
+    {
+        PGM_P2_image* border_x = PGM_P2_get_copy(pgm);
+        PGM_P2_image* border_y = PGM_P2_get_copy(pgm);
+
+        if(border_x != NULL && border_y != NULL)
+        {
+            PGM_P2_set_FIR_2D_border_filter_x(border_x);
+            PGM_P2_set_FIR_2D_border_filter_y(border_y);
+
+            int     i, j;
+            int     pixel;
+            double  pixel_double;
+            int**   pixels_out = NULL;
+
+            // Allocate memory for the pixels out
+            pixels_out = malloc(pgm->height * sizeof(int*));
+            if(pixels_out != NULL)
+            {
+                for(i = 0; i < pgm->height; ++i)
+                {
+                    pixels_out[i] = malloc(pgm->width * sizeof(int));
+                    if(pixels_out[i] == NULL)
+                    {
+                        printf("ERROR bad alloc : %d\n", ERR_BAD_ALLOC);
+                        exit(ERR_BAD_ALLOC);
+                    }
+                }
+
+                for(i = 0; i < pgm->height; ++i)
+                {
+                    for(j = 0; j < pgm->width; ++j)
+                    {
+                        pixel_double = (double)(border_x->pixels[i][j] * border_x->pixels[i][j] + border_y->pixels[i][j] * border_y->pixels[i][j]);
+                        pixel = (int)sqrt(pixel_double);
+                        pixels_out[i][j] = pixel;
+                    }
+                }
+
+                free_PGM_P2_pixels(pgm);
+                pgm->pixels = pixels_out;
+
+                free_PGM_P2_image(border_x);
+                free_PGM_P2_image(border_y);
+
+                return TRUE;
+            }
+            else
+            {
+                printf("ERROR bad alloc : %d\n", ERR_BAD_ALLOC);
+                exit(ERR_BAD_ALLOC);
+            }
+        }
+    }
+    return FALSE;
+}
+
+/**
  * @brief      Apply the convolution between the pgm pixels and the matrix
  *
  * @param      pgm     The pgm
