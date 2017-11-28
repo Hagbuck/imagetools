@@ -605,16 +605,17 @@ e__bool PGM_P2_convolution_with_Matrix(PGM_P2_image* const pgm, Matrix* const ma
         if(matrix->width % 2 != 0
         && matrix->height % 2 != 0) // We need a matrix with odd width and height
         {
-            int     i, j;   // For the pgm
-            int     k, l;   // For the matrix
-            int     x_matrix, y_matrix;
+            int     i, j;                   // To browse the pgm
+            int     k, l;                   // Offset into the pgm
+            int     x_matrix, y_matrix;     // To browse the matrix
+            int     x_index, y_index;       // Index of the readed pixel for the convolution
             int     x_mid_matrix = matrix->width / 2;
             int     y_mid_matrix = matrix->height / 2;
-            int     x_index, y_index;
             
-            int     pixel;   
+            int     pixel;              // The new pixel
+            int     pgm_pixel_browsed;  // The value of the pixel to use, usefull if the index is out the pgm array
 
-            int**   pixels_out = NULL;
+            int**   pixels_out = NULL;  // The new pgm pixels array
 
             // Allocate memory for the pixels out
             pixels_out = malloc(pgm->height * sizeof(int*));
@@ -623,31 +624,39 @@ e__bool PGM_P2_convolution_with_Matrix(PGM_P2_image* const pgm, Matrix* const ma
                 pixels_out[i] = malloc(pgm->width * sizeof(int));
             }
             
-            // PARCOUR the whole image
+            // Browse the whole image
             for(i = 0; i < pgm->height; ++i)
             {
                 for(j = 0; j < pgm->width; ++j)
                 {
                     pixel = 0;
+                    pgm_pixel_browsed = pgm->pixels[i][j];  // By default, the value to use is the central pixel
+
                     // Browse the whole matrix
                     // x_matrix and y_matrix are used to browse the Matrix
                     // k and l are used to browse the pixels array
                     for(y_matrix = 0, k = -y_mid_matrix; y_matrix < matrix->height; ++y_matrix, ++k)
                     {
                         y_index = i + k;
-                        // Check if y coord is inside the pixels array
-                        if(y_index >= 0 && y_index < pgm->height)
-                        {
-                            for(x_matrix = 0, l = -x_mid_matrix; x_matrix < matrix->width; ++x_matrix, ++l)
-                            {
-                                x_index = j + l;
 
-                                // The x coord is inside the pixels array
-                                if(x_index >= 0 && x_index < pgm->width)
-                                {                                    
-                                    pixel += (pgm->pixels[y_index][x_index] * matrix->values[y_matrix][x_matrix]);
-                                }
+                        for(x_matrix = 0, l = -x_mid_matrix; x_matrix < matrix->width; ++x_matrix, ++l)
+                        {
+                            x_index = j + l;
+
+                            // The y or x coord are outside the pixels array
+                            if(y_index < 0 || y_index >= pgm->height
+                            || x_index < 0 || x_index >= pgm->width)
+                            {
+                                pgm_pixel_browsed = pgm->pixels[i][j];
                             }
+
+                            // The x and y coord are inside the pixels array
+                            else
+                            {
+                                pgm_pixel_browsed = pgm->pixels[y_index][x_index];
+                            }
+
+                            pixel += (pgm_pixel_browsed * matrix->values[y_matrix][x_matrix]);
                         }
                     }
 

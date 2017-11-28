@@ -353,7 +353,7 @@ void pgm_p2_menu(void)
         puts("\t| h. Horizontal reversed .............. |");
         puts("\t| v. Vertical reversed ................ |");
         puts("\t| v. Vertical reversed ................ |");
-        puts("\t| f. FIR filter  ...................... |");
+        puts("\t| f. FIR filters ...................... |");
         puts("\t+---------------------------------------+");
         printf("\t: ");
         action = get_action();
