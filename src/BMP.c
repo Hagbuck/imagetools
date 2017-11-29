@@ -543,11 +543,11 @@ e__bool BMP_set_FIR_1D_horizontal_filter_with_depth(BMP_image* const bmp, int de
 {
     if(bmp != NULL)
     {
-        int     i, j, k;
-        int     x_after, x_before;
+        int         i, j, k;
+        int         x_after, x_before;
         int_rgb     pixel;
-        int     value_taken = 0;
-        rgb**   pixels_out = NULL;
+        int         value_taken;
+        rgb**       pixels_out = NULL;
 
         // Allocate memory for the pixels out
         pixels_out = malloc(bmp->height * sizeof(rgb*));
@@ -612,7 +612,73 @@ e__bool BMP_set_FIR_1D_horizontal_filter_with_depth(BMP_image* const bmp, int de
 
 e__bool BMP_set_FIR_1D_vertical_filter_with_depth(BMP_image* const bmp, int depth)
 {
+    if(bmp != NULL)
+    {
+        int         i, j, k;
+        int         y_after, y_before;
+        int_rgb     pixel;
+        int         value_taken;
+        rgb**       pixels_out = NULL;
 
+        // Allocate memory for the pixels out
+        pixels_out = malloc(bmp->height * sizeof(rgb*));
+        for(i = 0; i < bmp->height; ++i)
+        {
+            pixels_out[i] = malloc(bmp->width * sizeof(rgb));
+        }
+
+        // Set the FIR 1D filter
+        for(i = 0; i < bmp->width; ++i) // WIDTH
+        {
+            for(j = 0; j < bmp->height; ++j) // HEIGHT
+            {
+                // Reading the pixel
+                value_taken = 1;
+                pixel.r = bmp->pixels[j][i].r;
+                pixel.g = bmp->pixels[j][i].g;
+                pixel.b = bmp->pixels[j][i].b;
+
+                // Reading around the pixel
+                for(k = 1; k <= depth; ++k)
+                {
+                    // Before the pixel
+                    y_before = j - k;
+                    if(y_before >= 0)
+                    {
+                        ++value_taken;
+                        pixel.r += bmp->pixels[y_before][i].r;
+                        pixel.g += bmp->pixels[y_before][i].g;
+                        pixel.b += bmp->pixels[y_before][i].b;
+                    }
+
+                    // After the pixel
+                    y_after = j + k;
+                    if(y_after < bmp->height)
+                    {
+                        ++value_taken;
+                        pixel.r += bmp->pixels[y_after][i].r;
+                        pixel.g += bmp->pixels[y_after][i].g;
+                        pixel.b += bmp->pixels[y_after][i].b;
+                    }
+                }
+                pixel.r /= value_taken;
+                pixel.g /= value_taken;
+                pixel.b /= value_taken;
+
+                pixels_out[j][i].r = pixel.r;
+                pixels_out[j][i].g = pixel.g;
+                pixels_out[j][i].b = pixel.b;
+            }
+        }
+
+        // Free the last pixels array
+        free_BMP_pixels(bmp);
+        // And set the new
+        bmp->pixels = pixels_out;
+
+        return TRUE;
+    }
+    return FALSE;
 }
 e__bool BMP_set_FIR_2D_border_filter_x(BMP_image* const bmp)
 {
