@@ -8,7 +8,7 @@
 
 /**
  * @brief      Get a BMP_image from a BMP file
- *             And fill the struct PGM_P2_image
+ *             And fill the struct bmp_P2_image
  *
  * @param      file  The file
  *
@@ -682,22 +682,211 @@ e__bool BMP_set_FIR_1D_vertical_filter_with_depth(BMP_image* const bmp, int dept
 }
 e__bool BMP_set_FIR_2D_border_filter_x(BMP_image* const bmp)
 {
+    Matrix* matrix = create_Matrix(3,3);
+    set_value_into_Matrix(matrix, 0, 0, -1);
+    set_value_into_Matrix(matrix, 0, 1, -2);
+    set_value_into_Matrix(matrix, 0, 2, -1);
 
+    set_value_into_Matrix(matrix, 2, 0, 1);
+    set_value_into_Matrix(matrix, 2, 1, 2);
+    set_value_into_Matrix(matrix, 2, 2, 1);
+
+    e__bool res = BMP_convolution_with_Matrix(bmp, matrix);
+    return res;
 }
 
 e__bool BMP_set_FIR_2D_border_filter_y(BMP_image* const bmp)
 {
+    Matrix* matrix = create_Matrix(3,3);
+    set_value_into_Matrix(matrix, 0, 0, -1);
+    set_value_into_Matrix(matrix, 1, 0, -2);
+    set_value_into_Matrix(matrix, 2, 0, -1);
 
+    set_value_into_Matrix(matrix, 0, 2, 1);
+    set_value_into_Matrix(matrix, 1, 2, 2);
+    set_value_into_Matrix(matrix, 2, 2, 1);
+
+    e__bool res = BMP_convolution_with_Matrix(bmp, matrix);
+    return res;
 }
 
 e__bool BMP_set_sobel_filter(BMP_image* const bmp)
 {
+    if(bmp != NULL)
+    {
+        BMP_image* border_x = BMP_get_copy(bmp);
+        BMP_image* border_y = BMP_get_copy(bmp);
 
+        if(border_x != NULL && border_y != NULL)
+        {
+            BMP_set_FIR_2D_border_filter_x(border_x);
+            BMP_set_FIR_2D_border_filter_y(border_y);
+
+            int         i, j;
+            rgb         pixel;
+            double_rgb  pixel_double;
+            rgb**       pixels_out = NULL;
+
+            // Allocate memory for the pixels out
+            pixels_out = malloc(bmp->height * sizeof(rgb*));
+            if(pixels_out != NULL)
+            {
+                for(i = 0; i < bmp->height; ++i)
+                {
+                    pixels_out[i] = malloc(bmp->width * sizeof(rgb));
+                    if(pixels_out[i] == NULL)
+                    {
+                        printf("ERROR bad alloc : %d\n", ERR_BAD_ALLOC);
+                        exit(ERR_BAD_ALLOC);
+                    }
+                }
+
+                for(i = 0; i < bmp->height; ++i)
+                {
+                    for(j = 0; j < bmp->width; ++j)
+                    {
+                        pixel_double.r = (double)(border_x->pixels[i][j].r * border_x->pixels[i][j].r + border_y->pixels[i][j].r * border_y->pixels[i][j].r);
+                        pixel_double.g = (double)(border_x->pixels[i][j].g * border_x->pixels[i][j].g + border_y->pixels[i][j].g * border_y->pixels[i][j].g);
+                        pixel_double.b = (double)(border_x->pixels[i][j].b * border_x->pixels[i][j].b + border_y->pixels[i][j].b * border_y->pixels[i][j].b);
+
+                        pixel.r = (int)sqrt(pixel_double.r);
+                        pixel.g = (int)sqrt(pixel_double.g);
+                        pixel.b = (int)sqrt(pixel_double.b);
+
+                        pixels_out[i][j].r = pixel.r;
+                        pixels_out[i][j].g = pixel.g;
+                        pixels_out[i][j].b = pixel.b;
+                    }
+                }
+
+                free_BMP_pixels(bmp);
+                bmp->pixels = pixels_out;
+
+                free_BMP_image(border_x);
+                free_BMP_image(border_y);
+
+                return TRUE;
+            }
+            else
+            {
+                printf("ERROR bad alloc : %d\n", ERR_BAD_ALLOC);
+                exit(ERR_BAD_ALLOC);
+            }
+        }
+    }
+    return FALSE;
 }
 
 e__bool BMP_convolution_with_Matrix(BMP_image* const bmp, Matrix* const matrix)
 {
+    if(bmp != NULL && matrix != NULL)
+    {
+        if(matrix->width % 2 != 0
+        && matrix->height % 2 != 0) // We need a matrix with odd width and height
+        {
+            int         i, j;                   // To browse the bmp
+            int         k, l;                   // Offset into the bmp
+            int         x_matrix, y_matrix;     // To browse the matrix
+            int         x_index, y_index;       // Index of the readed pixel for the convolution
+            int         x_mid_matrix = matrix->width / 2;
+            int         y_mid_matrix = matrix->height / 2;
+            
+            int_rgb     pixel;              // The new pixel
+            rgb         bmp_pixel_browsed;  // The value of the pixel to use, usefull if the index is out the bmp array
 
+            rgb**       pixels_out = NULL;  // The new bmp pixels array
+
+            // Allocate memory for the pixels out
+            pixels_out = malloc(bmp->height * sizeof(rgb*));
+            for(i = 0; i < bmp->height; ++i)
+            {
+                pixels_out[i] = malloc(bmp->width * sizeof(rgb));
+            }
+
+            // Browse the whole image
+            for(i = 0; i < bmp->height; ++i)
+            {
+                for(j = 0; j < bmp->width; ++j)
+                {
+                    // printf("(%d:%d)\n", j, i);
+                    pixel.r = 0;
+                    pixel.g = 0;
+                    pixel.b = 0;
+                    // By default, the value to use is the central pixel
+                    bmp_pixel_browsed.r = bmp->pixels[i][j].r;
+                    bmp_pixel_browsed.g = bmp->pixels[i][j].g;
+                    bmp_pixel_browsed.b = bmp->pixels[i][j].b;
+
+
+                    // Browse the whole matrix
+                    // x_matrix and y_matrix are used to browse the Matrix
+                    // k and l are used to browse the pixels array
+                    for(y_matrix = 0, k = -y_mid_matrix; y_matrix < matrix->height; ++y_matrix, ++k)
+                    {
+                        y_index = i + k;
+
+                        for(x_matrix = 0, l = -x_mid_matrix; x_matrix < matrix->width; ++x_matrix, ++l)
+                        {
+                            x_index = j + l;
+
+                            // The y or x coord are outside the pixels array
+                            if(y_index < 0 || y_index >= bmp->height
+                            || x_index < 0 || x_index >= bmp->width)
+                            {
+                                // We calculate the convolution with the central pixel
+                                bmp_pixel_browsed.r = bmp->pixels[i][j].r;
+                                bmp_pixel_browsed.g = bmp->pixels[i][j].g;
+                                bmp_pixel_browsed.b = bmp->pixels[i][j].b;
+                            }
+
+                            // The x and y coord are inside the pixels array
+                            else
+                            {
+                                // We use the right pixel
+                                bmp_pixel_browsed.r = bmp->pixels[y_index][x_index].r;
+                                bmp_pixel_browsed.g = bmp->pixels[y_index][x_index].g;
+                                bmp_pixel_browsed.b = bmp->pixels[y_index][x_index].b;
+                            }
+
+                            // The convolution operation
+                            pixel.r += (bmp_pixel_browsed.r * matrix->values[y_matrix][x_matrix]);
+                            pixel.g += (bmp_pixel_browsed.g * matrix->values[y_matrix][x_matrix]);
+                            pixel.b += (bmp_pixel_browsed.b * matrix->values[y_matrix][x_matrix]);
+                        }
+                    }
+
+                    // Adjust pixel value
+                    // RED
+                    if(pixel.r < 0)
+                        pixel.r = 0;
+                    else if(pixel.r > BMP_V_MAX)
+                        pixel.r = BMP_V_MAX;
+
+                    // GREEN
+                    if(pixel.g < 0)
+                        pixel.g = 0;
+                    else if(pixel.g > BMP_V_MAX)
+                        pixel.g = BMP_V_MAX;
+
+                    // BLUE
+                    if(pixel.b < 0)
+                        pixel.b = 0;
+                    else if(pixel.b > BMP_V_MAX)
+                        pixel.b = BMP_V_MAX;
+
+                    pixels_out[i][j].r = pixel.r;
+                    pixels_out[i][j].g = pixel.g;
+                    pixels_out[i][j].b = pixel.b;
+                }
+            }
+
+            free_BMP_pixels(bmp);
+            bmp->pixels = pixels_out;
+
+            return TRUE;
+        }
+    }
+    return FALSE;
 }
 
 
@@ -754,4 +943,142 @@ void free_BMP_image(BMP_image* const bmp)
 {
     free_BMP_pixels(bmp);
     free(bmp);
+}
+
+
+/*** RGB ***/
+
+e__bool rgb_copy_rgb(rgb* const dest, rgb* const src)
+{
+    if(dest != NULL && src != NULL)
+    {
+        dest->r = src->r;
+        dest->g = src->g;
+        dest->b = src->b;
+    }
+    return FALSE;
+}
+
+e__bool int_rgb_copy_rgb(int_rgb* const dest, rgb* const src)
+{
+    if(dest != NULL && src != NULL)
+    {
+        dest->r = src->r;
+        dest->g = src->g;
+        dest->b = src->b;
+    }
+    return FALSE;
+}
+
+e__bool rgb_copy_int_rgb(rgb* const dest, int_rgb* const src)
+{
+    if(dest != NULL && src != NULL)
+    {
+        dest->r = src->r;
+        dest->g = src->g;
+        dest->b = src->b;
+    }
+    return FALSE;
+}
+
+
+e__bool rgb_plus_rgb_in_rgb(rgb* const res, rgb* const a, rgb* const b)
+{
+    if(res != NULL && a != NULL && b != NULL)
+    {
+        res->r = a->r + b->r;
+        res->b = a->r + b->b;
+        res->g = a->r + b->g;
+    }
+    return FALSE;
+}
+
+e__bool rgb_plus_rgb_in_int_rgb(int_rgb* const res, rgb* const a, rgb* const b)
+{
+    if(res != NULL && a != NULL && b != NULL)
+    {
+        res->r = a->r + b->r;
+        res->b = a->r + b->b;
+        res->g = a->r + b->g;
+    }
+    return FALSE;
+}
+
+e__bool int_rgb_plus_int_rgb_in_int_rgb(int_rgb* const res, int_rgb* const a, int_rgb* const b)
+{
+    if(res != NULL && a != NULL && b != NULL)
+    {
+        res->r = a->r + b->r;
+        res->b = a->r + b->b;
+        res->g = a->r + b->g;
+    }
+    return FALSE;
+}
+
+
+e__bool rgb_plus_equals_rgb(rgb* const origin, rgb* const added)
+{
+    if(origin != NULL && added != NULL)
+    {
+        origin->r += added->r;
+        origin->g += added->g;
+        origin->b += added->b;
+    }
+    return FALSE;
+}
+
+e__bool rgb_plus_equals_int_rgb(rgb* const origin, int_rgb* const added)
+{
+    if(origin != NULL && added != NULL)
+    {
+        origin->r += added->r;
+        origin->g += added->g;
+        origin->b += added->b;
+    }
+    return FALSE;
+}
+
+e__bool int_rgb_plus_equals_rgb(int_rgb* const origin, rgb* const added)
+{
+    if(origin != NULL && added != NULL)
+    {
+        origin->r += added->r;
+        origin->g += added->g;
+        origin->b += added->b;
+    }
+    return FALSE;
+}
+
+e__bool int_rgb_plus_equals_int_rgb(int_rgb* const origin, int_rgb* const added)
+{
+    if(origin != NULL && added != NULL)
+    {
+        origin->r += added->r;
+        origin->g += added->g;
+        origin->b += added->b;
+    }
+    return FALSE;
+}
+
+
+e__bool rgb_divide_by_int(rgb* const pixel, int divisor)
+{
+    if(pixel != NULL && divisor != 0)
+    {
+        pixel->r /= divisor;
+        pixel->g /= divisor;
+        pixel->b /= divisor;
+    }
+    return FALSE;
+}
+
+e__bool int_rgb_divide_by_int(int_rgb* const pixel, int divisor)
+{
+    if(pixel != NULL && divisor != 0)
+    {
+        pixel->r /= divisor;
+        pixel->g /= divisor;
+        pixel->b /= divisor;
+    }
+    return FALSE;
 }
