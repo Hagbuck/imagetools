@@ -539,6 +539,102 @@ e__bool BMP_set_vertical_reversed(BMP_image* const bmp)
     return FALSE; 
 }
 
+e__bool BMP_set_FIR_1D_horizontal_filter_with_depth(BMP_image* const bmp, int depth)
+{
+    if(bmp != NULL)
+    {
+        int     i, j, k;
+        int     x_after, x_before;
+        int_rgb     pixel;
+        int     value_taken = 0;
+        rgb**   pixels_out = NULL;
+
+        // Allocate memory for the pixels out
+        pixels_out = malloc(bmp->height * sizeof(rgb*));
+        for(i = 0; i < bmp->height; ++i)
+        {
+            pixels_out[i] = malloc(bmp->width * sizeof(rgb));
+        }
+
+        // Set the FIR 1D filter
+        for(i = 0; i < bmp->height; ++i) // HEIGHT
+        {
+            for(j = 0; j < bmp->width; ++j) // WIDTH
+            {
+                // Reading the pixel
+                value_taken = 1;
+                pixel.r = bmp->pixels[i][j].r;
+                pixel.g = bmp->pixels[i][j].g;
+                pixel.b = bmp->pixels[i][j].b;
+
+                // Reading around the pixel
+                for(k = 1; k <= depth; ++k)
+                {
+                    // Before the pixel
+                    x_before = j - k;
+                    if(x_before >= 0)
+                    {
+                        ++value_taken;
+                        pixel.r += bmp->pixels[i][x_before].r;
+                        pixel.g += bmp->pixels[i][x_before].g;
+                        pixel.b += bmp->pixels[i][x_before].b;
+                    }
+
+                    // After the pixel
+                    x_after = j + k;
+                    if(x_after < bmp->width)
+                    {
+                        ++value_taken;
+                        pixel.r += bmp->pixels[i][x_after].r;
+                        pixel.g += bmp->pixels[i][x_after].g;
+                        pixel.b += bmp->pixels[i][x_after].b;
+                    }
+                }
+                pixel.r /= value_taken;
+                pixel.g /= value_taken;
+                pixel.b /= value_taken;
+
+                pixels_out[i][j].r = pixel.r;
+                pixels_out[i][j].g = pixel.g;
+                pixels_out[i][j].b = pixel.b;
+            }
+        }
+
+        // Free the last pixels array
+        free_BMP_pixels(bmp);
+        // And set the new
+        bmp->pixels = pixels_out;
+
+        return TRUE;
+    }
+    return FALSE;
+}
+
+e__bool BMP_set_FIR_1D_vertical_filter_with_depth(BMP_image* const bmp, int depth)
+{
+
+}
+e__bool BMP_set_FIR_2D_border_filter_x(BMP_image* const bmp)
+{
+
+}
+
+e__bool BMP_set_FIR_2D_border_filter_y(BMP_image* const bmp)
+{
+
+}
+
+e__bool BMP_set_sobel_filter(BMP_image* const bmp)
+{
+
+}
+
+e__bool BMP_convolution_with_Matrix(BMP_image* const bmp, Matrix* const matrix)
+{
+
+}
+
+
 /**
  * @brief      Display BMP_image's header
  *
@@ -562,7 +658,7 @@ void BMP_show_header(const BMP_image* const bmp)
     printf("> BITMAP PLANE          : %.2x %.2x\n", bmp->biPlane[0], bmp->biPlane[1]);
     printf("> BITMAP BitCount       : %.2x %.2x\n", bmp->biBitCount[0], bmp->biBitCount[1]);
     printf("> BITMAP Compression    : %.2x %.2x %.2x %.2x\n", bmp->biCompression[0], bmp->biCompression[1], bmp->biCompression[2], bmp->biCompression[3]);
-    printf("> BITMAP SIZE IMG       : %.2x %.2x %.2x %.2x\n", bmp->biSizeImage[0], bmp->biSizeImage[1], bmp->biSizeImage[2], bmp->biSizeImage[3]);
+    printf("> BITMAP SIZE bmp       : %.2x %.2x %.2x %.2x\n", bmp->biSizeImage[0], bmp->biSizeImage[1], bmp->biSizeImage[2], bmp->biSizeImage[3]);
     printf("> BITMAP Xpels          : %.2x %.2x %.2x %.2x\n", bmp->biXpelsPerMeter[0], bmp->biXpelsPerMeter[1], bmp->biXpelsPerMeter[2], bmp->biXpelsPerMeter[3]);
     printf("> BITMAP Ypels          : %.2x %.2x %.2x %.2x\n", bmp->biYpelsPerMeter[0], bmp->biYpelsPerMeter[1], bmp->biYpelsPerMeter[2], bmp->biYpelsPerMeter[3]);
     printf("> BITMAP ClrUsed        : %.2x %.2x %.2x %.2x\n", bmp->biClrUsed[0], bmp->biClrUsed[1], bmp->biClrUsed[2], bmp->biClrUsed[3]);
@@ -571,16 +667,25 @@ void BMP_show_header(const BMP_image* const bmp)
 }
 
 /**
- * @brief      Free a BMP_image
+ * @brief      Free the pixel array of a BMP_image
  *
  * @param      bmp   The bitmap
  */
-void free_BMP_image(BMP_image* bmp)
+void free_BMP_pixels(BMP_image* const bmp)
 {
     int i;
     for(i = 0; i < bmp->height; ++i)
         free(bmp->pixels[i]);
-    free(bmp->pixels);
+    free(bmp->pixels); 
+}
 
+/**
+ * @brief      Free a BMP_image
+ *
+ * @param      bmp   The bitmap
+ */
+void free_BMP_image(BMP_image* const bmp)
+{
+    free_BMP_pixels(bmp);
     free(bmp);
 }

@@ -16,13 +16,30 @@
 #include <string.h>
 
 #include "basic_tools.h"
+#include "Matrix.h"
 
+/**
+ * RGB is a pixel with 3 component red green and blue
+ * Each component take 256 bits in memory
+ */
 typedef struct rgb rgb;
 struct rgb
 {
     unsigned char   r;
     unsigned char   g;
     unsigned char   b;
+};
+
+/**
+ * int_rgb is a pixel, but with a bigger memory
+ * usefull to calculate 
+ */
+typedef struct int_rgb int_rgb;
+struct int_rgb
+{
+    int r;
+    int g;
+    int b;
 };
 
 typedef struct BMP_image BMP_image;
@@ -62,6 +79,7 @@ struct BMP_histogram
     int             size;
 };
 
+// Structure manipulating
 BMP_image*      BMP_get_image_from_file(FILE* file);
 e__bool         BMP_fill_header(BMP_image* const bmp, FILE* const file);
 e__bool         BMP_header_to_str(BMP_image* const bmp, unsigned char* str);
@@ -71,12 +89,23 @@ e__bool         BMP_save_image_into_file(BMP_image* const bmp, FILE* const file)
 e__bool         BMP_copy_header(BMP_image* const src, BMP_image* const dest);
 BMP_image*      BMP_get_copy(BMP_image* const bmp);
 
+// Basic filtering
 e__bool         BMP_set_gray_filter(BMP_image* const bmp);
 e__bool         BMP_set_reversed_filter(BMP_image* const bmp);
 e__bool         BMP_set_horizontal_reversed(BMP_image* const bmp);
 e__bool         BMP_set_vertical_reversed(BMP_image* const bmp);
 
+// Linear filtering
+e__bool         BMP_set_FIR_1D_horizontal_filter_with_depth(BMP_image* const bmp, int depth);
+e__bool         BMP_set_FIR_1D_vertical_filter_with_depth(BMP_image* const bmp, int depth);
+e__bool         BMP_set_FIR_2D_border_filter_x(BMP_image* const bmp);
+e__bool         BMP_set_FIR_2D_border_filter_y(BMP_image* const bmp);
+e__bool         BMP_set_sobel_filter(BMP_image* const bmp);
+e__bool         BMP_convolution_with_Matrix(BMP_image* const bmp, Matrix* const matrix);
+
+// Free and display
 void            BMP_show_header(const BMP_image* const bmp);
-void            free_BMP_image(BMP_image* bmp);
+void            free_BMP_pixels(BMP_image* const bmp);
+void            free_BMP_image(BMP_image* const bmp);
 
 #endif

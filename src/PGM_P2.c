@@ -647,15 +647,18 @@ e__bool PGM_P2_convolution_with_Matrix(PGM_P2_image* const pgm, Matrix* const ma
                             if(y_index < 0 || y_index >= pgm->height
                             || x_index < 0 || x_index >= pgm->width)
                             {
+                                // We calculate the convolution with the central pixel
                                 pgm_pixel_browsed = pgm->pixels[i][j];
                             }
 
                             // The x and y coord are inside the pixels array
                             else
                             {
+                                // We use the right pixel
                                 pgm_pixel_browsed = pgm->pixels[y_index][x_index];
                             }
 
+                            // The convolution operation
                             pixel += (pgm_pixel_browsed * matrix->values[y_matrix][x_matrix]);
                         }
                     }

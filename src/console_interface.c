@@ -10,7 +10,7 @@ void show_logo(void)
 {
     puts("\t+---------------------------------------+");
     puts("\t|              IMAGE TOOLS              |");
-    puts("\t|                 v.0.3                 |");
+    puts("\t|                 v.0.4                 |");
     puts("\t+---------------------------------------+");
 }
 
@@ -125,6 +125,7 @@ void bmp_menu(void)
 
     int nb_dot = NB_DOT;
     int i;
+    int depth_fir;
 
     char file_path[256] = "";
     char save_path[256] = "";
@@ -150,6 +151,7 @@ void bmp_menu(void)
         puts("\t| r. Reversed filter .................. |");
         puts("\t| h. Horizontal reversed .............. |");
         puts("\t| v. Vertical reversed ................ |");
+        puts("\t| f. FIR filters ...................... |");
         puts("\t+---------------------------------------+");
         printf("\t: ");
         action = get_action();
@@ -305,6 +307,88 @@ void bmp_menu(void)
                 {
                     BMP_set_vertical_reversed(bmp);
                     puts("\t> Vertical reversed setted");
+                }
+                else
+                {
+                    puts("\t> ERROR any BMP_image is load !");
+                }
+            break;
+
+            case 'f':
+            case 'F':
+                if(bmp != NULL)
+                {
+                    jump_clear();
+                    show_logo();
+                    puts("\t| [MAIN] > [BMP] > [FIR] .............. |");
+                    printf("\t| FILE : [%s] ", file_path); for(i = 0; i < nb_dot; ++i){printf(".");} puts(" |");
+                    puts("\t+---------------------------------------+");
+                    puts("\t| q. Quit PGM ......................... |");
+                    puts("\t+---------------------------------------+");
+                    puts("\t| h. FIR 1D Horinzontal ............... |");
+                    puts("\t| v. FIR 1D Vertical .................. |");
+                    puts("\t| x. FIR 2D Border x .................. |");
+                    puts("\t| y. FIR 2D Border y .................. |");
+                    puts("\t| s. Sobel filter ..................... |");
+                    puts("\t+---------------------------------------+");
+                    printf("\t: ");
+
+                    action = get_action();
+
+                    switch(action)
+                    {
+                        case 'h':
+                        case 'H':
+                            puts("\tFIR 1D Horizontal filter selected");
+                            printf("\tDEPTH : ");
+                            depth_fir = get_number();
+
+                            if(depth_fir < 0)
+                                depth_fir = 0;
+                            if(depth_fir > bmp->width)
+                                depth_fir = bmp->width;
+
+                            BMP_set_FIR_1D_horizontal_filter_with_depth(bmp, depth_fir);
+                            printf("\t> FIR 1D Horizontal filter setted with %d deeply\n", depth_fir);
+                        break;
+
+                        case 'v':
+                        case 'V':
+                            puts("\tFIR 1D Vertical filter selected");
+                            printf("\tDEPTH : ");
+                            depth_fir = get_number();
+
+                            if(depth_fir < 0)
+                                depth_fir = 0;
+                            if(depth_fir > bmp->height)
+                                depth_fir = bmp->height;
+
+                            BMP_set_FIR_1D_vertical_filter_with_depth(bmp, depth_fir);
+                            printf("\t> FIR 1D Vertical filter setted with %d deeply\n", depth_fir);
+                        break;
+
+                        case 'x':
+                        case 'X':
+                            BMP_set_FIR_2D_border_filter_x(bmp);
+                            puts("\t> FIR 2D Border filter X setted");
+                        break;
+
+                        case 'y':
+                        case 'Y':
+                            BMP_set_FIR_2D_border_filter_y(bmp);
+                            puts("\t> FIR 2D Border filter Y setted");
+                        break;
+
+                        case 's':
+                        case 'S':
+                            BMP_set_sobel_filter(bmp);
+                            puts("\t> Sobel filter setted");
+                        break;
+
+                        default:
+                            puts("Closing FIR");
+                        break;
+                    }
                 }
                 else
                 {
