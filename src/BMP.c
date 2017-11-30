@@ -38,12 +38,12 @@ BMP_image* BMP_get_image_from_file(FILE* file)
                 }
 
                 // Allocate the space for the pixels
-                bmp->pixels = malloc(bmp->height * sizeof(rgb*));
+                bmp->pixels = malloc(bmp->height * sizeof(RGB*));
                 if(bmp->pixels != NULL)
                 {
                     for(i = 0; i < bmp->height; ++i)
                     {
-                        bmp->pixels[i] = malloc(bmp->width * sizeof(rgb));
+                        bmp->pixels[i] = malloc(bmp->width * sizeof(RGB));
                         if(bmp->pixels[i] == NULL)
                         {
                             printf("ERROR bad alloc : %d\n", ERR_BAD_ALLOC);
@@ -233,7 +233,7 @@ e__bool BMP_header_to_str(BMP_image* const bmp, unsigned char* str)
  */
 e__bool BMP_fill_pixels(BMP_image* const bmp, FILE* const file)
 {
-    unsigned char pixel[3];     // An array which will contain the pixels value (rgb)
+    unsigned char pixel[3];     // An array which will contain the pixels value (RGB)
     int i = 0;
     int j = 0;
     int pixels_count = 0;
@@ -280,7 +280,7 @@ e__bool BMP_save_image_into_file(BMP_image* const bmp, FILE* const file)
         {
             fseek(file, 0, SEEK_SET);
             unsigned char header[54];
-            unsigned char rgb[3];
+            unsigned char RGB[3];
 
             BMP_header_to_str(bmp, header);
             
@@ -292,10 +292,10 @@ e__bool BMP_save_image_into_file(BMP_image* const bmp, FILE* const file)
             {
                 for(j = 0; j < bmp->width; ++j)
                 {
-                    rgb[0] = bmp->pixels[i][j].b;
-                    rgb[1] = bmp->pixels[i][j].g;
-                    rgb[2] = bmp->pixels[i][j].r;
-                    fwrite(rgb, 1, 3, file);
+                    RGB[0] = bmp->pixels[i][j].b;
+                    RGB[1] = bmp->pixels[i][j].g;
+                    RGB[2] = bmp->pixels[i][j].r;
+                    fwrite(RGB, 1, 3, file);
                 }
             }
         }
@@ -312,6 +312,7 @@ e__bool BMP_save_image_into_file(BMP_image* const bmp, FILE* const file)
         exit(ERR_STRUCT_IS_NULL);
         return FALSE;
     }
+    return TRUE;
 }
 
 /**
@@ -403,10 +404,10 @@ BMP_image* BMP_get_copy(BMP_image* const bmp)
         copy->height = bmp->height;
 
         // Allocate the memory for the pixels
-        copy->pixels = malloc(copy->height * sizeof(rgb*));
+        copy->pixels = malloc(copy->height * sizeof(RGB*));
         for(i = 0; i < copy->height; ++i)
         {
-            copy->pixels[i] = malloc(copy->width * sizeof(rgb));
+            copy->pixels[i] = malloc(copy->width * sizeof(RGB));
             if(copy->pixels[i] == NULL)
             {
                 printf("ERROR bad alloc : %d\n", ERR_BAD_ALLOC);
@@ -503,7 +504,7 @@ e__bool BMP_set_horizontal_reversed(BMP_image* const bmp)
         for(i = 0; i < mid; ++i)
         {
             // PAS BON
-            rgb* line = bmp->pixels[i];
+            RGB* line = bmp->pixels[i];
             bmp->pixels[i] = bmp->pixels[bmp->height-1 - i];
             bmp->pixels[bmp->height-1 - i] = line;
         }
@@ -529,7 +530,7 @@ e__bool BMP_set_vertical_reversed(BMP_image* const bmp)
         {
             for(j = 0; j < half_width; ++j)
             {
-                rgb temp = bmp->pixels[i][j];
+                RGB temp = bmp->pixels[i][j];
                 bmp->pixels[i][j] = bmp->pixels[i][bmp->width-1 - j];
                 bmp->pixels[i][bmp->width-1 - j] = temp;
             }
@@ -545,15 +546,15 @@ e__bool BMP_set_FIR_1D_horizontal_filter_with_depth(BMP_image* const bmp, int de
     {
         int         i, j, k;
         int         x_after, x_before;
-        int_rgb     pixel;
+        Int_RGB     pixel;
         int         value_taken;
-        rgb**       pixels_out = NULL;
+        RGB**       pixels_out = NULL;
 
         // Allocate memory for the pixels out
-        pixels_out = malloc(bmp->height * sizeof(rgb*));
+        pixels_out = malloc(bmp->height * sizeof(RGB*));
         for(i = 0; i < bmp->height; ++i)
         {
-            pixels_out[i] = malloc(bmp->width * sizeof(rgb));
+            pixels_out[i] = malloc(bmp->width * sizeof(RGB));
         }
 
         // Set the FIR 1D filter
@@ -616,15 +617,15 @@ e__bool BMP_set_FIR_1D_vertical_filter_with_depth(BMP_image* const bmp, int dept
     {
         int         i, j, k;
         int         y_after, y_before;
-        int_rgb     pixel;
+        Int_RGB     pixel;
         int         value_taken;
-        rgb**       pixels_out = NULL;
+        RGB**       pixels_out = NULL;
 
         // Allocate memory for the pixels out
-        pixels_out = malloc(bmp->height * sizeof(rgb*));
+        pixels_out = malloc(bmp->height * sizeof(RGB*));
         for(i = 0; i < bmp->height; ++i)
         {
-            pixels_out[i] = malloc(bmp->width * sizeof(rgb));
+            pixels_out[i] = malloc(bmp->width * sizeof(RGB));
         }
 
         // Set the FIR 1D filter
@@ -723,17 +724,17 @@ e__bool BMP_set_sobel_filter(BMP_image* const bmp)
             BMP_set_FIR_2D_border_filter_y(border_y);
 
             int         i, j;
-            rgb         pixel;
-            double_rgb  pixel_double;
-            rgb**       pixels_out = NULL;
+            RGB         pixel;
+            Double_RGB  pixel_double;
+            RGB**       pixels_out = NULL;
 
             // Allocate memory for the pixels out
-            pixels_out = malloc(bmp->height * sizeof(rgb*));
+            pixels_out = malloc(bmp->height * sizeof(RGB*));
             if(pixels_out != NULL)
             {
                 for(i = 0; i < bmp->height; ++i)
                 {
-                    pixels_out[i] = malloc(bmp->width * sizeof(rgb));
+                    pixels_out[i] = malloc(bmp->width * sizeof(RGB));
                     if(pixels_out[i] == NULL)
                     {
                         printf("ERROR bad alloc : %d\n", ERR_BAD_ALLOC);
@@ -791,16 +792,16 @@ e__bool BMP_convolution_with_Matrix(BMP_image* const bmp, Matrix* const matrix)
             int         x_mid_matrix = matrix->width / 2;
             int         y_mid_matrix = matrix->height / 2;
             
-            int_rgb     pixel;              // The new pixel
-            rgb         bmp_pixel_browsed;  // The value of the pixel to use, usefull if the index is out the bmp array
+            Int_RGB     pixel;              // The new pixel
+            RGB         bmp_pixel_browsed;  // The value of the pixel to use, usefull if the index is out the bmp array
 
-            rgb**       pixels_out = NULL;  // The new bmp pixels array
+            RGB**       pixels_out = NULL;  // The new bmp pixels array
 
             // Allocate memory for the pixels out
-            pixels_out = malloc(bmp->height * sizeof(rgb*));
+            pixels_out = malloc(bmp->height * sizeof(RGB*));
             for(i = 0; i < bmp->height; ++i)
             {
-                pixels_out[i] = malloc(bmp->width * sizeof(rgb));
+                pixels_out[i] = malloc(bmp->width * sizeof(RGB));
             }
 
             // Browse the whole image
@@ -943,142 +944,4 @@ void free_BMP_image(BMP_image* const bmp)
 {
     free_BMP_pixels(bmp);
     free(bmp);
-}
-
-
-/*** RGB ***/
-
-e__bool rgb_copy_rgb(rgb* const dest, rgb* const src)
-{
-    if(dest != NULL && src != NULL)
-    {
-        dest->r = src->r;
-        dest->g = src->g;
-        dest->b = src->b;
-    }
-    return FALSE;
-}
-
-e__bool int_rgb_copy_rgb(int_rgb* const dest, rgb* const src)
-{
-    if(dest != NULL && src != NULL)
-    {
-        dest->r = src->r;
-        dest->g = src->g;
-        dest->b = src->b;
-    }
-    return FALSE;
-}
-
-e__bool rgb_copy_int_rgb(rgb* const dest, int_rgb* const src)
-{
-    if(dest != NULL && src != NULL)
-    {
-        dest->r = src->r;
-        dest->g = src->g;
-        dest->b = src->b;
-    }
-    return FALSE;
-}
-
-
-e__bool rgb_plus_rgb_in_rgb(rgb* const res, rgb* const a, rgb* const b)
-{
-    if(res != NULL && a != NULL && b != NULL)
-    {
-        res->r = a->r + b->r;
-        res->b = a->r + b->b;
-        res->g = a->r + b->g;
-    }
-    return FALSE;
-}
-
-e__bool rgb_plus_rgb_in_int_rgb(int_rgb* const res, rgb* const a, rgb* const b)
-{
-    if(res != NULL && a != NULL && b != NULL)
-    {
-        res->r = a->r + b->r;
-        res->b = a->r + b->b;
-        res->g = a->r + b->g;
-    }
-    return FALSE;
-}
-
-e__bool int_rgb_plus_int_rgb_in_int_rgb(int_rgb* const res, int_rgb* const a, int_rgb* const b)
-{
-    if(res != NULL && a != NULL && b != NULL)
-    {
-        res->r = a->r + b->r;
-        res->b = a->r + b->b;
-        res->g = a->r + b->g;
-    }
-    return FALSE;
-}
-
-
-e__bool rgb_plus_equals_rgb(rgb* const origin, rgb* const added)
-{
-    if(origin != NULL && added != NULL)
-    {
-        origin->r += added->r;
-        origin->g += added->g;
-        origin->b += added->b;
-    }
-    return FALSE;
-}
-
-e__bool rgb_plus_equals_int_rgb(rgb* const origin, int_rgb* const added)
-{
-    if(origin != NULL && added != NULL)
-    {
-        origin->r += added->r;
-        origin->g += added->g;
-        origin->b += added->b;
-    }
-    return FALSE;
-}
-
-e__bool int_rgb_plus_equals_rgb(int_rgb* const origin, rgb* const added)
-{
-    if(origin != NULL && added != NULL)
-    {
-        origin->r += added->r;
-        origin->g += added->g;
-        origin->b += added->b;
-    }
-    return FALSE;
-}
-
-e__bool int_rgb_plus_equals_int_rgb(int_rgb* const origin, int_rgb* const added)
-{
-    if(origin != NULL && added != NULL)
-    {
-        origin->r += added->r;
-        origin->g += added->g;
-        origin->b += added->b;
-    }
-    return FALSE;
-}
-
-
-e__bool rgb_divide_by_int(rgb* const pixel, int divisor)
-{
-    if(pixel != NULL && divisor != 0)
-    {
-        pixel->r /= divisor;
-        pixel->g /= divisor;
-        pixel->b /= divisor;
-    }
-    return FALSE;
-}
-
-e__bool int_rgb_divide_by_int(int_rgb* const pixel, int divisor)
-{
-    if(pixel != NULL && divisor != 0)
-    {
-        pixel->r /= divisor;
-        pixel->g /= divisor;
-        pixel->b /= divisor;
-    }
-    return FALSE;
 }
