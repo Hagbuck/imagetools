@@ -717,7 +717,6 @@ PGM_P2_histogram* PGM_P2_get_histogram(PGM_P2_image *img)
             ++(histogram->intensity_value[pixel_value]);
         }
     }
-
     return histogram;
 }
 
@@ -775,7 +774,7 @@ e__bool PGM_P2_save_image_into_file(PGM_P2_image* pgm, FILE* file)
  * @param      histogram  The histogram
  * @param      file       The file
  *
- * @return     { description_of_the_return_value }
+ * @return     TRUE if success, FALSE otherwise
  */
 e__bool PGM_P2_save_histogram_as_PGM_P2_file(PGM_P2_histogram* histogram, FILE* file)
 {
@@ -794,7 +793,7 @@ e__bool PGM_P2_save_histogram_as_PGM_P2_file(PGM_P2_histogram* histogram, FILE* 
  */
 PGM_P2_image* PGM_P2_get_copy(PGM_P2_image* img)
 {
-    PGM_P2_image* copy = malloc(sizeof(PGM_P2_image*));
+    PGM_P2_image* copy = malloc(sizeof(PGM_P2_image));
     int i,j;
 
     copy->height = img->height;
@@ -827,7 +826,7 @@ PGM_P2_image* PGM_P2_get_PGM_P2_image_from_PGM_P2_histogram(PGM_P2_histogram* hi
     {
         if(histogram->intensity_value != NULL && histogram->size > 0)
         {
-            PGM_P2_image* pgm = malloc(sizeof(PGM_P2_image*));
+            PGM_P2_image* pgm = malloc(sizeof(PGM_P2_image));
             int i, j;
             int max = histogram->intensity_value[0];
 

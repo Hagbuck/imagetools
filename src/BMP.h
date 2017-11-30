@@ -22,8 +22,8 @@
 
 #define BMP_V_MAX   255
 
-typedef struct BMP_image BMP_image;
-struct BMP_image
+typedef struct BMP_header BMP_header;
+struct BMP_header
 {
     /*** HEADER FILE ***/
     unsigned char   bfType[2];
@@ -44,6 +44,12 @@ struct BMP_image
     unsigned char   biYpelsPerMeter[4];
     unsigned char   biClrUsed[4];
     unsigned char   biClrImportant[4];
+};
+
+typedef struct BMP_image BMP_image;
+struct BMP_image
+{
+    BMP_header      header;
 
     /** BITMAP PIXELS **/
     int             width;
@@ -60,7 +66,8 @@ enum e__color{ALL, RED, GREEN, BLUE};
 typedef struct BMP_histogram BMP_histogram;
 struct BMP_histogram
 {
-    e__color        color;
+    BMP_header      header;
+    e__color        component;
     int*            intensity_values;
     int             size;
 };
@@ -73,6 +80,8 @@ e__bool         BMP_fill_pixels(BMP_image* const bmp, FILE* const file);
 e__bool         BMP_save_image_into_file(BMP_image* const bmp, FILE* const file);
 
 e__bool         BMP_copy_header(BMP_image* const src, BMP_image* const dest);
+e__bool         BMP_copy_header_into_histogram(BMP_image* const src, BMP_histogram* const dest);
+e__bool         BMP_histogram_copy_header_into_BMP_image(BMP_histogram* const src, BMP_image* const dest);
 BMP_image*      BMP_get_copy(BMP_image* const bmp);
 
 // Basic filtering
@@ -88,6 +97,11 @@ e__bool         BMP_set_FIR_2D_border_filter_x(BMP_image* const bmp);
 e__bool         BMP_set_FIR_2D_border_filter_y(BMP_image* const bmp);
 e__bool         BMP_set_sobel_filter(BMP_image* const bmp);
 e__bool         BMP_convolution_with_Matrix(BMP_image* const bmp, Matrix* const matrix);
+
+// Histogram
+BMP_histogram*  BMP_get_histogram(BMP_image* const bmp, e__color component);
+BMP_image*      BMP_get_BMP_image_from_BMP_histogram(BMP_histogram* const histogram);
+e__bool         BMP_save_histogram_as_BMP_file(BMP_histogram* const histogram, FILE* file);
 
 // Free and display
 void            BMP_show_header(const BMP_image* const bmp);

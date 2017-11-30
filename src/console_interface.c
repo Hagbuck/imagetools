@@ -145,7 +145,8 @@ void bmp_menu(void)
         puts("\t| q. Quit BMP ......................... |");
         puts("\t+---------------------------------------+");
         puts("\t| i. Informations BMP ................. |");
-        puts("\t| j. Show BMP header .................. |");
+        puts("\t| j. Show bmp Histogram ............... |");
+        puts("\t| k. Save bmp Histogram ............... |");
         puts("\t+---------------------------------------+");
         puts("\t| g. Gray filter ...................... |");
         puts("\t| r. Reversed filter .................. |");
@@ -243,6 +244,8 @@ void bmp_menu(void)
                 {
                     printf("\t> FILE NAME           : %s\n", file_path);
                     printf("\t> Size (width:height) : (%d : %d)\n", bmp->width, bmp->height);
+
+                    BMP_show_header(bmp);
                 }
                 else
                 {
@@ -254,11 +257,63 @@ void bmp_menu(void)
             case 'J':
                 if(bmp != NULL)
                 {
-                    BMP_show_header(bmp);
+                    BMP_histogram* hist = NULL;
+                    puts("\t> Loading histogram ...");
+                    hist = BMP_get_histogram(bmp, ALL);
+
+                    if(hist != NULL)
+                    {
+                        puts("\t> Loading histogram successful");
+                        // display_BMP_histogram(hist);
+                    }
+                    else
+                    {
+                        puts("\t> ERROR Getting histogram !");
+                    }
                 }
                 else
                 {
-                    puts("\t> ERROR any BMP_image is load !");
+                    puts("\t> ERROR any bmp_image is load !");
+                }
+            break;
+
+            case 'k':
+            case 'K':
+                if(bmp != NULL)
+                {
+                    BMP_histogram* hist = NULL;
+                    puts("\t> Loading histogram ...");
+                    hist = BMP_get_histogram(bmp, ALL);
+
+                    if(hist != NULL)
+                    {
+                        puts("\t> Loading histogram successful");
+
+                        printf("\tSAVE HISTOGRAM FILE PATH : ");
+                        scanf("%[^\n]%*c", save_path);
+                        printf("\t> Openning %s...\n", save_path);
+                        out = get_file(save_path, "wb");
+                        if(out == NULL)
+                        {
+                            printf("\t> Openning [%s] failed !", save_path);
+                            strcpy(save_path, "");
+                        }
+                        else
+                        {
+                            printf("\t> Openning [%s] succesfull !\n", save_path);
+                            BMP_save_histogram_as_BMP_file(hist, out);
+                            fclose(out);
+                            printf("\t> [%s] saved into [%s] successfull !\n", file_path, save_path);
+                        }
+                    }
+                    else
+                    {
+                        puts("\t> ERROR Getting histogram !");
+                    }
+                }
+                else
+                {
+                    puts("\t> ERROR any bmp_image is load !");
                 }
             break;
 
@@ -323,7 +378,7 @@ void bmp_menu(void)
                     puts("\t| [MAIN] > [BMP] > [FIR] .............. |");
                     printf("\t| FILE : [%s] ", file_path); for(i = 0; i < nb_dot; ++i){printf(".");} puts(" |");
                     puts("\t+---------------------------------------+");
-                    puts("\t| q. Quit PGM ......................... |");
+                    puts("\t| q. Quit bmp ......................... |");
                     puts("\t+---------------------------------------+");
                     puts("\t| h. FIR 1D Horinzontal ............... |");
                     puts("\t| v. FIR 1D Vertical .................. |");
@@ -460,7 +515,7 @@ void pgm_p2_menu(void)
                 {
                     printf("\t> Openning [%s] succesfull !\n", file_path);
 
-                    if(pgm != NULL) // BMP is already loaded
+                    if(pgm != NULL) // pgm is already loaded
                     {
                         free_PGM_P2_image(pgm);
                     }
@@ -597,7 +652,7 @@ void pgm_p2_menu(void)
                 }
                 else
                 {
-                    puts("\t> ERROR any PGM_image is load !");
+                    puts("\t> ERROR any pgm_image is load !");
                 }
             break;
 
@@ -649,7 +704,7 @@ void pgm_p2_menu(void)
                     puts("\t| [MAIN] > [PGM] > [FIR] .............. |");
                     printf("\t| FILE : [%s] ", file_path); for(i = 0; i < nb_dot; ++i){printf(".");} puts(" |");
                     puts("\t+---------------------------------------+");
-                    puts("\t| q. Quit PGM ......................... |");
+                    puts("\t| q. Quit FIR ......................... |");
                     puts("\t+---------------------------------------+");
                     puts("\t| h. FIR 1D Horinzontal ............... |");
                     puts("\t| v. FIR 1D Vertical .................. |");

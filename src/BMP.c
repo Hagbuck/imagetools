@@ -31,10 +31,10 @@ BMP_image* BMP_get_image_from_file(FILE* file)
                 for(i = 0; i < 4; ++i)
                 {
                     bmp->width = bmp->width << 8;
-                    bmp->width += bmp->biWidth[i];
+                    bmp->width += bmp->header.biWidth[i];
                     
                     bmp->height = bmp->height << 8;
-                    bmp->height += bmp->biHeight[i];  
+                    bmp->height += bmp->header.biHeight[i];  
                 }
 
                 // Allocate the space for the pixels
@@ -94,55 +94,55 @@ e__bool BMP_fill_header(BMP_image* const bmp, FILE* const file)
     {
         int i;
         fseek(file, 0, SEEK_SET);           // Go the beginning of the file
-        fread(&bmp->bfType[0], 1, 1, file);
-        fread(&bmp->bfType[1], 1, 1, file);
-        if(bmp->bfType[0] == 'B' && bmp->bfType[1] == 'M')
+        fread(&bmp->header.bfType[0], 1, 1, file);
+        fread(&bmp->header.bfType[1], 1, 1, file);
+        if(bmp->header.bfType[0] == 'B' && bmp->header.bfType[1] == 'M')
         {
             for(i = 3; i >= 0; --i)  // READ THE FOUR HEXA CODE FOR THE SIZE
-                fread(&bmp->bfSize[i], 1, 1, file);
+                fread(&bmp->header.bfSize[i], 1, 1, file);
 
             for(i = 1; i >= 0; --i)
-                fread(&bmp->bfReserved1[i], 1, 1, file);
+                fread(&bmp->header.bfReserved1[i], 1, 1, file);
 
             for(i = 1; i >= 0; --i)
-                fread(&bmp->bfReserved2[i], 1, 1, file);
+                fread(&bmp->header.bfReserved2[i], 1, 1, file);
 
             for(i = 3; i >= 0; --i)
-                fread(&bmp->bfOffBits[i], 1, 1, file);
+                fread(&bmp->header.bfOffBits[i], 1, 1, file);
 
             /*** HEADER BITMAP ***/
             for(i = 3; i >= 0; --i)
-                fread(&bmp->biSize[i], 1, 1, file);
+                fread(&bmp->header.biSize[i], 1, 1, file);
 
             for(i = 3; i >= 0; --i)
-                fread(&bmp->biWidth[i], 1, 1, file);
+                fread(&bmp->header.biWidth[i], 1, 1, file);
 
             for(i = 3; i >= 0; --i)
-                fread(&bmp->biHeight[i], 1, 1, file);
+                fread(&bmp->header.biHeight[i], 1, 1, file);
 
             for(i = 1; i >= 0; --i)
-                fread(&bmp->biPlane[i], 1, 1, file);
+                fread(&bmp->header.biPlane[i], 1, 1, file);
 
             for(i = 1; i >= 0; --i)
-                fread(&bmp->biBitCount[i], 1, 1, file);
+                fread(&bmp->header.biBitCount[i], 1, 1, file);
 
              for(i = 3; i >= 0; --i)
-                fread(&bmp->biCompression[i], 1, 1, file);
+                fread(&bmp->header.biCompression[i], 1, 1, file);
 
             for(i = 3; i >= 0; --i)
-                fread(&bmp->biSizeImage[i], 1, 1, file);
+                fread(&bmp->header.biSizeImage[i], 1, 1, file);
 
             for(i = 3; i >= 0; --i)
-                fread(&bmp->biXpelsPerMeter[i], 1, 1, file);
+                fread(&bmp->header.biXpelsPerMeter[i], 1, 1, file);
 
             for(i = 3; i >= 0; --i)
-                fread(&bmp->biYpelsPerMeter[i], 1, 1, file);
+                fread(&bmp->header.biYpelsPerMeter[i], 1, 1, file);
 
             for(i = 3; i >= 0; --i)
-                fread(&bmp->biClrUsed[i], 1, 1, file);
+                fread(&bmp->header.biClrUsed[i], 1, 1, file);
 
             for(i = 3; i >= 0; --i)
-                fread(&bmp->biClrImportant[i], 1, 1, file);
+                fread(&bmp->header.biClrImportant[i], 1, 1, file);
 
             return TRUE;
         }
@@ -167,56 +167,56 @@ e__bool BMP_header_to_str(BMP_image* const bmp, unsigned char* str)
 {
     if(bmp != NULL && str != NULL)
     {
-        str[0] = bmp->bfType[0];
-        str[1] = bmp->bfType[1];
+        str[0] = bmp->header.bfType[0];
+        str[1] = bmp->header.bfType[1];
 
         int i, j = 2;
 
         for(i = 3; i >= 0; --i, ++j)
-            str[j] = bmp->bfSize[i];
+            str[j] = bmp->header.bfSize[i];
 
         for(i = 1; i >= 0; --i, ++j)
-            str[j] = bmp->bfReserved1[i];
+            str[j] = bmp->header.bfReserved1[i];
 
         for(i = 1; i >= 0; --i, ++j)
-            str[j] = bmp->bfReserved2[i];
+            str[j] = bmp->header.bfReserved2[i];
 
         for(i = 3; i >= 0; --i, ++j)
-            str[j] = bmp->bfOffBits[i];
+            str[j] = bmp->header.bfOffBits[i];
 
         /*** str BITMAP ***/
         for(i = 3; i >= 0; --i, ++j)
-            str[j] = bmp->biSize[i];
+            str[j] = bmp->header.biSize[i];
 
         for(i = 3; i >= 0; --i, ++j)
-            str[j] = bmp->biWidth[i];
+            str[j] = bmp->header.biWidth[i];
 
         for(i = 3; i >= 0; --i, ++j)
-            str[j] = bmp->biHeight[i];
+            str[j] = bmp->header.biHeight[i];
 
         for(i = 1; i >= 0; --i, ++j)
-            str[j] = bmp->biPlane[i];
+            str[j] = bmp->header.biPlane[i];
 
         for(i = 1; i >= 0; --i, ++j)
-            str[j] = bmp->biBitCount[i];
+            str[j] = bmp->header.biBitCount[i];
 
          for(i = 3; i >= 0; --i, ++j)
-            str[j] = bmp->biCompression[i];
+            str[j] = bmp->header.biCompression[i];
 
         for(i = 3; i >= 0; --i, ++j)
-            str[j] = bmp->biSizeImage[i];
+            str[j] = bmp->header.biSizeImage[i];
 
         for(i = 3; i >= 0; --i, ++j)
-            str[j] = bmp->biXpelsPerMeter[i];
+            str[j] = bmp->header.biXpelsPerMeter[i];
 
         for(i = 3; i >= 0; --i, ++j)
-            str[j] = bmp->biYpelsPerMeter[i];
+            str[j] = bmp->header.biYpelsPerMeter[i];
 
         for(i = 3; i >= 0; --i, ++j)
-            str[j] = bmp->biClrUsed[i];
+            str[j] = bmp->header.biClrUsed[i];
 
         for(i = 3; i >= 0; --i, ++j)
-            str[j] = bmp->biClrImportant[i];
+            str[j] = bmp->header.biClrImportant[i];
 
         return TRUE;
     }
@@ -331,53 +331,175 @@ e__bool BMP_copy_header(BMP_image* const src, BMP_image* const dest)
 
         /*** HEADER FILE ***/
         for(i = 0; i < 2; ++i)
-            dest->bfType[i] = src->bfType[i];
+            dest->header.bfType[i] = src->header.bfType[i];
 
         for(i = 0; i < 4; ++i)
-            dest->bfSize[i] = src->bfSize[i];
+            dest->header.bfSize[i] = src->header.bfSize[i];
 
         for(i = 0; i < 2; ++i)
-            dest->bfReserved1[i] = src->bfReserved1[i];
+            dest->header.bfReserved1[i] = src->header.bfReserved1[i];
 
         for(i = 0; i < 2; ++i)
-            dest->bfReserved2[i] = src->bfReserved2[i];
+            dest->header.bfReserved2[i] = src->header.bfReserved2[i];
 
         for(i = 0; i < 4; ++i)
-            dest->bfOffBits[i] = src->bfOffBits[i];
+            dest->header.bfOffBits[i] = src->header.bfOffBits[i];
 
         /*** HEADER BITMAP ***/
         for(i = 0; i < 4; ++i)
-            dest->biSize[i] = src->biSize[i];
+            dest->header.biSize[i] = src->header.biSize[i];
 
         for(i = 0; i < 4; ++i)
-            dest->biWidth[i] = src->biWidth[i];
+            dest->header.biWidth[i] = src->header.biWidth[i];
 
         for(i = 0; i < 4; ++i)
-            dest->biHeight[i] = src->biHeight[i];
+            dest->header.biHeight[i] = src->header.biHeight[i];
 
         for(i = 0; i < 2; ++i)
-            dest->biPlane[i] = src->biPlane[i];
+            dest->header.biPlane[i] = src->header.biPlane[i];
 
         for(i = 0; i < 2; ++i)
-            dest->biBitCount[i] = src->biBitCount[i];
+            dest->header.biBitCount[i] = src->header.biBitCount[i];
 
         for(i = 0; i < 4; ++i)
-            dest->biCompression[i] = src->biCompression[i];
+            dest->header.biCompression[i] = src->header.biCompression[i];
 
         for(i = 0; i < 4; ++i)
-            dest->biSizeImage[i] = src->biSizeImage[i];
+            dest->header.biSizeImage[i] = src->header.biSizeImage[i];
 
         for(i = 0; i < 4; ++i)
-            dest->biXpelsPerMeter[i] = src->biXpelsPerMeter[i];
+            dest->header.biXpelsPerMeter[i] = src->header.biXpelsPerMeter[i];
 
         for(i = 0; i < 4; ++i)
-            dest->biYpelsPerMeter[i] = src->biYpelsPerMeter[i];
+            dest->header.biYpelsPerMeter[i] = src->header.biYpelsPerMeter[i];
 
         for(i = 0; i < 4; ++i)
-            dest->biClrUsed[i] = src->biClrUsed[i];
+            dest->header.biClrUsed[i] = src->header.biClrUsed[i];
 
         for(i = 0; i < 4; ++i)
-            dest->biClrImportant[i] = src->biClrImportant[i];
+            dest->header.biClrImportant[i] = src->header.biClrImportant[i];
+
+        return TRUE;
+    }
+    return FALSE;
+}
+
+e__bool BMP_copy_header_into_histogram(BMP_image* const src, BMP_histogram* const dest)
+{
+    if(src != NULL && dest != NULL)
+    {
+        int i;
+
+        /*** HEADER FILE ***/
+        for(i = 0; i < 2; ++i)
+            dest->header.bfType[i] = src->header.bfType[i];
+
+        for(i = 0; i < 4; ++i)
+            dest->header.bfSize[i] = src->header.bfSize[i];
+
+        for(i = 0; i < 2; ++i)
+            dest->header.bfReserved1[i] = src->header.bfReserved1[i];
+
+        for(i = 0; i < 2; ++i)
+            dest->header.bfReserved2[i] = src->header.bfReserved2[i];
+
+        for(i = 0; i < 4; ++i)
+            dest->header.bfOffBits[i] = src->header.bfOffBits[i];
+
+        /*** HEADER BITMAP ***/
+        for(i = 0; i < 4; ++i)
+            dest->header.biSize[i] = src->header.biSize[i];
+
+        for(i = 0; i < 4; ++i)
+            dest->header.biWidth[i] = src->header.biWidth[i];
+
+        for(i = 0; i < 4; ++i)
+            dest->header.biHeight[i] = src->header.biHeight[i];
+
+        for(i = 0; i < 2; ++i)
+            dest->header.biPlane[i] = src->header.biPlane[i];
+
+        for(i = 0; i < 2; ++i)
+            dest->header.biBitCount[i] = src->header.biBitCount[i];
+
+        for(i = 0; i < 4; ++i)
+            dest->header.biCompression[i] = src->header.biCompression[i];
+
+        for(i = 0; i < 4; ++i)
+            dest->header.biSizeImage[i] = src->header.biSizeImage[i];
+
+        for(i = 0; i < 4; ++i)
+            dest->header.biXpelsPerMeter[i] = src->header.biXpelsPerMeter[i];
+
+        for(i = 0; i < 4; ++i)
+            dest->header.biYpelsPerMeter[i] = src->header.biYpelsPerMeter[i];
+
+        for(i = 0; i < 4; ++i)
+            dest->header.biClrUsed[i] = src->header.biClrUsed[i];
+
+        for(i = 0; i < 4; ++i)
+            dest->header.biClrImportant[i] = src->header.biClrImportant[i];
+
+        return TRUE;
+    }
+    return FALSE;
+}
+
+e__bool BMP_histogram_copy_header_into_BMP_image(BMP_histogram* const src, BMP_image* const dest)
+{
+    if(src != NULL && dest != NULL)
+    {
+        int i;
+
+        /*** HEADER FILE ***/
+        for(i = 0; i < 2; ++i)
+            dest->header.bfType[i] = src->header.bfType[i];
+
+        for(i = 0; i < 4; ++i)
+            dest->header.bfSize[i] = src->header.bfSize[i];
+
+        for(i = 0; i < 2; ++i)
+            dest->header.bfReserved1[i] = src->header.bfReserved1[i];
+
+        for(i = 0; i < 2; ++i)
+            dest->header.bfReserved2[i] = src->header.bfReserved2[i];
+
+        for(i = 0; i < 4; ++i)
+            dest->header.bfOffBits[i] = src->header.bfOffBits[i];
+
+        /*** HEADER BITMAP ***/
+        for(i = 0; i < 4; ++i)
+            dest->header.biSize[i] = src->header.biSize[i];
+
+        for(i = 0; i < 4; ++i)
+            dest->header.biWidth[i] = src->header.biWidth[i];
+
+        for(i = 0; i < 4; ++i)
+            dest->header.biHeight[i] = src->header.biHeight[i];
+
+        for(i = 0; i < 2; ++i)
+            dest->header.biPlane[i] = src->header.biPlane[i];
+
+        for(i = 0; i < 2; ++i)
+            dest->header.biBitCount[i] = src->header.biBitCount[i];
+
+        for(i = 0; i < 4; ++i)
+            dest->header.biCompression[i] = src->header.biCompression[i];
+
+        for(i = 0; i < 4; ++i)
+            dest->header.biSizeImage[i] = src->header.biSizeImage[i];
+
+        for(i = 0; i < 4; ++i)
+            dest->header.biXpelsPerMeter[i] = src->header.biXpelsPerMeter[i];
+
+        for(i = 0; i < 4; ++i)
+            dest->header.biYpelsPerMeter[i] = src->header.biYpelsPerMeter[i];
+
+        for(i = 0; i < 4; ++i)
+            dest->header.biClrUsed[i] = src->header.biClrUsed[i];
+
+        for(i = 0; i < 4; ++i)
+            dest->header.biClrImportant[i] = src->header.biClrImportant[i];
 
         return TRUE;
     }
@@ -890,6 +1012,167 @@ e__bool BMP_convolution_with_Matrix(BMP_image* const bmp, Matrix* const matrix)
     return FALSE;
 }
 
+/**
+ * @brief      Get the histogram of a BMP_image
+ *
+ * @param      bmp          The BMP_image
+ * @param      component    Which component catch (red, green, blue, luminosity)
+ *
+ * @return     The histogram of bmp
+ */
+BMP_histogram* BMP_get_histogram(BMP_image* const bmp, e__color component)
+{
+    BMP_histogram* histogram = malloc(sizeof(BMP_histogram));
+    BMP_copy_header_into_histogram(bmp, histogram);
+    int i, j;
+    int pixel_value;
+
+    histogram->component = component;
+    histogram->size = BMP_V_MAX + 1;       // We need 0 to v_max included [0;v_max]
+    histogram->intensity_values = malloc(histogram->size * sizeof(int)); // Allocate as many array space as the number of potentials pixels values in bmp 
+
+    for(i = 0; i < histogram->size; ++i)    // Set all intensity value to 0
+    {
+        histogram->intensity_values[i] = 0;
+    }
+
+    for(i = 0; i < bmp->height; ++i)    // Foreach pixel
+    {
+        for(j = 0; j < bmp->width; ++j)
+        {
+            /**
+             * Each case of the array is a intensity
+             * So for each pixel
+             * Increment the intensity which match with this pixel intensity
+             */
+            if(component == RED)
+                pixel_value = bmp->pixels[i][j].r;
+            else if(component == GREEN)
+                pixel_value = bmp->pixels[i][j].g;
+            else if(component == BLUE)
+                pixel_value = bmp->pixels[i][j].b;
+            else
+                pixel_value = (bmp->pixels[i][j].r + bmp->pixels[i][j].g + bmp->pixels[i][j].b)/3;
+
+            ++(histogram->intensity_values[pixel_value]);
+        }
+    }
+    return histogram;
+}
+/**
+ * @brief      Transform a BMP_histogram into a BMP_image
+ *
+ * @param      histogram  The histogram
+ *
+ * @return     The BMP_image which represent the Histogram
+ */
+BMP_image* BMP_get_BMP_image_from_BMP_histogram(BMP_histogram* const histogram)
+{
+    if(histogram != NULL)
+    {
+        if(histogram->intensity_values != NULL && histogram->size > 0)
+        {
+            BMP_image* bmp = malloc(sizeof(BMP_image));
+            BMP_histogram_copy_header_into_BMP_image(histogram, bmp);
+            int i, j;
+            int max = histogram->intensity_values[0];
+
+            RGB color;
+            // Default and / or if component is ALL, draw in black
+            color.r = 0;
+            color.g = 0;
+            color.b = 0;
+
+            if(histogram->component == RED)
+                color.r = 255;
+            else if(histogram->component == RED)
+                color.g = 255;
+            else if(histogram->component == RED)
+                color.b = 255;
+
+            bmp->width = histogram->size;           // A col of the histogram will be a a col into the picture
+
+            for(i = 1; i < histogram->size; ++i)                // Search the higher intensity
+            {
+                int intensity = histogram->intensity_values[i];
+                if(histogram->intensity_values[i] > max)
+                    max = intensity;
+            }
+
+            bmp->height = max;                      // The line number is the same as the max value into the histogram
+            
+            // printf("HIST SIZE %d %d\n", bmp->width, bmp->height);
+            int mask = 0x000000FF;
+            int temp_value = 0;
+            // Reading of width and height and convert into integer
+            for(i = 3; i >= 0; --i)
+            {
+                temp_value = mask & bmp->width;
+                // printf("> %x & %x = %x\n", mask, bmp->width, temp_value);
+                temp_value = temp_value >> (8 * (3-i));
+                bmp->header.biWidth[i] = temp_value;
+
+                temp_value = mask & bmp->height;
+                temp_value = temp_value >> (8 * (3-i));
+                bmp->header.biHeight[i] = temp_value;
+
+                mask = mask << 8;
+            }
+            // printf("> %d %d\n", histogram->intensity_values[0], histogram->intensity_values[histogram->size - 1]);
+
+            // Allocate the memory for a 2D array which will contain the pixels
+            bmp->pixels = malloc(bmp->height * sizeof(int*));
+            for(i = 0; i < bmp->height; ++i)
+            {
+                bmp->pixels[i] = malloc(bmp->width * sizeof(int));
+            }
+
+
+            for(i = 0; i < bmp->height; ++i)        // Foreach pixel
+            {
+                for(j = 0; j < bmp->width; ++j)
+                {
+                    // For the j col
+                    // If the line number (the real line number) is under the intensity value
+                    // So the pixel should be empty (white)
+                    // Otherwithe, it should be black
+                    if((bmp->height - i) > histogram->intensity_values[j]) // If the pixel should be white
+                    {
+                        bmp->pixels[i][j].r = 255;
+                        bmp->pixels[i][j].g = 255;
+                        bmp->pixels[i][j].b = 255;
+                    }
+                    else                            // If the pixel pixel should be colored
+                    {
+                        bmp->pixels[i][j].r = color.r;
+                        bmp->pixels[i][j].g = color.g;
+                        bmp->pixels[i][j].b = color.b;
+                    }
+                }
+            }
+            return bmp;
+        }
+    }
+    return NULL;
+}
+
+/**
+ * @brief      Transform a PGM_P2_histogram into a PGM_P2_image
+ *             And save it into a file
+ *
+ * @param      histogram  The histogram
+ * @param      file       The file
+ *
+ * @return     TRUE if success, FALSE otherwise
+ */
+e__bool BMP_save_histogram_as_BMP_file(BMP_histogram* const histogram, FILE* file)
+{
+    BMP_image* bmp_histogram = BMP_get_BMP_image_from_BMP_histogram(histogram);
+    e__bool res = BMP_save_image_into_file(bmp_histogram, file);
+    free_BMP_image(bmp_histogram);
+    return res;
+}
+
 
 /**
  * @brief      Display BMP_image's header
@@ -901,24 +1184,24 @@ void BMP_show_header(const BMP_image* const bmp)
     printf("-------------------------------------\n");
     printf(" HEADER FILE\n");
     printf("-------------------------------------\n");
-    printf("> TYPE                  : %c%c\n", bmp->bfType[0], bmp->bfType[1]);
-    printf("> SIZE FILE             : %.2x %.2x %.2x %.2x\n", bmp->bfSize[0], bmp->bfSize[1], bmp->bfSize[2], bmp->bfSize[3]);
-    printf("> Reserved 1            : %.2x %.2x \n", bmp->bfReserved1[0], bmp->bfReserved1[1]);
-    printf("> Reserved 2            : %.2x %.2x \n", bmp->bfReserved2[0], bmp->bfReserved2[1]);
-    printf("> OFFSET                : %.2x %.2x %.2x %.2x\n", bmp->bfOffBits[0], bmp->bfOffBits[1], bmp->bfOffBits[2], bmp->bfOffBits[3]);
+    printf("> TYPE                  : %c%c\n", bmp->header.bfType[0], bmp->header.bfType[1]);
+    printf("> SIZE FILE             : %.2x %.2x %.2x %.2x\n", bmp->header.bfSize[0], bmp->header.bfSize[1], bmp->header.bfSize[2], bmp->header.bfSize[3]);
+    printf("> Reserved 1            : %.2x %.2x \n", bmp->header.bfReserved1[0], bmp->header.bfReserved1[1]);
+    printf("> Reserved 2            : %.2x %.2x \n", bmp->header.bfReserved2[0], bmp->header.bfReserved2[1]);
+    printf("> OFFSET                : %.2x %.2x %.2x %.2x\n", bmp->header.bfOffBits[0], bmp->header.bfOffBits[1], bmp->header.bfOffBits[2], bmp->header.bfOffBits[3]);
     printf("-------------------------------------\n");
     printf(" HEADER BITMAP\n");
-    printf("> BITMAP SIZE           : %.2x %.2x %.2x %.2x\n", bmp->biSize[0], bmp->biSize[1], bmp->biSize[2], bmp->biSize[3]);
-    printf("> BITMAP WIDTH          : %.2x %.2x %.2x %.2x\n", bmp->biWidth[0], bmp->biWidth[1], bmp->biWidth[2], bmp->biWidth[3]);
-    printf("> BITMAP HEIGHT         : %.2x %.2x %.2x %.2x\n", bmp->biHeight[0], bmp->biHeight[1], bmp->biHeight[2], bmp->biHeight[3]);
-    printf("> BITMAP PLANE          : %.2x %.2x\n", bmp->biPlane[0], bmp->biPlane[1]);
-    printf("> BITMAP BitCount       : %.2x %.2x\n", bmp->biBitCount[0], bmp->biBitCount[1]);
-    printf("> BITMAP Compression    : %.2x %.2x %.2x %.2x\n", bmp->biCompression[0], bmp->biCompression[1], bmp->biCompression[2], bmp->biCompression[3]);
-    printf("> BITMAP SIZE bmp       : %.2x %.2x %.2x %.2x\n", bmp->biSizeImage[0], bmp->biSizeImage[1], bmp->biSizeImage[2], bmp->biSizeImage[3]);
-    printf("> BITMAP Xpels          : %.2x %.2x %.2x %.2x\n", bmp->biXpelsPerMeter[0], bmp->biXpelsPerMeter[1], bmp->biXpelsPerMeter[2], bmp->biXpelsPerMeter[3]);
-    printf("> BITMAP Ypels          : %.2x %.2x %.2x %.2x\n", bmp->biYpelsPerMeter[0], bmp->biYpelsPerMeter[1], bmp->biYpelsPerMeter[2], bmp->biYpelsPerMeter[3]);
-    printf("> BITMAP ClrUsed        : %.2x %.2x %.2x %.2x\n", bmp->biClrUsed[0], bmp->biClrUsed[1], bmp->biClrUsed[2], bmp->biClrUsed[3]);
-    printf("> BITMAP ClrImportant   : %.2x %.2x %.2x %.2x\n", bmp->biClrImportant[0], bmp->biClrImportant[1], bmp->biClrImportant[2], bmp->biClrImportant[3]);
+    printf("> BITMAP SIZE           : %.2x %.2x %.2x %.2x\n", bmp->header.biSize[0], bmp->header.biSize[1], bmp->header.biSize[2], bmp->header.biSize[3]);
+    printf("> BITMAP WIDTH          : %.2x %.2x %.2x %.2x\n", bmp->header.biWidth[0], bmp->header.biWidth[1], bmp->header.biWidth[2], bmp->header.biWidth[3]);
+    printf("> BITMAP HEIGHT         : %.2x %.2x %.2x %.2x\n", bmp->header.biHeight[0], bmp->header.biHeight[1], bmp->header.biHeight[2], bmp->header.biHeight[3]);
+    printf("> BITMAP PLANE          : %.2x %.2x\n", bmp->header.biPlane[0], bmp->header.biPlane[1]);
+    printf("> BITMAP BitCount       : %.2x %.2x\n", bmp->header.biBitCount[0], bmp->header.biBitCount[1]);
+    printf("> BITMAP Compression    : %.2x %.2x %.2x %.2x\n", bmp->header.biCompression[0], bmp->header.biCompression[1], bmp->header.biCompression[2], bmp->header.biCompression[3]);
+    printf("> BITMAP SIZE bmp       : %.2x %.2x %.2x %.2x\n", bmp->header.biSizeImage[0], bmp->header.biSizeImage[1], bmp->header.biSizeImage[2], bmp->header.biSizeImage[3]);
+    printf("> BITMAP Xpels          : %.2x %.2x %.2x %.2x\n", bmp->header.biXpelsPerMeter[0], bmp->header.biXpelsPerMeter[1], bmp->header.biXpelsPerMeter[2], bmp->header.biXpelsPerMeter[3]);
+    printf("> BITMAP Ypels          : %.2x %.2x %.2x %.2x\n", bmp->header.biYpelsPerMeter[0], bmp->header.biYpelsPerMeter[1], bmp->header.biYpelsPerMeter[2], bmp->header.biYpelsPerMeter[3]);
+    printf("> BITMAP ClrUsed        : %.2x %.2x %.2x %.2x\n", bmp->header.biClrUsed[0], bmp->header.biClrUsed[1], bmp->header.biClrUsed[2], bmp->header.biClrUsed[3]);
+    printf("> BITMAP ClrImportant   : %.2x %.2x %.2x %.2x\n", bmp->header.biClrImportant[0], bmp->header.biClrImportant[1], bmp->header.biClrImportant[2], bmp->header.biClrImportant[3]);
     printf("-------------------------------------\n");
 }
 
