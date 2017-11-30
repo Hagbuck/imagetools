@@ -1085,9 +1085,9 @@ BMP_image* BMP_get_BMP_image_from_BMP_histogram(BMP_histogram* const histogram)
 
             if(histogram->component == RED)
                 color.r = 255;
-            else if(histogram->component == RED)
+            else if(histogram->component == GREEN)
                 color.g = 255;
-            else if(histogram->component == RED)
+            else if(histogram->component == BLUE)
                 color.b = 255;
 
             bmp->width = histogram->size;           // A col of the histogram will be a a col into the picture
@@ -1101,10 +1101,9 @@ BMP_image* BMP_get_BMP_image_from_BMP_histogram(BMP_histogram* const histogram)
 
             bmp->height = max;                      // The line number is the same as the max value into the histogram
             
-            // printf("HIST SIZE %d %d\n", bmp->width, bmp->height);
             int mask = 0x000000FF;
             int temp_value = 0;
-            // Reading of width and height and convert into integer
+            // Reading of width and height and convert into the header arrays
             for(i = 3; i >= 0; --i)
             {
                 temp_value = mask & bmp->width;
@@ -1128,7 +1127,7 @@ BMP_image* BMP_get_BMP_image_from_BMP_histogram(BMP_histogram* const histogram)
             }
 
 
-            for(i = 0; i < bmp->height; ++i)        // Foreach pixel
+            for(i = bmp->height - 1; i >= 0; --i)        // Foreach pixel
             {
                 for(j = 0; j < bmp->width; ++j)
                 {
@@ -1136,7 +1135,7 @@ BMP_image* BMP_get_BMP_image_from_BMP_histogram(BMP_histogram* const histogram)
                     // If the line number (the real line number) is under the intensity value
                     // So the pixel should be empty (white)
                     // Otherwithe, it should be black
-                    if((bmp->height - i) > histogram->intensity_values[j]) // If the pixel should be white
+                    if(i > histogram->intensity_values[j]) // If the pixel should be white
                     {
                         bmp->pixels[i][j].r = 255;
                         bmp->pixels[i][j].g = 255;
