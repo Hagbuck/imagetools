@@ -1,37 +1,34 @@
-% [POLYTECH APP3] Projet base de developpement en C
-% Octobre 2017 - Decembre 2017
+% [POLYTECH APP3] Development project with C langage
+% October 2017 - December 2017
 % Detcheberry Valentin & Vuillemin Anthony
 
 # imagetools
 
-**Imagetools** est un projet étudiant réaliser à *Polytech* par Valentin Detcheberry et Anthony Vuillemin. C'est un projet codé en langage **C** sur une durée de 2 mois.
+**Imagetools** is a school project made at *Polytech Paris Sud*. It is develop with **C langage**.
 
-Ce projet à pour objectif la gestion et manipulation d'images **PGM** et **BMP** au minimum.
+This project can manipulate **BMP** and **PGM** pictures.
 
-# Fonctionnalitées
+# Features
 
-Les fonctionnalitées seront si possible pour les deux formats mais d'après le cahier des charges elles sont réparties comme suit :
+* Read a picture
+* Save a picture
+* Set filters
+    * Reversed
+    * Horizontal rotation
+    * Vertical rotation
+    * Linear filtering
+        * FIR 1D horizontal
+        * FIR 1D vertical
+        * FIR 2D with matrix convolution
+            * Sobel filter
+* Get histogram
+* Save histogram
+* Set histogram equalisation
 
-## Génériques 
+# Interfaces
 
-* Lecture d'une image
-* Sauvegarde d'une image
-* Application de différents filtres:
-    * Inverse
-    * Rotation horizontal
-    * Rotation vertical
-* Histogramme
+**Imagetools** have 3 interfaces :
 
-## PGM
-* Filtre numérique RIF
-
-## BMP
-* Application de différents filtres:
-    * Nuance de gris
-* Égalisation
-* Filtrage linéaire
-* Extraction des contours (filtre de sobel)
-
-## Interface
-
-Par defaut on utilise une interface terminal, si possible on utilisera une interface **SDL2**
+* Console interface
+* Commande line interface (TODO)
+* Graphical interface (TODO, probably with SDL2 if the license is compatible with our goals)
