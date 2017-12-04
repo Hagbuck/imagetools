@@ -10,7 +10,7 @@ void show_logo(void)
 {
     puts("\t+---------------------------------------+");
     puts("\t|              IMAGE TOOLS              |");
-    puts("\t|                 v.0.4                 |");
+    puts("\t|                 v.0.5                 |");
     puts("\t+---------------------------------------+");
 }
 
@@ -124,14 +124,16 @@ void bmp_menu(void)
     char action;
 
     int nb_dot = NB_DOT;
-    int i;
+    int i, j;
     int depth_fir;
+    int size, value;    // Usefull for Matrix
 
     char file_path[256] = "";
     char save_path[256] = "";
     FILE *in = NULL;
     FILE *out = NULL;
     BMP_image *bmp = NULL;
+    Matrix* kernel = NULL;
 
     do
     {
@@ -385,6 +387,7 @@ void bmp_menu(void)
                     puts("\t| x. FIR 2D Border x .................. |");
                     puts("\t| y. FIR 2D Border y .................. |");
                     puts("\t| s. Sobel filter ..................... |");
+                    puts("\t| m. Matrix convolution ............... |");
                     puts("\t+---------------------------------------+");
                     printf("\t: ");
 
@@ -440,6 +443,36 @@ void bmp_menu(void)
                             puts("\t> Sobel filter setted");
                         break;
 
+                        case 'm':
+                        case 'M':
+                            do
+                            {
+                                printf("\tMatrix size ( size should be bigger than 0 and odd) : ");
+                                size = get_number();
+                            }while(size <= 0 || size % 2 == 0);
+                            
+                            kernel = create_Matrix(size, size);
+                            display_Matrix(kernel);
+
+                            // Fill the matrix
+                            for(i = 0; i < size; ++i)
+                            {
+                                for(j = 0; j < size; ++j)
+                                {
+                                    printf("\n\t(%d:%d) : ", j, i);
+                                    value = get_number();
+                                    set_value_into_Matrix(kernel, j, i, value);
+                                    display_Matrix(kernel);
+                                }
+                            }
+
+                            BMP_convolution_with_Matrix(bmp, kernel);
+
+                            puts("\n\t>Matrix convolution setted");
+
+                            free_Matrix(kernel);
+                        break;
+
                         default:
                             puts("Closing FIR");
                         break;
@@ -464,14 +497,16 @@ void pgm_p2_menu(void)
     char action;
 
     int nb_dot = NB_DOT;
-    int i;
+    int i, j;
     int depth_fir;
+    int size, value;    // Usefull for Matrix
 
     char file_path[256] = "";
     char save_path[256] = "";
     FILE *in = NULL;
     FILE *out = NULL;
     PGM_P2_image *pgm = NULL;
+    Matrix* kernel = NULL;
 
     do
     {
@@ -711,6 +746,7 @@ void pgm_p2_menu(void)
                     puts("\t| x. FIR 2D Border x .................. |");
                     puts("\t| y. FIR 2D Border y .................. |");
                     puts("\t| s. Sobel filter ..................... |");
+                    puts("\t| m. Matrix convolution ............... |");
                     puts("\t+---------------------------------------+");
                     printf("\t: ");
 
@@ -764,6 +800,36 @@ void pgm_p2_menu(void)
                         case 'S':
                             PGM_P2_set_sobel_filter(pgm);
                             puts("\t> Sobel filter setted");
+                        break;
+
+                        case 'm':
+                        case 'M':
+                            do
+                            {
+                                printf("\tMatrix size ( size should be bigger than 0 and odd) : ");
+                                size = get_number();
+                            }while(size <= 0 || size % 2 == 0);
+                            
+                            kernel = create_Matrix(size, size);
+                            display_Matrix(kernel);
+
+                            // Fill the matrix
+                            for(i = 0; i < size; ++i)
+                            {
+                                for(j = 0; j < size; ++j)
+                                {
+                                    printf("\n\t(%d:%d) : ", j, i);
+                                    value = get_number();
+                                    set_value_into_Matrix(kernel, j, i, value);
+                                    display_Matrix(kernel);
+                                }
+                            }
+
+                            PGM_P2_convolution_with_Matrix(pgm, kernel);
+
+                            puts("\n\t>Matrix convolution setted");
+
+                            free_Matrix(kernel);
                         break;
 
                         default:

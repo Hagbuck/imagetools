@@ -13,6 +13,7 @@
 #include "basic_tools.h"
 #include "PGM_P2.h"
 #include "BMP.h"
+#include "Matrix.h"
 
 #define JUMP    6
 #define NB_DOT  27
