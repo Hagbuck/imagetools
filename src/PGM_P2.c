@@ -901,10 +901,13 @@ e__bool is_separator(char char_readed)
 
 void free_PGM_P2_pixels(PGM_P2_image* pgm)
 {
-    int i;
-    for(i = 0; i < pgm->height; ++i)
-        free(pgm->pixels[i]);
-    free(pgm->pixels);
+    if(pgm != NULL)
+    {
+        int i;
+        for(i = 0; i < pgm->height; ++i)
+            free(pgm->pixels[i]);
+        free(pgm->pixels);
+    }
 }
 
 /**
@@ -914,8 +917,11 @@ void free_PGM_P2_pixels(PGM_P2_image* pgm)
  */
 void free_PGM_P2_image(PGM_P2_image* pgm)
 {
-    free_PGM_P2_pixels(pgm);
-    free(pgm);
+    if(pgm != NULL)
+    {
+        free_PGM_P2_pixels(pgm);
+        free(pgm);
+    }
 }
 
 /**
@@ -925,8 +931,11 @@ void free_PGM_P2_image(PGM_P2_image* pgm)
  */
 void free_PGM_P2_histogram(PGM_P2_histogram* histogram)
 {
-    free(histogram->intensity_value);
-    free(histogram);
+    if(histogram!= NULL)
+    {
+        free(histogram->intensity_value);
+        free(histogram);
+    }
 }
 
 /**

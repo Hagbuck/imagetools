@@ -1211,10 +1211,13 @@ void BMP_show_header(const BMP_image* const bmp)
  */
 void free_BMP_pixels(BMP_image* const bmp)
 {
-    int i;
-    for(i = 0; i < bmp->height; ++i)
-        free(bmp->pixels[i]);
-    free(bmp->pixels); 
+    if(bmp != NULL)
+    {
+        int i;
+        for(i = 0; i < bmp->height; ++i)
+            free(bmp->pixels[i]);
+        free(bmp->pixels); 
+    }
 }
 
 /**
@@ -1224,6 +1227,9 @@ void free_BMP_pixels(BMP_image* const bmp)
  */
 void free_BMP_image(BMP_image* const bmp)
 {
-    free_BMP_pixels(bmp);
-    free(bmp);
+    if(bmp)
+    {
+        free_BMP_pixels(bmp);
+        free(bmp);
+    }
 }
