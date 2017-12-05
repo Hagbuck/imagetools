@@ -13,7 +13,7 @@ all: $(EXEC)
 imagetools: basic_tools.o Matrix.o RGB.o PGM_P2.o BMP.o console_interface.o command_line_interface.o gui_interface.o main.o main_cli.o main_gui.o
 	$(CC) -o $(OUTNAME)-ci.$(OUTEXT) $(OBJF)/basic_tools.o $(OBJF)/Matrix.o $(OBJF)/RGB.o $(OBJF)/console_interface.o $(OBJF)/PGM_P2.o $(OBJF)/BMP.o $(OBJF)/main.o $(LDFLAGS)
 	$(CC) -o $(OUTNAME)-cli.$(OUTEXT) $(OBJF)/basic_tools.o $(OBJF)/Matrix.o $(OBJF)/RGB.o $(OBJF)/command_line_interface.o $(OBJF)/PGM_P2.o $(OBJF)/BMP.o $(OBJF)/main_cli.o $(LDFLAGS)
-	$(CC) -o $(OUTNAME)-gui.$(OUTEXT) $(OBJF)/basic_tools.o $(OBJF)/Matrix.o $(OBJF)/RGB.o $(OBJF)/gui_interface.o $(OBJF)/PGM_P2.o $(OBJF)/BMP.o $(OBJF)/main_gui.o $(LDFLAGS)
+	$(CC) -o $(OUTNAME)-gui.$(OUTEXT) $(OBJF)/basic_tools.o $(OBJF)/Matrix.o $(OBJF)/RGB.o $(OBJF)/gui_interface.o $(OBJF)/PGM_P2.o $(OBJF)/BMP.o $(OBJF)/main_gui.o $(LDFLAGS) $(SDLFLAG)
 
 ci: basic_tools.o Matrix.o RGB.o PGM_P2.o BMP.o console_interface.o main.o
 	$(CC) -o $(OUTNAME)-ci.$(OUTEXT) $(OBJF)/basic_tools.o $(OBJF)/Matrix.o $(OBJF)/RGB.o $(OBJF)/console_interface.o $(OBJF)/PGM_P2.o $(OBJF)/BMP.o $(OBJF)/main.o $(LDFLAGS)
@@ -22,7 +22,7 @@ cli: basic_tools.o Matrix.o RGB.o PGM_P2.o BMP.o command_line_interface.o main_c
 	$(CC) -o $(OUTNAME)-cli.$(OUTEXT) $(OBJF)/basic_tools.o $(OBJF)/Matrix.o $(OBJF)/RGB.o $(OBJF)/command_line_interface.o $(OBJF)/PGM_P2.o $(OBJF)/BMP.o $(OBJF)/main_cli.o $(LDFLAGS)
 
 gui: basic_tools.o Matrix.o RGB.o PGM_P2.o BMP.o gui_interface.o main_gui.o
-	$(CC) -o $(OUTNAME)-gui.$(OUTEXT) $(OBJF)/basic_tools.o $(OBJF)/Matrix.o $(OBJF)/RGB.o $(OBJF)/gui_interface.o $(OBJF)/PGM_P2.o $(OBJF)/BMP.o $(OBJF)/main_gui.o $(LDFLAGS)
+	$(CC) -o $(OUTNAME)-gui.$(OUTEXT) $(OBJF)/basic_tools.o $(OBJF)/Matrix.o $(OBJF)/RGB.o $(OBJF)/gui_interface.o $(OBJF)/PGM_P2.o $(OBJF)/BMP.o $(OBJF)/main_gui.o $(LDFLAGS) $(SDLFLAG)
 
 basic_tools.o:
 	$(CC) -o $(OBJF)/$@ -c $(SRCF)/basic_tools.c $(CFLAGS)
