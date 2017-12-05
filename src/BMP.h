@@ -107,5 +107,6 @@ e__bool         BMP_save_histogram_as_BMP_file(BMP_histogram* const histogram, F
 void            BMP_show_header(const BMP_image* const bmp);
 void            free_BMP_pixels(BMP_image* const bmp);
 void            free_BMP_image(BMP_image* const bmp);
+void            free_BMP_histogram(BMP_histogram* const histogram);
 
 #endif

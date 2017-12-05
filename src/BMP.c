@@ -1233,3 +1233,17 @@ void free_BMP_image(BMP_image* const bmp)
         free(bmp);
     }
 }
+
+/**
+ * @brief      Free a BMP_histogram
+ *
+ * @param      bmp   The bitmap
+ */
+void free_BMP_histogram(BMP_histogram* const histogram)
+{
+    if(histogram!= NULL)
+    {
+        free(histogram->intensity_values);
+        free(histogram);
+    }
+}

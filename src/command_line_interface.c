@@ -164,6 +164,7 @@ void cli(int argc, char** argv)
                         file = get_file(argv[i], "wb");
                         BMP_save_histogram_as_BMP_file(bmp_hist, file);
                         fclose(file);
+                        free_BMP_histogram(bmp_hist);
                     }
                     else
                     {
@@ -194,6 +195,7 @@ void cli(int argc, char** argv)
                         file = get_file(argv[i], "wb");
                         PGM_P2_save_histogram_as_PGM_P2_file(pgm_hist, file);
                         fclose(file);
+                        free_PGM_P2_histogram(pgm_hist);
                     }
                     else
                     {
