@@ -261,7 +261,7 @@ void bmp_menu(void)
                 {
                     BMP_histogram* hist = NULL;
                     puts("\t> Loading histogram ...");
-                    hist = BMP_get_histogram(bmp, CUMULATED);
+                    hist = BMP_get_histogram(bmp, INTENSITY);
 
                     if(hist != NULL)
                     {
@@ -285,7 +285,7 @@ void bmp_menu(void)
                 {
                     BMP_histogram* hist = NULL;
                     puts("\t> Loading histogram ...");
-                    hist = BMP_get_histogram(bmp, CUMULATED);
+                    hist = BMP_get_histogram(bmp, INTENSITY);
 
                     if(hist != NULL)
                     {

@@ -61,7 +61,7 @@ struct BMP_image
  * e__color is a enumeration used into the histogram to know wich color it have to catch
  */
 typedef enum e__color e__color;
-enum e__color{RED, GREEN, BLUE, CUMULATED};
+enum e__color{RED, GREEN, BLUE, INTENSITY};
 
 typedef struct BMP_histogram BMP_histogram;
 struct BMP_histogram

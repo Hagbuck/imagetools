@@ -11,6 +11,9 @@ void cli(int argc, char** argv)
     PGM_P2_image* pgm = NULL;
     BMP_image* bmp = NULL;
     FILE* file = NULL;
+
+    int depth;
+
     int i;
     for(i = 1; i < argc; ++i)
     {
@@ -76,12 +79,135 @@ void cli(int argc, char** argv)
         }
         else if(strcmp(argv[i], "--fir1d-h") == 0)
         {
-            int depth;
-            if(bmp != NULL)
-                BMP_set_FIR_1D_horizontal_filter_with_depth(bmp, depth);
-            if(pgm != NULL)
-                BMP_set_FIR_1D_horizontal_filter_with_depth(pgm, depth);
+            ++i;
+            if(i < argc)
+            {
+                depth = get_int_from_str(argv[i]);
+                if(bmp != NULL)
+                    BMP_set_FIR_1D_horizontal_filter_with_depth(bmp, depth);
+                if(pgm != NULL)
+                    PGM_P2_set_FIR_1D_horizontal_filter_with_depth(pgm, depth);
+            }
         }
+        else if(strcmp(argv[i], "--fir1d-v") == 0)
+        {
+            ++i;
+            if(i < argc)
+            {
+                depth = get_int_from_str(argv[i]);
+                if(bmp != NULL)
+                    BMP_set_FIR_1D_vertical_filter_with_depth(bmp, depth);
+                if(pgm != NULL)
+                    PGM_P2_set_FIR_1D_vertical_filter_with_depth(pgm, depth);
+            }
+        }
+        else if(strcmp(argv[i], "--fir2d-x") == 0)
+        {
+            if(bmp != NULL)
+                BMP_set_FIR_2D_border_filter_x(bmp);
+            if(pgm != NULL)
+                PGM_P2_set_FIR_2D_border_filter_x(pgm);
+        }
+        else if(strcmp(argv[i], "--fir2d-y") == 0)
+        {
+            if(bmp != NULL)
+                BMP_set_FIR_2D_border_filter_y(bmp);
+            if(pgm != NULL)
+                PGM_P2_set_FIR_2D_border_filter_y(pgm);
+        }
+        else if(strcmp(argv[i], "--sobel") == 0)
+        {
+            if(bmp != NULL)
+                BMP_set_sobel_filter(bmp);
+            if(pgm != NULL)
+                PGM_P2_set_sobel_filter(pgm);
+        }
+        /*else if(strcmp(argv[i], "--equalize-hist") == 0)
+        {
+            if(bmp != NULL)
+                BMP_set_equalize_histogram(bmp);
+            if(pgm != NULL)
+                PGM_P2_set_equalize_histogram(pgm);
+        }*/
+
+        /**
+         * GETTING HISTOGRAM
+         */
+        else if(strcmp(argv[i], "--histogram") == 0)
+        {
+            ++i;
+            if(i < argc)
+            {
+                if(bmp != NULL)
+                {
+                    BMP_histogram* bmp_hist = NULL;
+
+                    if(strcmp(argv[i], "r") == 0)
+                        bmp_hist = BMP_get_histogram(bmp, RED);
+                    else if(strcmp(argv[i], "g") == 0)
+                        bmp_hist = BMP_get_histogram(bmp, GREEN);
+                    else if(strcmp(argv[i], "b") == 0)
+                        bmp_hist = BMP_get_histogram(bmp, BLUE);
+                    else if(strcmp(argv[i], "i") == 0)
+                        bmp_hist = BMP_get_histogram(bmp, INTENSITY);
+                    else if(strcmp(argv[i], "c") == 0)              // TODO
+                        bmp_hist = BMP_get_histogram(bmp, INTENSITY);
+                    else    // ERROR PARAMETER GO BACK
+                    {
+                        bmp_hist = BMP_get_histogram(bmp, INTENSITY);
+                        --i;
+                    }
+                    
+                    ++i;
+                    if(i < argc)
+                    {
+                        file = get_file(argv[i], "wb");
+                        BMP_save_histogram_as_BMP_file(bmp_hist, file);
+                        fclose(file);
+                    }
+                    else
+                    {
+                        --i; // GO BACK;
+                        puts("ERROR any file path sended...");
+                    }
+                }
+                if(pgm != NULL)
+                {
+                    PGM_P2_histogram* pgm_hist = NULL;
+
+                    if(strcmp(argv[i], "r") == 0
+                    || strcmp(argv[i], "g") == 0
+                    || strcmp(argv[i], "b") == 0
+                    || strcmp(argv[i], "i") == 0
+                    || strcmp(argv[i], "c") == 0
+                    )
+                        pgm_hist = PGM_P2_get_histogram(pgm);
+                    else    // ERROR PARAMETER GO BACK
+                    {
+                        pgm_hist = PGM_P2_get_histogram(pgm);
+                        --i;
+                    }
+                    
+                    ++i;
+                    if(i < argc)
+                    {
+                        file = get_file(argv[i], "wb");
+                        PGM_P2_save_histogram_as_PGM_P2_file(pgm_hist, file);
+                        fclose(file);
+                    }
+                    else
+                    {
+                        --i; // GO BACK;
+                        puts("ERROR any file path sended...");
+                    }
+                }
+            }
+            else
+            {
+                --i; // GO BACK
+            }
+        }
+
 
 
         /**
@@ -101,6 +227,7 @@ void cli(int argc, char** argv)
             }
             else
             {
+                --i; // GO BACK;
                 puts("ERROR any file path sended...");
             }
         }

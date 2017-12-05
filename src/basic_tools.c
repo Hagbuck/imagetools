@@ -82,7 +82,13 @@ int get_int_from_str(char* str)
     int i = 0;
     char c;
     int integer = 0;
+    int factor = 1; // If the number is negative
 
+    if(str[0] == '-') // The number is negative
+    {
+        factor = -1;
+        ++i;    // We catch the first element, so we go to the next case
+    }
     do
     {
         c = str[i];
@@ -92,7 +98,15 @@ int get_int_from_str(char* str)
             integer += c - '0';
             integer *= 10;
         }
+        else if(c != '\0')
+        {
+            printf("ERROR %d cannot convert str to int !\n", ERR_CANNOT_CONVERT_STR_TO_INT);
+            exit(ERR_CANNOT_CONVERT_STR_TO_INT);
+        }
     }while(c != '\0' && i < NUMBER_MAX_SIZE);
     integer /= 10;
+
+    integer *= factor;
+
     return integer;
 }
