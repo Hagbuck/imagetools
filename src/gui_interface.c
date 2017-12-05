@@ -67,6 +67,11 @@ int main_window(int argc, char** argv)
                     load_BMP(window, renderer);
                     SDL_SetWindowSize(window, WINDOW_WIDTH, WINDOW_HEIGHT);   
                 }
+                else if(testCollider(mouse_x, mouse_y, open_pgm.dest) == TRUE)
+                {
+                    load_PGM(window, renderer);
+                    SDL_SetWindowSize(window, WINDOW_WIDTH, WINDOW_HEIGHT);   
+                }
             break;
         }
 
@@ -183,6 +188,92 @@ void BMP_window(SDL_Window* const window, SDL_Renderer* const renderer, BMP_imag
         SDL_RenderPresent(renderer);
     }
     free_BMP_image(bmp);
+}
+
+void load_PGM(SDL_Window* const window, SDL_Renderer* const renderer)
+{
+    char file_path[256] = "";
+    FILE* file = NULL;
+    PGM_P2_image* pgm = NULL;
+
+    printf("\t FILE PATH : ");
+    scanf("%[^\n]%*c", file_path);
+    printf("\t> Openning %s...\n", file_path);
+    file = get_file(file_path, "rb");
+    if(file == NULL)
+    {
+        printf("\t> Openning [%s] failed !", file_path);
+        strcpy(file_path, "");
+    }
+    else
+    {
+        printf("\t> Openning [%s] succesfull !\n", file_path);
+
+        if(pgm != NULL) // pgm is already loaded
+        {
+            free_PGM_P2_image(pgm);
+        }
+
+        pgm = PGM_P2_get_image_from_file(file);
+        puts("\t> Creating manipulated structure ...");
+        if(pgm != NULL)
+        {
+            puts("\t> Creating manipulated structure succesfull !");
+            PGM_window(window, renderer, pgm, file_path);
+        }
+        else
+        {
+            puts("\t> Creating manipulated structure failed !");
+            printf("\t> Closing file [%s] ...", file_path);
+            strcpy(file_path, "");
+        }
+        fclose(file);
+    }
+}
+
+void PGM_window(SDL_Window* const window, SDL_Renderer* const renderer, PGM_P2_image* pgm, char* const file_path)
+{
+    e__bool is_end = FALSE;
+    int     i, j;
+
+    int     mouse_x, mouse_y;
+    int     pixel_value;
+
+    SDL_SetWindowSize(window, pgm->width, pgm->height);
+
+    SDL_Event event;
+    while (is_end == FALSE)
+    {
+        SDL_WaitEvent(&event);                  // Get user event
+        SDL_GetMouseState(&mouse_x, &mouse_y);  // Get mouse position
+        switch(event.type)
+        {
+            case SDL_QUIT:
+                is_end = TRUE;
+            break;
+
+            case SDL_KEYDOWN:
+                if (event.key.keysym.sym == SDLK_ESCAPE)
+                {
+                    is_end = TRUE;
+                }
+            break;
+        }
+
+        SDL_RenderClear(renderer);
+
+        for(i = 0; i < pgm->height; ++i)
+        {
+            for(j = 0; j < pgm->width; ++j)
+            {
+                pixel_value = (pgm->pixels[i][j] * 255 / pgm->v_max);
+                SDL_SetRenderDrawColor(renderer, pixel_value, pixel_value, pixel_value, 255);
+                SDL_RenderDrawPoint(renderer, j, i);
+            }
+        }
+        SDL_RenderPresent(renderer);
+    }
+    free_PGM_P2_image(pgm);
 }
 
 void init_SDL(void)

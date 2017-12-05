@@ -32,6 +32,8 @@ struct GEntity
 int             main_window(int argc, char** argv);
 void            load_BMP(SDL_Window* const window, SDL_Renderer* const renderer);
 void            BMP_window(SDL_Window* const window, SDL_Renderer* const renderer, BMP_image* bmp, char* const file_path);
+void            load_PGM(SDL_Window* const window, SDL_Renderer* const renderer);
+void            PGM_window(SDL_Window* const window, SDL_Renderer* const renderer, PGM_P2_image* pgm, char* const file_path);
 
 // Basic SDL tools
 void            init_SDL(void);
