@@ -30,6 +30,8 @@ struct GEntity
 
 // Windows
 int             main_window(int argc, char** argv);
+void            load_BMP(SDL_Window* const window, SDL_Renderer* const renderer);
+void            BMP_window(SDL_Window* const window, SDL_Renderer* const renderer, BMP_image* bmp, char* const file_path);
 
 // Basic SDL tools
 void            init_SDL(void);

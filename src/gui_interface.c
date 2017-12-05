@@ -52,14 +52,22 @@ int main_window(int argc, char** argv)
         {
             case SDL_QUIT:
                 is_end = TRUE;
-                break;
+            break;
 
             case SDL_KEYUP:
                 if (event.key.keysym.sym == SDLK_ESCAPE)
                 {
                     is_end = TRUE;
                 }
-                break;
+            break;
+            
+            case SDL_MOUSEBUTTONUP:
+                if(testCollider(mouse_x, mouse_y, open_bmp.dest) == TRUE)
+                {
+                    load_BMP(window, renderer);
+                    SDL_SetWindowSize(window, WINDOW_WIDTH, WINDOW_HEIGHT);   
+                }
+            break;
         }
 
         SDL_RenderClear(renderer);
@@ -90,6 +98,91 @@ int main_window(int argc, char** argv)
     SDL_Quit();
 
     return 0;
+}
+
+void load_BMP(SDL_Window* const window, SDL_Renderer* const renderer)
+{
+    char file_path[256] = "";
+    FILE* file = NULL;
+    BMP_image* bmp = NULL;
+
+    printf("\t FILE PATH : ");
+    scanf("%[^\n]%*c", file_path);
+    printf("\t> Openning %s...\n", file_path);
+    file = get_file(file_path, "rb");
+    if(file == NULL)
+    {
+        printf("\t> Openning [%s] failed !", file_path);
+        strcpy(file_path, "");
+    }
+    else
+    {
+        printf("\t> Openning [%s] succesfull !\n", file_path);
+
+        if(bmp != NULL) // BMP is already loaded
+        {
+            free_BMP_image(bmp);
+        }
+
+        bmp = BMP_get_image_from_file(file);
+        puts("\t> Creating manipulated structure ...");
+        if(bmp != NULL)
+        {
+            puts("\t> Creating manipulated structure succesfull !");
+
+            BMP_window(window, renderer, bmp, file_path);
+        }
+        else
+        {
+            puts("\t> Creating manipulated structure failed !");
+            printf("\t> Closing file [%s] ...", file_path);
+            strcpy(file_path, "");
+        }
+        fclose(file);
+    }
+}
+
+void BMP_window(SDL_Window* const window, SDL_Renderer* const renderer, BMP_image* bmp, char* const file_path)
+{
+    e__bool is_end = FALSE;
+    int     i, j;
+
+    int     mouse_x, mouse_y;
+
+    SDL_SetWindowSize(window, bmp->width, bmp->height);
+
+    SDL_Event event;
+    while (is_end == FALSE)
+    {
+        SDL_WaitEvent(&event);                  // Get user event
+        SDL_GetMouseState(&mouse_x, &mouse_y);  // Get mouse position
+        switch(event.type)
+        {
+            case SDL_QUIT:
+                is_end = TRUE;
+            break;
+
+            case SDL_KEYUP:
+                if (event.key.keysym.sym == SDLK_ESCAPE)
+                {
+                    is_end = TRUE;
+                }
+            break;
+        }
+
+        SDL_RenderClear(renderer);
+
+        for(i = 0; i < bmp->height; ++i)
+        {
+            for(j = 0; j < bmp->width; ++j)
+            {
+                SDL_SetRenderDrawColor(renderer, bmp->pixels[i][j].r, bmp->pixels[i][j].g, bmp->pixels[i][j].b, 255);
+                SDL_RenderDrawPoint(renderer, j, bmp->height - i);
+            }
+        }
+        SDL_RenderPresent(renderer);
+    }
+    free_BMP_image(bmp);
 }
 
 void init_SDL(void)

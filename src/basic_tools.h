@@ -22,7 +22,7 @@
 #define ERR_CANNOT_CONVERT_STR_TO_INT   7
 
 
-#define NUMBER_MAX_SIZE             7
+#define NUMBER_MAX_SIZE                 7
 
 
 typedef enum e__bool e__bool;
