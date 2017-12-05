@@ -32,6 +32,9 @@ struct GEntity
 int             main_window(int argc, char** argv);
 
 // Basic SDL tools
+void            init_SDL(void);
+SDL_Window*     create_SDL_Window(char* const win_title, int win_width, int win_height);
+SDL_Renderer*   create_SDL_Renderer(SDL_Window* window);
 void            loadGEntity(GEntity* const entity, SDL_Renderer* renderer, char* const address);
 SDL_Texture*    loadTexture(SDL_Renderer* renderer, char* const address);
 SDL_Texture*    loadTextureWithDest(SDL_Renderer* renderer, char* const address, SDL_Rect *dest);

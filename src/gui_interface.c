@@ -8,8 +8,9 @@
 
 int main_window(int argc, char** argv)
 {
-    SDL_Window* window = NULL;
-    SDL_Renderer* renderer = NULL;
+    init_SDL();
+    SDL_Window* window = create_SDL_Window("Imagetools v0.5", WINDOW_WIDTH, WINDOW_HEIGHT);
+    SDL_Renderer* renderer = create_SDL_Renderer(window);
     e__bool is_end = FALSE;
 
     int mouse_x, mouse_y;
@@ -19,37 +20,8 @@ int main_window(int argc, char** argv)
     GEntity open_bmp_hover;
     GEntity open_pgm;
     GEntity open_pgm_hover;
-    
-    // Initialisation de la SDL
-    if(SDL_Init(SDL_INIT_VIDEO) < 0)
-    {
-        printf("Erreur lors de l'initialisation de la SDL : %s\n", SDL_GetError());
-        SDL_Quit();
-        
-        return -1;
-    }
-    
-    
-    // Création de la fenêtre
-    window = SDL_CreateWindow("Imagetools", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
 
-    if(window == 0)
-    {
-        printf("Erreur lors de la creation de la fenetre : %s\n", SDL_GetError());
-        SDL_Quit();
-
-        return -1;
-    }
-
-    // Création du render
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC); // Création du renderer
-    if(renderer == NULL)
-    {
-        printf("Erreur lors de la creation d'un renderer : %s",SDL_GetError());
-        return -1;
-    }
-
-    // Loading adn set position of images
+    // Loading and set position of images
     loadGEntity(&lena_bg, renderer, "rc/lena_bg.bmp");
     GEntity_set_pos(&lena_bg, 0, 0);
 
@@ -118,6 +90,43 @@ int main_window(int argc, char** argv)
     SDL_Quit();
 
     return 0;
+}
+
+void init_SDL(void)
+{
+    // Initialisation de la SDL
+    if(SDL_Init(SDL_INIT_VIDEO) < 0)
+    {
+        printf("Erreur lors de l'initialisation de la SDL : %s\n", SDL_GetError());
+        SDL_Quit();
+        exit(EXIT_FAILURE);
+    }
+}
+
+SDL_Window* create_SDL_Window(char* const win_title, int win_width, int win_height)
+{
+    // Création de la fenêtre
+    SDL_Window* window = SDL_CreateWindow(win_title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, win_width, win_height, SDL_WINDOW_SHOWN);
+
+    if(window == 0)
+    {
+        printf("Erreur lors de la creation de la fenetre : %s\n", SDL_GetError());
+        SDL_Quit();
+        exit(EXIT_FAILURE);
+    }
+    return window;
+}
+
+SDL_Renderer* create_SDL_Renderer(SDL_Window* window)
+{
+    // Création du render
+    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC); // Création du renderer
+    if(renderer == NULL)
+    {
+        printf("Erreur lors de la creation d'un renderer : %s",SDL_GetError());
+        exit(EXIT_FAILURE);
+    }
+    return renderer;
 }
 
 void loadGEntity(GEntity* const entity, SDL_Renderer* renderer, char* const address)
