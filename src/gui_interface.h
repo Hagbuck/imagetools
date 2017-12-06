@@ -53,7 +53,9 @@ void            load_PGM(SDL_Window* const window, SDL_Renderer* const renderer)
 void            PGM_window(SDL_Window* const window, SDL_Renderer* const renderer, PGM_P2_image* pgm, char* const file_path);
 Btn_list*       create_HUD_Btn_list(SDL_Renderer* const renderer);
 GWindow*        create_HUD(void);
+void            draw_Btn_list(Btn_list* const btn, SDL_Renderer* const renderer, int mouse_x, int mouse_y);
 void            draw_GWindow(GWindow* const window, int mouse_x, int mouse_y);
+char*           get_button_name_hunder_mouse_into_Btn_list(Btn_list* const btn, int mouse_x, int mouse_y);
 char*           get_button_name_hunder_mouse_into_GWindow(GWindow* const window, int mouse_x, int mouse_y);
 void            free_GWindow(GWindow* const window);
 void            free_Btn_list(Btn_list* const btn);

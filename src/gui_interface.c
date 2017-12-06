@@ -155,13 +155,27 @@ void BMP_window(SDL_Window* const window, SDL_Renderer* const renderer, BMP_imag
     char*   hud_button_clicked = NULL;
     int     mouse_x, mouse_y;
     e__bool mouse_down = FALSE;
-    e__bool modify = FALSE;
 
-    SDL_SetWindowSize(window, bmp->width, bmp->height);
+    Btn_list* btn = create_HUD_Btn_list(renderer);
 
-    GWindow* hud = create_HUD();
+    int hud_width = btn->button[0].dest.w + 16*2;
+    int hud_height = 16;
+    int picture_y_offset = 0;
 
     int time_a = 0;
+
+    for(i = 0; i < btn->size; ++i)
+        hud_height += btn->button[i].dest.h + 16;
+
+    if(bmp->height > hud_height)        // HUD smaller than the picture
+    {
+        SDL_SetWindowSize(window, bmp->width + hud_width + 16, bmp->height);
+    }
+    else                                // HUD bigger than the picture
+    {
+        SDL_SetWindowSize(window, bmp->width + hud_width + 16, hud_height);
+        picture_y_offset = (hud_height - bmp->height) / 2;
+    }
 
     SDL_Event event;
     while (is_end == FALSE)
@@ -175,7 +189,7 @@ void BMP_window(SDL_Window* const window, SDL_Renderer* const renderer, BMP_imag
             break;
 
             case SDL_KEYUP:
-            printf("%d UP\n", event.key.keysym.sym);
+                printf("%d UP\n", event.key.keysym.sym);
                 if (event.key.keysym.sym == SDLK_ESCAPE)
                 {
                     is_end = TRUE;
@@ -186,10 +200,9 @@ void BMP_window(SDL_Window* const window, SDL_Renderer* const renderer, BMP_imag
                 puts("clicked");
                 if(mouse_down == FALSE)
                 {
-                    hud_button_clicked = get_button_name_hunder_mouse_into_GWindow(hud, mouse_x, mouse_y);
+                    hud_button_clicked = get_button_name_hunder_mouse_into_Btn_list(btn, mouse_x, mouse_y);
                     if(hud_button_clicked != NULL)
                     {
-                        modify = TRUE;
                         printf("> %s\n", hud_button_clicked);
                         if(strcmp(hud_button_clicked, "gray") == 0)
                             BMP_set_gray_filter(bmp);
@@ -199,8 +212,6 @@ void BMP_window(SDL_Window* const window, SDL_Renderer* const renderer, BMP_imag
                             BMP_set_horizontal_reversed(bmp);
                         else if(strcmp(hud_button_clicked, "v-rotated") == 0)
                             BMP_set_vertical_reversed(bmp);
-                        else
-                            modify = FALSE;
                     }
                 }
                 mouse_down = TRUE;
@@ -215,28 +226,32 @@ void BMP_window(SDL_Window* const window, SDL_Renderer* const renderer, BMP_imag
             break;                
         }
 
-        if(SDL_GetTicks() - time_a >= 1000
-        || modify == TRUE)
+        
+
+        if(SDL_GetTicks() - time_a >= 80)
         {
             SDL_RenderClear(renderer);
-
             for(i = 0; i < bmp->height; ++i)
             {
                 for(j = 0; j < bmp->width; ++j)
                 {
                     SDL_SetRenderDrawColor(renderer, bmp->pixels[i][j].r, bmp->pixels[i][j].g, bmp->pixels[i][j].b, 255);
-                    SDL_RenderDrawPoint(renderer, j, bmp->height - i);
+                    SDL_RenderDrawPoint(renderer, j + hud_width, bmp->height - i + picture_y_offset);
                 }
             }
+
+
+            SDL_SetRenderDrawColor(renderer, 30,30,30,255);
+            draw_Btn_list(btn, renderer, mouse_x, mouse_y);
+
+
             SDL_RenderPresent(renderer);
             time_a = SDL_GetTicks();
+            SDL_Delay(20);
         }
-        draw_GWindow(hud, mouse_x, mouse_y);
-
-        SDL_Delay(20);
     }
     free_BMP_image(bmp);
-    free_GWindow(hud);
+    free_Btn_list(btn);
 }
 
 void load_PGM(SDL_Window* const window, SDL_Renderer* const renderer)
@@ -347,13 +362,13 @@ Btn_list* create_HUD_Btn_list(SDL_Renderer* const renderer)
     GEntity_set_pos(&btn->button[0], 16, 16);
 
     loadGEntity(&btn->button[1], renderer, "rc/reversed_button.png");
-    GEntity_set_pos(&btn->button[1], btn->button[0].dest.x + btn->button[0].dest.w + 16, 16);
+    GEntity_set_pos(&btn->button[1], btn->button[0].dest.x, btn->button[0].dest.y + btn->button[0].dest.h + 16);
 
     loadGEntity(&btn->button[2], renderer, "rc/horizontal_rotate.png");
-    GEntity_set_pos(&btn->button[2], btn->button[0].dest.x, btn->button[0].dest.y + btn->button[0].dest.h + 16);
+    GEntity_set_pos(&btn->button[2], btn->button[1].dest.x, btn->button[1].dest.y + btn->button[1].dest.h + 16);
 
     loadGEntity(&btn->button[3], renderer, "rc/vertical_rotate.png");
-    GEntity_set_pos(&btn->button[3], btn->button[1].dest.x, btn->button[2].dest.y);
+    GEntity_set_pos(&btn->button[3], btn->button[2].dest.x, btn->button[2].dest.y + btn->button[2].dest.h + 16);
 
     btn->hover = malloc(btn->size * sizeof(GEntity));
 
@@ -386,6 +401,21 @@ GWindow* create_HUD(void)
     return hud;
 }
 
+void draw_Btn_list(Btn_list* const btn, SDL_Renderer* const renderer, int mouse_x, int mouse_y)
+{
+    if(btn != NULL)
+    {
+        int i;
+        for(i = 0; i < btn->size; ++i)
+        {
+            if(testCollider(mouse_x, mouse_y, btn->button[i].dest) == TRUE)
+                    SDL_RenderCopy(renderer, btn->hover[i].text, NULL, &btn->hover[i].dest);                
+            else
+                SDL_RenderCopy(renderer, btn->button[i].text, NULL, &btn->button[i].dest);
+        }
+    }
+}
+
 void draw_GWindow(GWindow* const window, int mouse_x, int mouse_y)
 {
     if(window != NULL)
@@ -404,6 +434,20 @@ void draw_GWindow(GWindow* const window, int mouse_x, int mouse_y)
         }
         SDL_RenderPresent(window->renderer);
     }
+}
+
+char* get_button_name_hunder_mouse_into_Btn_list(Btn_list* const btn, int mouse_x, int mouse_y)
+{
+    if(btn != NULL)
+    {
+        int i;
+        for(i = 0; i < btn->size; ++i)
+        {
+            if(testCollider(mouse_x, mouse_y, btn->button[i].dest) == TRUE)
+                return btn->name[i];
+        }
+    }
+    return NULL;
 }
 
 char* get_button_name_hunder_mouse_into_GWindow(GWindow* const window, int mouse_x, int mouse_y)
