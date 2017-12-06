@@ -188,13 +188,13 @@ void BMP_window(SDL_Window* const window, SDL_Renderer* const renderer, BMP_imag
 
     Btn_list* btn = create_HUD_Btn_list(renderer);
 
-    int hud_width = btn->button[0].dest.w + 16*2;
+    int hud_width = btn->button[0].dest.w + btn->button[5].dest.w + 16*3;
     int hud_height = 16;
     int picture_y_offset = 0;
 
     int time_a = 0;
 
-    for(i = 0; i < btn->size; ++i)
+    for(i = 0; i < btn->size/2; ++i)
         hud_height += btn->button[i].dest.h + 16;
 
     if(bmp->height > hud_height)        // HUD smaller than the picture
@@ -243,6 +243,16 @@ void BMP_window(SDL_Window* const window, SDL_Renderer* const renderer, BMP_imag
                             BMP_set_horizontal_reversed(bmp);
                         else if(strcmp(hud_button_clicked, "v-rotated") == 0)
                             BMP_set_vertical_reversed(bmp);
+                        else if(strcmp(hud_button_clicked, "fir1d-h") == 0)
+                            BMP_set_FIR_1D_horizontal_filter_with_depth(bmp, 1);
+                        else if(strcmp(hud_button_clicked, "fir1d-v") == 0)
+                            BMP_set_FIR_1D_vertical_filter_with_depth(bmp, 1);
+                        else if(strcmp(hud_button_clicked, "fir2d-x") == 0)
+                            BMP_set_FIR_2D_border_filter_x(bmp);
+                        else if(strcmp(hud_button_clicked, "fir2d-y") == 0)
+                            BMP_set_FIR_2D_border_filter_y(bmp);
+                        else if(strcmp(hud_button_clicked, "sobel") == 0)
+                            BMP_set_sobel_filter(bmp);
                     }
                 }
                 mouse_down = TRUE;
@@ -375,7 +385,7 @@ Btn_list* create_HUD_Btn_list(SDL_Renderer* const renderer)
 {
     Btn_list* btn = malloc(sizeof(Btn_list));
 
-    btn->size = 5;
+    btn->size = 10;
 
     btn->name = malloc(btn->size * sizeof(char*));
 
@@ -389,6 +399,16 @@ Btn_list* create_HUD_Btn_list(SDL_Renderer* const renderer)
     strcpy(btn->name[3], "h-rotated");
     btn->name[4] = malloc(strlen("v-rotated") * sizeof(char));
     strcpy(btn->name[4], "v-rotated");
+    btn->name[5] = malloc(strlen("fir1d-h") * sizeof(char));
+    strcpy(btn->name[5], "fir1d-h");
+    btn->name[6] = malloc(strlen("fir1d-v") * sizeof(char));
+    strcpy(btn->name[6], "fir1d-v");
+    btn->name[7] = malloc(strlen("fir2d-x") * sizeof(char));
+    strcpy(btn->name[7], "fir2d-x");
+    btn->name[8] = malloc(strlen("fir2d-y") * sizeof(char));
+    strcpy(btn->name[8], "fir2d-y");
+    btn->name[9] = malloc(strlen("sobel") * sizeof(char));
+    strcpy(btn->name[9], "sobel");
 
     btn->button = malloc(btn->size * sizeof(GEntity));
 
@@ -407,6 +427,23 @@ Btn_list* create_HUD_Btn_list(SDL_Renderer* const renderer)
     loadGEntity(&btn->button[4], renderer, "rc/vertical_rotate.png");
     GEntity_set_pos(&btn->button[4], btn->button[3].dest.x, btn->button[3].dest.y + btn->button[3].dest.h + 16);
 
+    /** SECOND COL **/
+
+    loadGEntity(&btn->button[5], renderer, "rc/fir1d_h_button.png");
+    GEntity_set_pos(&btn->button[5], btn->button[0].dest.x + btn->button[0].dest.w + 16, btn->button[0].dest.y);
+
+    loadGEntity(&btn->button[6], renderer, "rc/fir1d_v_button.png");
+    GEntity_set_pos(&btn->button[6], btn->button[1].dest.x + btn->button[1].dest.w + 16, btn->button[1].dest.y);
+
+    loadGEntity(&btn->button[7], renderer, "rc/fir2d_x_button.png");
+    GEntity_set_pos(&btn->button[7], btn->button[2].dest.x + btn->button[2].dest.w + 16, btn->button[2].dest.y);
+
+    loadGEntity(&btn->button[8], renderer, "rc/fir2d_y_button.png");
+    GEntity_set_pos(&btn->button[8], btn->button[3].dest.x + btn->button[3].dest.w + 16, btn->button[3].dest.y);
+
+    loadGEntity(&btn->button[9], renderer, "rc/sobel_button.png");
+    GEntity_set_pos(&btn->button[9], btn->button[4].dest.x + btn->button[4].dest.w + 16, btn->button[4].dest.y);
+
     btn->hover = malloc(btn->size * sizeof(GEntity));
 
     loadGEntity(&btn->hover[0], renderer, "rc/save_button_hover.png");
@@ -423,6 +460,23 @@ Btn_list* create_HUD_Btn_list(SDL_Renderer* const renderer)
 
     loadGEntity(&btn->hover[4], renderer, "rc/vertical_rotate_hover.png");
     GEntity_set_pos(&btn->hover[4], btn->button[4].dest.x, btn->button[4].dest.y);
+
+    /* SECOND COL HOVER **/
+
+    loadGEntity(&btn->hover[5], renderer, "rc/fir1d_h_button_hover.png");
+    GEntity_set_pos(&btn->hover[5], btn->button[5].dest.x, btn->button[5].dest.y);
+
+    loadGEntity(&btn->hover[6], renderer, "rc/fir1d_v_button_hover.png");
+    GEntity_set_pos(&btn->hover[6], btn->button[6].dest.x, btn->button[6].dest.y);
+
+    loadGEntity(&btn->hover[7], renderer, "rc/fir2d_x_button_hover.png");
+    GEntity_set_pos(&btn->hover[7], btn->button[7].dest.x, btn->button[7].dest.y);
+
+    loadGEntity(&btn->hover[8], renderer, "rc/fir2d_y_button_hover.png");
+    GEntity_set_pos(&btn->hover[8], btn->button[8].dest.x, btn->button[8].dest.y);
+
+    loadGEntity(&btn->hover[9], renderer, "rc/sobel_button_hover.png");
+    GEntity_set_pos(&btn->hover[9], btn->button[9].dest.x, btn->button[9].dest.y);
 
     return btn;
 }
