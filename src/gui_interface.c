@@ -111,7 +111,7 @@ void load_BMP(SDL_Window* const window, SDL_Renderer* const renderer)
     FILE* file = NULL;
     BMP_image* bmp = NULL;
 
-    printf("\t FILE PATH : ");
+    printf("\n\t FILE PATH : ");
     scanf("%[^\n]%*c", file_path);
     printf("\t> Openning %s...\n", file_path);
     file = get_file(file_path, "rb");
@@ -144,6 +144,36 @@ void load_BMP(SDL_Window* const window, SDL_Renderer* const renderer)
             strcpy(file_path, "");
         }
         fclose(file);
+    }
+}
+
+void save_BMP(BMP_image* const bmp)
+{
+    char file_path[256] = "";
+    FILE* file = NULL;
+
+    if(bmp != NULL)
+    {
+        printf("\n\tSAVE FILE PATH : ");
+        scanf("%[^\n]%*c", file_path);
+        printf("\t> Openning %s...\n", file_path);
+        file = get_file(file_path, "wb");
+        if(file == NULL)
+        {
+            printf("\t> Openning [%s] failed !", file_path);
+            strcpy(file_path, "");
+        }
+        else
+        {
+            printf("\t> Openning [%s] succesfull !\n", file_path);
+            BMP_save_image_into_file(bmp, file);
+            fclose(file);
+            printf("\t> Saved into [%s] successfull !\n", file_path);
+        }
+    }
+    else
+    {
+        puts("\t> ERROR any BMP_image is load !");
     }
 }
 
@@ -189,7 +219,7 @@ void BMP_window(SDL_Window* const window, SDL_Renderer* const renderer, BMP_imag
             break;
 
             case SDL_KEYUP:
-                printf("%d UP\n", event.key.keysym.sym);
+                // printf("%d UP\n", event.key.keysym.sym);
                 if (event.key.keysym.sym == SDLK_ESCAPE)
                 {
                     is_end = TRUE;
@@ -197,14 +227,15 @@ void BMP_window(SDL_Window* const window, SDL_Renderer* const renderer, BMP_imag
             break;
 
             case SDL_MOUSEBUTTONDOWN:
-                puts("clicked");
                 if(mouse_down == FALSE)
                 {
                     hud_button_clicked = get_button_name_hunder_mouse_into_Btn_list(btn, mouse_x, mouse_y);
                     if(hud_button_clicked != NULL)
                     {
                         printf("> %s\n", hud_button_clicked);
-                        if(strcmp(hud_button_clicked, "gray") == 0)
+                        if(strcmp(hud_button_clicked, "save") == 0)
+                            save_BMP(bmp);
+                        else if(strcmp(hud_button_clicked, "gray") == 0)
                             BMP_set_gray_filter(bmp);
                         else if(strcmp(hud_button_clicked, "reversed") == 0)
                             BMP_set_reversed_filter(bmp);
@@ -260,7 +291,7 @@ void load_PGM(SDL_Window* const window, SDL_Renderer* const renderer)
     FILE* file = NULL;
     PGM_P2_image* pgm = NULL;
 
-    printf("\t FILE PATH : ");
+    printf("\n\t FILE PATH : ");
     scanf("%[^\n]%*c", file_path);
     printf("\t> Openning %s...\n", file_path);
     file = get_file(file_path, "rb");
@@ -344,45 +375,54 @@ Btn_list* create_HUD_Btn_list(SDL_Renderer* const renderer)
 {
     Btn_list* btn = malloc(sizeof(Btn_list));
 
-    btn->size = 4;
+    btn->size = 5;
 
     btn->name = malloc(btn->size * sizeof(char*));
-    btn->name[0] = malloc(strlen("gray") * sizeof(char));
-    strcpy(btn->name[0], "gray");
-    btn->name[1] = malloc(strlen("reversed") * sizeof(char));
-    strcpy(btn->name[1], "reversed");
-    btn->name[2] = malloc(strlen("h-rotated") * sizeof(char));
-    strcpy(btn->name[2], "h-rotated");
-    btn->name[3] = malloc(strlen("v-rotated") * sizeof(char));
-    strcpy(btn->name[3], "v-rotated");
+
+    btn->name[0] = malloc(strlen("save") * sizeof(char));
+    strcpy(btn->name[0], "save");
+    btn->name[1] = malloc(strlen("gray") * sizeof(char));
+    strcpy(btn->name[1], "gray");
+    btn->name[2] = malloc(strlen("reversed") * sizeof(char));
+    strcpy(btn->name[2], "reversed");
+    btn->name[3] = malloc(strlen("h-rotated") * sizeof(char));
+    strcpy(btn->name[3], "h-rotated");
+    btn->name[4] = malloc(strlen("v-rotated") * sizeof(char));
+    strcpy(btn->name[4], "v-rotated");
 
     btn->button = malloc(btn->size * sizeof(GEntity));
 
-    loadGEntity(&btn->button[0], renderer, "rc/gray_button.png");
+    loadGEntity(&btn->button[0], renderer, "rc/save_button.png");
     GEntity_set_pos(&btn->button[0], 16, 16);
 
-    loadGEntity(&btn->button[1], renderer, "rc/reversed_button.png");
+    loadGEntity(&btn->button[1], renderer, "rc/gray_button.png");
     GEntity_set_pos(&btn->button[1], btn->button[0].dest.x, btn->button[0].dest.y + btn->button[0].dest.h + 16);
 
-    loadGEntity(&btn->button[2], renderer, "rc/horizontal_rotate.png");
+    loadGEntity(&btn->button[2], renderer, "rc/reversed_button.png");
     GEntity_set_pos(&btn->button[2], btn->button[1].dest.x, btn->button[1].dest.y + btn->button[1].dest.h + 16);
 
-    loadGEntity(&btn->button[3], renderer, "rc/vertical_rotate.png");
+    loadGEntity(&btn->button[3], renderer, "rc/horizontal_rotate.png");
     GEntity_set_pos(&btn->button[3], btn->button[2].dest.x, btn->button[2].dest.y + btn->button[2].dest.h + 16);
+
+    loadGEntity(&btn->button[4], renderer, "rc/vertical_rotate.png");
+    GEntity_set_pos(&btn->button[4], btn->button[3].dest.x, btn->button[3].dest.y + btn->button[3].dest.h + 16);
 
     btn->hover = malloc(btn->size * sizeof(GEntity));
 
-    loadGEntity(&btn->hover[0], renderer, "rc/gray_button_hover.png");
+    loadGEntity(&btn->hover[0], renderer, "rc/save_button_hover.png");
     GEntity_set_pos(&btn->hover[0], btn->button[0].dest.x, btn->button[0].dest.y);
 
-    loadGEntity(&btn->hover[1], renderer, "rc/reversed_button_hover.png");
+    loadGEntity(&btn->hover[1], renderer, "rc/gray_button_hover.png");
     GEntity_set_pos(&btn->hover[1], btn->button[1].dest.x, btn->button[1].dest.y);
 
-    loadGEntity(&btn->hover[2], renderer, "rc/horizontal_rotate_hover.png");
+    loadGEntity(&btn->hover[2], renderer, "rc/reversed_button_hover.png");
     GEntity_set_pos(&btn->hover[2], btn->button[2].dest.x, btn->button[2].dest.y);
 
-    loadGEntity(&btn->hover[3], renderer, "rc/vertical_rotate_hover.png");
+    loadGEntity(&btn->hover[3], renderer, "rc/horizontal_rotate_hover.png");
     GEntity_set_pos(&btn->hover[3], btn->button[3].dest.x, btn->button[3].dest.y);
+
+    loadGEntity(&btn->hover[4], renderer, "rc/vertical_rotate_hover.png");
+    GEntity_set_pos(&btn->hover[4], btn->button[4].dest.x, btn->button[4].dest.y);
 
     return btn;
 }
