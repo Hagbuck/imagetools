@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-W -Wall -pedantic
 LDFLAGS= -lm
-SDLFLAG= -lSDL2main -lSDL2 -lSDL2_mixer -lSDL2_image -lSDL2_ttf
+SDLFLAG= -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf
 EXEC=imagetools
 OUTNAME=imagetools
 OUTEXT=out

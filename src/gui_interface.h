@@ -24,8 +24,25 @@
 typedef struct GEntity GEntity;
 struct GEntity
 {
-    SDL_Texture*    text;
-    SDL_Rect        dest;
+    SDL_Texture*    text;   // The entity's texture
+    SDL_Rect        dest;   // The dest box of the entity
+};
+
+typedef struct Btn_list Btn_list;
+struct Btn_list
+{
+    char**          name;       // Contain all button name
+    GEntity*        button;     // Contain all button
+    GEntity*        hover;      // Contain all hover button
+    int             size;       // Number of button
+};
+
+typedef struct GWindow GWindow;
+struct GWindow
+{
+    Btn_list*       button_list;
+    SDL_Window*     window;
+    SDL_Renderer*   renderer;
 };
 
 // Windows
@@ -34,6 +51,13 @@ void            load_BMP(SDL_Window* const window, SDL_Renderer* const renderer)
 void            BMP_window(SDL_Window* const window, SDL_Renderer* const renderer, BMP_image* bmp, char* const file_path);
 void            load_PGM(SDL_Window* const window, SDL_Renderer* const renderer);
 void            PGM_window(SDL_Window* const window, SDL_Renderer* const renderer, PGM_P2_image* pgm, char* const file_path);
+Btn_list*       create_HUD_Btn_list(SDL_Renderer* const renderer);
+GWindow*        create_HUD(void);
+void            draw_GWindow(GWindow* const window, int mouse_x, int mouse_y);
+char*           get_button_name_hunder_mouse_into_GWindow(GWindow* const window, int mouse_x, int mouse_y);
+void            free_GWindow(GWindow* const window);
+void            free_Btn_list(Btn_list* const btn);
+
 
 // Basic SDL tools
 void            init_SDL(void);

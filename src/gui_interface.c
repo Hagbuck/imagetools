@@ -152,9 +152,16 @@ void BMP_window(SDL_Window* const window, SDL_Renderer* const renderer, BMP_imag
     e__bool is_end = FALSE;
     int     i, j;
 
+    char*   hud_button_clicked = NULL;
     int     mouse_x, mouse_y;
+    e__bool mouse_down = FALSE;
+    e__bool modify = FALSE;
 
     SDL_SetWindowSize(window, bmp->width, bmp->height);
+
+    GWindow* hud = create_HUD();
+
+    int time_a = 0;
 
     SDL_Event event;
     while (is_end == FALSE)
@@ -168,26 +175,68 @@ void BMP_window(SDL_Window* const window, SDL_Renderer* const renderer, BMP_imag
             break;
 
             case SDL_KEYUP:
+            printf("%d UP\n", event.key.keysym.sym);
                 if (event.key.keysym.sym == SDLK_ESCAPE)
                 {
                     is_end = TRUE;
                 }
             break;
+
+            case SDL_MOUSEBUTTONDOWN:
+                puts("clicked");
+                if(mouse_down == FALSE)
+                {
+                    hud_button_clicked = get_button_name_hunder_mouse_into_GWindow(hud, mouse_x, mouse_y);
+                    if(hud_button_clicked != NULL)
+                    {
+                        modify = TRUE;
+                        printf("> %s\n", hud_button_clicked);
+                        if(strcmp(hud_button_clicked, "gray") == 0)
+                            BMP_set_gray_filter(bmp);
+                        else if(strcmp(hud_button_clicked, "reversed") == 0)
+                            BMP_set_reversed_filter(bmp);
+                        else if(strcmp(hud_button_clicked, "h-rotated") == 0)
+                            BMP_set_horizontal_reversed(bmp);
+                        else if(strcmp(hud_button_clicked, "v-rotated") == 0)
+                            BMP_set_vertical_reversed(bmp);
+                        else
+                            modify = FALSE;
+                    }
+                }
+                mouse_down = TRUE;
+            break;
+
+            case SDL_MOUSEBUTTONUP:
+                mouse_down = FALSE;
+            break;
+
+            case SDL_MOUSEMOTION:
+                // printf("(%d:%d)\n", mouse_x, mouse_y);
+            break;                
         }
 
-        SDL_RenderClear(renderer);
-
-        for(i = 0; i < bmp->height; ++i)
+        if(SDL_GetTicks() - time_a >= 1000
+        || modify == TRUE)
         {
-            for(j = 0; j < bmp->width; ++j)
+            SDL_RenderClear(renderer);
+
+            for(i = 0; i < bmp->height; ++i)
             {
-                SDL_SetRenderDrawColor(renderer, bmp->pixels[i][j].r, bmp->pixels[i][j].g, bmp->pixels[i][j].b, 255);
-                SDL_RenderDrawPoint(renderer, j, bmp->height - i);
+                for(j = 0; j < bmp->width; ++j)
+                {
+                    SDL_SetRenderDrawColor(renderer, bmp->pixels[i][j].r, bmp->pixels[i][j].g, bmp->pixels[i][j].b, 255);
+                    SDL_RenderDrawPoint(renderer, j, bmp->height - i);
+                }
             }
+            SDL_RenderPresent(renderer);
+            time_a = SDL_GetTicks();
         }
-        SDL_RenderPresent(renderer);
+        draw_GWindow(hud, mouse_x, mouse_y);
+
+        SDL_Delay(20);
     }
     free_BMP_image(bmp);
+    free_GWindow(hud);
 }
 
 void load_PGM(SDL_Window* const window, SDL_Renderer* const renderer)
@@ -275,6 +324,136 @@ void PGM_window(SDL_Window* const window, SDL_Renderer* const renderer, PGM_P2_i
     }
     free_PGM_P2_image(pgm);
 }
+
+Btn_list* create_HUD_Btn_list(SDL_Renderer* const renderer)
+{
+    Btn_list* btn = malloc(sizeof(Btn_list));
+
+    btn->size = 4;
+
+    btn->name = malloc(btn->size * sizeof(char*));
+    btn->name[0] = malloc(strlen("gray") * sizeof(char));
+    strcpy(btn->name[0], "gray");
+    btn->name[1] = malloc(strlen("reversed") * sizeof(char));
+    strcpy(btn->name[1], "reversed");
+    btn->name[2] = malloc(strlen("h-rotated") * sizeof(char));
+    strcpy(btn->name[2], "h-rotated");
+    btn->name[3] = malloc(strlen("v-rotated") * sizeof(char));
+    strcpy(btn->name[3], "v-rotated");
+
+    btn->button = malloc(btn->size * sizeof(GEntity));
+
+    loadGEntity(&btn->button[0], renderer, "rc/gray_button.png");
+    GEntity_set_pos(&btn->button[0], 16, 16);
+
+    loadGEntity(&btn->button[1], renderer, "rc/reversed_button.png");
+    GEntity_set_pos(&btn->button[1], btn->button[0].dest.x + btn->button[0].dest.w + 16, 16);
+
+    loadGEntity(&btn->button[2], renderer, "rc/horizontal_rotate.png");
+    GEntity_set_pos(&btn->button[2], btn->button[0].dest.x, btn->button[0].dest.y + btn->button[0].dest.h + 16);
+
+    loadGEntity(&btn->button[3], renderer, "rc/vertical_rotate.png");
+    GEntity_set_pos(&btn->button[3], btn->button[1].dest.x, btn->button[2].dest.y);
+
+    btn->hover = malloc(btn->size * sizeof(GEntity));
+
+    loadGEntity(&btn->hover[0], renderer, "rc/gray_button_hover.png");
+    GEntity_set_pos(&btn->hover[0], btn->button[0].dest.x, btn->button[0].dest.y);
+
+    loadGEntity(&btn->hover[1], renderer, "rc/reversed_button_hover.png");
+    GEntity_set_pos(&btn->hover[1], btn->button[1].dest.x, btn->button[1].dest.y);
+
+    loadGEntity(&btn->hover[2], renderer, "rc/horizontal_rotate_hover.png");
+    GEntity_set_pos(&btn->hover[2], btn->button[2].dest.x, btn->button[2].dest.y);
+
+    loadGEntity(&btn->hover[3], renderer, "rc/vertical_rotate_hover.png");
+    GEntity_set_pos(&btn->hover[3], btn->button[3].dest.x, btn->button[3].dest.y);
+
+    return btn;
+}
+
+GWindow* create_HUD(void)
+{
+    GWindow* hud = malloc(sizeof(GWindow));
+
+    hud->window = create_SDL_Window("ToolsBox", 1, 1);
+    hud->renderer = create_SDL_Renderer(hud->window);
+
+    hud->button_list = create_HUD_Btn_list(hud->renderer);
+
+    SDL_SetWindowSize(hud->window, 3*16 + 2*hud->button_list->button[0].dest.w, 3*16 + 2*hud->button_list->button[0].dest.h);
+
+    return hud;
+}
+
+void draw_GWindow(GWindow* const window, int mouse_x, int mouse_y)
+{
+    if(window != NULL)
+    {
+        SDL_SetRenderDrawColor(window->renderer, 30,30,30,255);
+        //TODO : color bg
+        SDL_RenderClear(window->renderer);
+        int i;
+        for(i = 0; i < window->button_list->size; ++i)
+        {
+            if(SDL_GetMouseFocus() == window->window
+            && testCollider(mouse_x, mouse_y, window->button_list->button[i].dest) == TRUE)
+                    SDL_RenderCopy(window->renderer, window->button_list->hover[i].text, NULL, &window->button_list->hover[i].dest);                
+            else
+                SDL_RenderCopy(window->renderer, window->button_list->button[i].text, NULL, &window->button_list->button[i].dest);
+        }
+        SDL_RenderPresent(window->renderer);
+    }
+}
+
+char* get_button_name_hunder_mouse_into_GWindow(GWindow* const window, int mouse_x, int mouse_y)
+{
+    if(window != NULL)
+    {
+        if(SDL_GetMouseFocus() == window->window)
+        {
+            int i;
+            for(i = 0; i < window->button_list->size; ++i)
+            {
+                if(testCollider(mouse_x, mouse_y, window->button_list->button[i].dest) == TRUE)
+                    return window->button_list->name[i];
+            }
+        }
+    }
+    return NULL;
+}
+
+void free_GWindow(GWindow* const window)
+{
+    if(window != NULL)
+    {
+        free_Btn_list(window->button_list);
+        // SDL_DestroyRenderer(window->renderer);
+        SDL_DestroyWindow(window->window);
+
+        free(window);
+    }
+}
+
+void free_Btn_list(Btn_list* const btn)
+{
+    if(btn != NULL)
+    {
+        int i;
+        for(i = 0; i < btn->size; ++i)
+        {
+            free(btn->name[i]);
+            SDL_DestroyTexture(btn->button[i].text);
+            SDL_DestroyTexture(btn->hover[i].text);
+        }
+        free(btn->name);
+        free(btn->button);
+        free(btn->hover);
+
+        free(btn);
+    }
+}
+
 
 void init_SDL(void)
 {
