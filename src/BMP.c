@@ -1363,3 +1363,82 @@ void free_BMP_histogram(BMP_histogram* const histogram)
         free(histogram);
     }
 }
+
+BMP_image* new_egalisation (BMP_image* ima)
+{
+
+    //DONNEES
+    int nbPixels = ima.width * ima.height;
+    int i,j;
+    //tabPixel RGB
+    int tabPixelR[256];
+    int tabPixelG[256];
+    int tabPixelB[256];
+    
+
+    //on initialise à zéro
+    for(i=0, i<256, i++){
+        tabPixelR[i]=0;
+        tabPixelG[i]=0;
+        tabPixelB[i]=0;
+    }
+
+    //on compte le nombre d'occurence
+    for(i=0, i<ima.width, i++){
+        for(j=0, j<ima.height, j++){
+            tabPixelR[ima->pixels[i][j].r]++;
+            tabPixelG[ima->pixels[i][j].g]++;
+            tabPixelB[ima->pixels[i][j].b]++;
+        }
+    }
+
+    //tabProb RGB
+    int tabProbR[256];
+    int tabProbG[256];
+    int tabProbB[256];
+
+    for(i=0, i<256, i++){
+        tabProbR[i]=tabPixelR[i]/nbPixels;
+        tabProbG[i]=tabPixelG[i]/nbPixels;
+        tabProbB[i]=tabPixelB[i]/nbPixels;
+    }
+
+    //tabProbCumulée RGB
+    int tabProbCumulR[256];
+    int tabProbCumulG[256];
+    int tabProbCumulB[256];
+    //initialisation
+    tabProbCumulR[0]=tabProbR[0];
+    tabProbCumulG[0]=tabProbG[0];
+    tabProbCumulB[0]=tabProbB[0];
+
+    for(i=1, i<256, i++){
+        tabProbCumulR[i]=tabProbCumulR[i-1]+tabPro0bR[i];
+        tabProbCumulG[i]=tabProbCumulG[i-1]+tabProbG[i];
+        tabProbCumulB[i]=tabProbCumulB[i-1]+tabProbB[i];
+    }
+
+    //tabFinal RGB
+    int tabFinalR[256];
+    int tabFinalG[256];
+    int tabFinalB[256];
+
+    for(i=0, i<256, i++){
+        tabFinal[i]=tabProbCumul[i]*256;
+    }
+
+    //on crée la nouvelle image
+
+    BMP_image* new_ima = BMP_get_copy(ima);
+
+    for(i=0, i<ima.width, i++){
+        for(j=0, j<j.height, j++){
+
+            new_ima->pixels[i][j].r = tabFinalR[ima->pixels[i][j].r];
+            new_ima->pixels[i][j].g = tabFinalG[ima->pixels[i][j].g];
+            new_ima->pixels[i][j].b = tabFinalB[ima->pixels[i][j].b];
+        }
+    }
+
+    return new_ima;
+}

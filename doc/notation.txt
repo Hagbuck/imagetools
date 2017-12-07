@@ -1,0 +1,10 @@
+- 5 points : modularité/propreté du code/ Commentaires (Leur repréciser sur la modularité du code repensée :
+ juste read and write spécialisés pour les pmg et bmp. Mais les autres fonctions pas spécialisées. 
+Cf void readBMP (File* file, struct image** img) ou struct image = {char* pixels, int  h , int w, int canal} (ou canal c'est le rgb ou N/B) 
+et donc write c'est writeBMP (File* file, struct image* img). Similaire pour PNG. 
+Et comme ça, on gère directement la même structure que ce soit du BMP ou du PMG. Donc attention au possibilités de passer de BMP au PMG et des différences de canaux ! )
+
+- 5 points sur la correction des algo; (justesse et fait de manière le plus élégants/simple possible)
+
+ - 5 points sur la qualité/quantité des tests. Attention, chose pas trop vu, mais à mettre en place ici : des images pour tester. Et quand on lance, ça teste chaque fonction/ type de choses qu'on peut faire, même des tordues ! 
+- 5 points soutenance. Vendez nous du rêve !

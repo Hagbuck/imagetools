@@ -110,4 +110,7 @@ void            free_BMP_pixels(BMP_image* const bmp);
 void            free_BMP_image(BMP_image* const bmp);
 void            free_BMP_histogram(BMP_histogram* const histogram);
 
+
+BMP_image*      new_egalisation (BMP_image* ima);
+
 #endif
