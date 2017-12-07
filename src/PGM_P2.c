@@ -858,7 +858,7 @@ PGM_P2_image* PGM_P2_get_PGM_P2_image_from_PGM_P2_histogram(PGM_P2_histogram* hi
                     // If the line number (the real line number) is under the intensity value
                     // So the pixel should be empty (white)
                     // Otherwithe, it should be black
-                    if((pgm->height - i) > histogram->intensity_value[j]) // If the pixel should be white
+                    if((pgm->height - i) <= histogram->intensity_value[j]) // If the pixel should be white
                     {
                         pgm->pixels[i][j] = pgm->v_max;
                     }
