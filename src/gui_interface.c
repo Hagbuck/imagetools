@@ -261,6 +261,10 @@ void BMP_window(SDL_Window* const window, SDL_Renderer* const renderer, BMP_imag
                         {
 
                         }
+                        else if(strcmp(hud_button_clicked, "equalized") == 0)
+                        {
+                            BMP_set_equalize_histogram(bmp);
+                        }
                     }
                 }
                 mouse_down = TRUE;
@@ -393,7 +397,7 @@ Btn_list* create_HUD_Btn_list(SDL_Renderer* const renderer)
 {
     Btn_list* btn = malloc(sizeof(Btn_list));
 
-    btn->size = 12;
+    btn->size = 13;
 
     btn->name = malloc(btn->size * sizeof(char*));
 
@@ -421,6 +425,8 @@ Btn_list* create_HUD_Btn_list(SDL_Renderer* const renderer)
     strcpy(btn->name[10], "histogram");
     btn->name[11] = malloc(strlen("histogram-color") * sizeof(char));
     strcpy(btn->name[11], "histogram-color");
+    btn->name[12] = malloc(strlen("equalized") * sizeof(char));
+    strcpy(btn->name[12], "equalized");
 
     btn->button = malloc(btn->size * sizeof(GEntity));
 
@@ -464,6 +470,8 @@ Btn_list* create_HUD_Btn_list(SDL_Renderer* const renderer)
     loadGEntity(&btn->button[11], renderer, "rc/histogram_color_button.png");
     GEntity_set_pos(&btn->button[11], btn->button[6].dest.x + btn->button[6].dest.w + 16, btn->button[1].dest.y);
 
+    loadGEntity(&btn->button[12], renderer, "rc/equalized_button.png");
+    GEntity_set_pos(&btn->button[12], btn->button[7].dest.x + btn->button[7].dest.w + 16, btn->button[7].dest.y);
 
 
     btn->hover = malloc(btn->size * sizeof(GEntity));
@@ -507,6 +515,9 @@ Btn_list* create_HUD_Btn_list(SDL_Renderer* const renderer)
 
     loadGEntity(&btn->hover[11], renderer, "rc/histogram_color_button_hover.png");
     GEntity_set_pos(&btn->hover[11], btn->button[11].dest.x, btn->button[11].dest.y);
+
+    loadGEntity(&btn->hover[12], renderer, "rc/equalized_button_hover.png");
+    GEntity_set_pos(&btn->hover[12], btn->button[12].dest.x, btn->button[12].dest.y);
 
     return btn;
 }
