@@ -101,6 +101,7 @@ e__bool         BMP_convolution_with_Matrix(BMP_image* const bmp, Matrix* const 
 // Histogram
 BMP_histogram*  BMP_get_histogram(BMP_image* const bmp, e__color component);
 BMP_image*      BMP_get_BMP_image_from_BMP_histogram(BMP_histogram* const histogram);
+BMP_image*      BMP_get_BMP_image_from_all_BMP_histogram(BMP_histogram* const intensity, BMP_histogram* const red, BMP_histogram* const green, BMP_histogram* const blue);
 e__bool         BMP_save_histogram_as_BMP_file(BMP_histogram* const histogram, FILE* file);
 
 // Free and display

@@ -141,6 +141,7 @@ void cli(int argc, char** argv)
                 if(bmp != NULL)
                 {
                     BMP_histogram* bmp_hist = NULL;
+                    e__bool all_components = FALSE;
 
                     if(strcmp(argv[i], "r") == 0)
                         bmp_hist = BMP_get_histogram(bmp, RED);
@@ -150,8 +151,11 @@ void cli(int argc, char** argv)
                         bmp_hist = BMP_get_histogram(bmp, BLUE);
                     else if(strcmp(argv[i], "i") == 0)
                         bmp_hist = BMP_get_histogram(bmp, INTENSITY);
-                    else if(strcmp(argv[i], "c") == 0)              // TODO
+                    else if(strcmp(argv[i], "c") == 0)
+                    {
                         bmp_hist = BMP_get_histogram(bmp, INTENSITY);
+                        all_components = TRUE;
+                    }
                     else    // ERROR PARAMETER GO BACK
                     {
                         bmp_hist = BMP_get_histogram(bmp, INTENSITY);
@@ -162,7 +166,22 @@ void cli(int argc, char** argv)
                     if(i < argc)
                     {
                         file = get_file(argv[i], "wb");
-                        BMP_save_histogram_as_BMP_file(bmp_hist, file);
+                        if(all_components == TRUE)
+                        {
+                            BMP_histogram* red = BMP_get_histogram(bmp, RED);
+                            BMP_histogram* green = BMP_get_histogram(bmp, GREEN);
+                            BMP_histogram* blue = BMP_get_histogram(bmp, BLUE);
+
+                            BMP_image* hist_components = BMP_get_BMP_image_from_all_BMP_histogram(bmp_hist, red, green, blue);
+                            BMP_save_image_into_file(hist_components, file);
+
+                            free_BMP_image(hist_components);
+                            free_BMP_histogram(red);
+                            free_BMP_histogram(green);
+                            free_BMP_histogram(blue);
+                        }
+                        else
+                            BMP_save_histogram_as_BMP_file(bmp_hist, file);
                         fclose(file);
                         free_BMP_histogram(bmp_hist);
                     }

@@ -1078,17 +1078,29 @@ BMP_image* BMP_get_BMP_image_from_BMP_histogram(BMP_histogram* const histogram)
             int max = histogram->intensity_values[0];
 
             RGB color;
-            // Default and / or if component is ALL, draw in black
-            color.r = 0;
-            color.g = 0;
-            color.b = 0;
+            // Default and / or if component is ALL, draw in white
+            color.r = 255;
+            color.g = 255;
+            color.b = 255;
 
             if(histogram->component == RED)
-                color.r = 255;
+            {
+                // color.r = 255;
+                color.g = 0;
+                color.b = 0;
+            }
             else if(histogram->component == GREEN)
-                color.g = 255;
+            {
+                color.r = 0;
+                // color.g = 255;
+                color.b = 0;
+            }
             else if(histogram->component == BLUE)
-                color.b = 255;
+            {
+                color.r = 0;
+                color.g = 0;
+                // color.b = 255;
+            }
 
             bmp->width = histogram->size;           // A col of the histogram will be a a col into the picture
 
@@ -1135,17 +1147,121 @@ BMP_image* BMP_get_BMP_image_from_BMP_histogram(BMP_histogram* const histogram)
                     // If the line number (the real line number) is under the intensity value
                     // So the pixel should be empty (white)
                     // Otherwithe, it should be black
-                    if(i > histogram->intensity_values[j]) // If the pixel should be white
+                    if(i > histogram->intensity_values[j]) // If the pixel should be black (background)
                     {
-                        bmp->pixels[i][j].r = 255;
-                        bmp->pixels[i][j].g = 255;
-                        bmp->pixels[i][j].b = 255;
+                        bmp->pixels[i][j].r = 0;
+                        bmp->pixels[i][j].g = 0;
+                        bmp->pixels[i][j].b = 0;
                     }
-                    else                            // If the pixel pixel should be colored
+                    else                            // If the pixel pixel should be colored (histogramme)
                     {
                         bmp->pixels[i][j].r = color.r;
                         bmp->pixels[i][j].g = color.g;
                         bmp->pixels[i][j].b = color.b;
+                    }
+                }
+            }
+            return bmp;
+        }
+    }
+    return NULL;
+}
+
+/**
+ * @brief      Get a BMP_image with the cumulate of all Histogram
+ *
+ * @param      intensity  The intensity
+ * @param      red        The red
+ * @param      green      The green
+ * @param      blue       The blue
+ *
+ * @return     TRUE if success, FALSE otherwise
+ */
+BMP_image* BMP_get_BMP_image_from_all_BMP_histogram(BMP_histogram* const intensity, BMP_histogram* const red, BMP_histogram* const green, BMP_histogram* const blue)
+{
+    if(intensity && red && green && blue)
+    {
+        if(intensity->intensity_values != NULL && intensity->size > 0
+        && red->intensity_values != NULL && red->size > 0
+        && green->intensity_values != NULL && green->size > 0
+        && blue->intensity_values != NULL && blue->size > 0
+        )
+        {
+            BMP_image* bmp = malloc(sizeof(BMP_image));
+            BMP_histogram_copy_header_into_BMP_image(intensity, bmp);
+            int i, j;
+            int max = 0;
+
+            bmp->width = intensity->size;           // A col of the histogram will be a a col into the picture
+
+            for(i = 0; i < intensity->size; ++i)                // Search the higher intensity
+            {
+                if(red->intensity_values[i] > max)
+                    max = red->intensity_values[i];
+                if(green->intensity_values[i] > max)
+                    max = green->intensity_values[i];
+                if(blue->intensity_values[i] > max)
+                    max = blue->intensity_values[i];
+            }
+
+            bmp->height = max;                      // The line number is the same as the max value into the histogram
+            
+            int mask = 0x000000FF;
+            int temp_value = 0;
+            // Reading of width and height and convert into the header arrays
+            for(i = 3; i >= 0; --i)
+            {
+                temp_value = mask & bmp->width;
+                // printf("> %x & %x = %x\n", mask, bmp->width, temp_value);
+                temp_value = temp_value >> (8 * (3-i));
+                bmp->header.biWidth[i] = temp_value;
+
+                temp_value = mask & bmp->height;
+                temp_value = temp_value >> (8 * (3-i));
+                bmp->header.biHeight[i] = temp_value;
+
+                mask = mask << 8;
+            }
+
+            // Allocate the memory for a 2D array which will contain the pixels
+            bmp->pixels = malloc(bmp->height * sizeof(int*));
+            for(i = 0; i < bmp->height; ++i)
+            {
+                bmp->pixels[i] = malloc(bmp->width * sizeof(int));
+            }
+
+
+            for(i = bmp->height - 1; i >= 0; --i)        // Foreach pixel
+            {
+                for(j = 0; j < bmp->width; ++j)
+                {
+                    // For the j col
+                    // By default, each pixel is black
+                    bmp->pixels[i][j].r = 0;
+                    bmp->pixels[i][j].g = 0;
+                    bmp->pixels[i][j].b = 0;
+
+                    // And add the component value for each pixel
+
+                    if(i < red->intensity_values[j]) // If the pixel should be red
+                    {
+                        bmp->pixels[i][j].r += 255;
+                        if(bmp->pixels[i][j].r > 255)
+                            bmp->pixels[i][j].r = 255;
+                    }
+
+                    if(i < green->intensity_values[j]) // If the pixel should be green
+                    {
+                        bmp->pixels[i][j].g += 255;
+                        if(bmp->pixels[i][j].g > 255)
+                            bmp->pixels[i][j].g = 255;
+                    }
+
+                    if(i < blue->intensity_values[j]) // If the pixel should be blue
+                    {
+                        bmp->pixels[i][j].b += 255;
+                        if(bmp->pixels[i][j].b > 255)
+                            bmp->pixels[i][j].b = 255;
                     }
                 }
             }

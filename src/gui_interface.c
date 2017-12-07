@@ -481,20 +481,6 @@ Btn_list* create_HUD_Btn_list(SDL_Renderer* const renderer)
     return btn;
 }
 
-GWindow* create_HUD(void)
-{
-    GWindow* hud = malloc(sizeof(GWindow));
-
-    hud->window = create_SDL_Window("ToolsBox", 1, 1);
-    hud->renderer = create_SDL_Renderer(hud->window);
-
-    hud->button_list = create_HUD_Btn_list(hud->renderer);
-
-    SDL_SetWindowSize(hud->window, 3*16 + 2*hud->button_list->button[0].dest.w, 3*16 + 2*hud->button_list->button[0].dest.h);
-
-    return hud;
-}
-
 void draw_Btn_list(Btn_list* const btn, SDL_Renderer* const renderer, int mouse_x, int mouse_y)
 {
     if(btn != NULL)
@@ -510,26 +496,6 @@ void draw_Btn_list(Btn_list* const btn, SDL_Renderer* const renderer, int mouse_
     }
 }
 
-void draw_GWindow(GWindow* const window, int mouse_x, int mouse_y)
-{
-    if(window != NULL)
-    {
-        SDL_SetRenderDrawColor(window->renderer, 30,30,30,255);
-        //TODO : color bg
-        SDL_RenderClear(window->renderer);
-        int i;
-        for(i = 0; i < window->button_list->size; ++i)
-        {
-            if(SDL_GetMouseFocus() == window->window
-            && testCollider(mouse_x, mouse_y, window->button_list->button[i].dest) == TRUE)
-                    SDL_RenderCopy(window->renderer, window->button_list->hover[i].text, NULL, &window->button_list->hover[i].dest);                
-            else
-                SDL_RenderCopy(window->renderer, window->button_list->button[i].text, NULL, &window->button_list->button[i].dest);
-        }
-        SDL_RenderPresent(window->renderer);
-    }
-}
-
 char* get_button_name_hunder_mouse_into_Btn_list(Btn_list* const btn, int mouse_x, int mouse_y)
 {
     if(btn != NULL)
@@ -542,35 +508,6 @@ char* get_button_name_hunder_mouse_into_Btn_list(Btn_list* const btn, int mouse_
         }
     }
     return NULL;
-}
-
-char* get_button_name_hunder_mouse_into_GWindow(GWindow* const window, int mouse_x, int mouse_y)
-{
-    if(window != NULL)
-    {
-        if(SDL_GetMouseFocus() == window->window)
-        {
-            int i;
-            for(i = 0; i < window->button_list->size; ++i)
-            {
-                if(testCollider(mouse_x, mouse_y, window->button_list->button[i].dest) == TRUE)
-                    return window->button_list->name[i];
-            }
-        }
-    }
-    return NULL;
-}
-
-void free_GWindow(GWindow* const window)
-{
-    if(window != NULL)
-    {
-        free_Btn_list(window->button_list);
-        // SDL_DestroyRenderer(window->renderer);
-        SDL_DestroyWindow(window->window);
-
-        free(window);
-    }
 }
 
 void free_Btn_list(Btn_list* const btn)
