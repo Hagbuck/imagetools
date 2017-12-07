@@ -6,7 +6,7 @@
 
 #include "gui_interface.h"
 
-int main_window(int argc, char** argv)
+int main_window(void)
 {
     init_SDL();
     SDL_Window* window = create_SDL_Window("Imagetools v0.5", WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -199,7 +199,8 @@ void BMP_window(SDL_Window* const window, SDL_Renderer* const renderer, BMP_imag
 
     if(bmp->height > hud_height)        // HUD smaller than the picture
     {
-        SDL_SetWindowSize(window, bmp->width + hud_width + 16, bmp->height);
+        SDL_SetWindowSize(window, bmp->width + hud_width + 16, bmp->height + 16*2);
+        picture_y_offset = 16;
     }
     else                                // HUD bigger than the picture
     {

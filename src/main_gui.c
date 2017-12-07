@@ -9,7 +9,7 @@
 
 #include "gui_interface.h"
 
-int main(int argc, char *argv[])
+int main(void)
 {
-    return main_window(argc, argv);
+    return main_window();
 }

@@ -38,7 +38,7 @@ struct Btn_list
 };
 
 // Windows
-int             main_window(int argc, char** argv);
+int             main_window(void);
 void            load_BMP(SDL_Window* const window, SDL_Renderer* const renderer);
 void            save_BMP(BMP_image* const bmp);
 void            BMP_window(SDL_Window* const window, SDL_Renderer* const renderer, BMP_image* bmp, char* const file_path);

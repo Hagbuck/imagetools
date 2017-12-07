@@ -1282,6 +1282,7 @@ BMP_image* BMP_get_BMP_image_from_all_BMP_histogram(BMP_histogram* const intensi
             BMP_histogram_copy_header_into_BMP_image(intensity, bmp);
             int i, j;
             int max = 0;
+            int pixel;
 
             bmp->width = intensity->size;           // A col of the histogram will be a a col into the picture
 
@@ -1336,23 +1337,29 @@ BMP_image* BMP_get_BMP_image_from_all_BMP_histogram(BMP_histogram* const intensi
 
                     if(i < red->intensity_values[j]) // If the pixel should be red
                     {
-                        bmp->pixels[i][j].r += 255;
-                        if(bmp->pixels[i][j].r > 255)
+                        pixel = bmp->pixels[i][j].r + 255;
+                        if(pixel > 255)
                             bmp->pixels[i][j].r = 255;
+                        else
+                            bmp->pixels[i][j].r = pixel;
                     }
 
                     if(i < green->intensity_values[j]) // If the pixel should be green
                     {
-                        bmp->pixels[i][j].g += 255;
-                        if(bmp->pixels[i][j].g > 255)
+                        pixel = bmp->pixels[i][j].g + 255;
+                        if(pixel > 255)
                             bmp->pixels[i][j].g = 255;
+                        else
+                            bmp->pixels[i][j].g = pixel;
                     }
 
                     if(i < blue->intensity_values[j]) // If the pixel should be blue
                     {
-                        bmp->pixels[i][j].b += 255;
-                        if(bmp->pixels[i][j].b > 255)
+                        pixel = bmp->pixels[i][j].b + 255;
+                        if(pixel > 255)
                             bmp->pixels[i][j].b = 255;
+                        else
+                            bmp->pixels[i][j].b = pixel;
                     }
                 }
             }

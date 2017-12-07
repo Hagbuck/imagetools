@@ -33,7 +33,7 @@
 #define MARIO_H_REV     "img/mario_horizontal_reversed.bmp"
 #define MARIO_V_REV     "img/mario_vertical_reversed.bmp"
 
-int main(int argc, char *argv[])
+int main(void)
 {
     // FILE* file = get_file(FEEP, "r");
     // FILE* out_copy = get_file(FEEP_COPY, "w");
