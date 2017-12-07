@@ -154,6 +154,7 @@ void bmp_menu(void)
         puts("\t| r. Reversed filter .................. |");
         puts("\t| h. Horizontal reversed .............. |");
         puts("\t| v. Vertical reversed ................ |");
+        puts("\t| e. Equalized histogram .............. |");
         puts("\t| f. FIR filters ...................... |");
         puts("\t+---------------------------------------+");
         printf("\t: ");
@@ -364,6 +365,19 @@ void bmp_menu(void)
                 {
                     BMP_set_vertical_reversed(bmp);
                     puts("\t> Vertical reversed setted");
+                }
+                else
+                {
+                    puts("\t> ERROR any BMP_image is load !");
+                }
+            break;
+
+            case 'e':
+            case 'E':
+                if(bmp != NULL)
+                {
+                    BMP_set_equalize_histogram(bmp);
+                    puts("\t> Histogram of the bmp is equalized");
                 }
                 else
                 {
