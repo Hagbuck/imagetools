@@ -122,13 +122,15 @@ void cli(int argc, char** argv)
             if(pgm != NULL)
                 PGM_P2_set_sobel_filter(pgm);
         }
-        /*else if(strcmp(argv[i], "--equalize-hist") == 0)
+        else if(strcmp(argv[i], "--equalize-hist") == 0)
         {
             if(bmp != NULL)
                 BMP_set_equalize_histogram(bmp);
             if(pgm != NULL)
-                PGM_P2_set_equalize_histogram(pgm);
-        }*/
+            {
+                // PGM_P2_set_equalize_histogram(pgm);
+            }
+        }
 
         /**
          * GETTING HISTOGRAM

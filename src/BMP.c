@@ -662,6 +662,97 @@ e__bool BMP_set_vertical_reversed(BMP_image* const bmp)
     return FALSE; 
 }
 
+/**
+ * @brief      Set equalize histogram filter on BMP
+ *
+ * @param      bmp   The bitmap
+ *
+ * @return     TRUE if sucess, FALSE otherwise
+ */
+e__bool BMP_set_equalize_histogram(BMP_image* const bmp)
+{
+    if(bmp != NULL)
+    {
+        //DONNEES
+        float nbPixels = bmp->width * bmp->height;
+
+        int i,j;
+        //tabPixel RGB
+        float tabPixelR[256];
+        float tabPixelG[256];
+        float tabPixelB[256];
+        
+
+        //on initialise à zéro
+        for(i=0; i<256; i++){
+            tabPixelR[i]=0;
+            tabPixelG[i]=0;
+            tabPixelB[i]=0;
+        }
+
+        //on compte le nombre d'occurence
+        for(i=0; i<bmp->height; i++){
+            for(j=0; j<bmp->width; j++){
+                tabPixelR[bmp->pixels[i][j].r]++;
+                tabPixelG[bmp->pixels[i][j].g]++;
+                tabPixelB[bmp->pixels[i][j].b]++;
+            }
+        }
+
+        //tabProb RGB
+        float tabProbR[256];
+        float tabProbG[256];
+        float tabProbB[256];
+
+        for(i=0; i<256; i++){
+            tabProbR[i]=tabPixelR[i]/nbPixels;
+            tabProbG[i]=tabPixelG[i]/nbPixels;
+            tabProbB[i]=tabPixelB[i]/nbPixels;
+        }
+
+        //tabProbCumulée RGB
+        float tabProbCumulR[256];
+        float tabProbCumulG[256];
+        float tabProbCumulB[256];
+        //initialisation
+        tabProbCumulR[0]=tabProbR[0];
+        tabProbCumulG[0]=tabProbG[0];
+        tabProbCumulB[0]=tabProbB[0];
+
+        for(i=1; i<256; i++){
+            tabProbCumulR[i]=tabProbCumulR[i-1]+tabProbR[i];
+            tabProbCumulG[i]=tabProbCumulG[i-1]+tabProbG[i];
+            tabProbCumulB[i]=tabProbCumulB[i-1]+tabProbB[i];
+        }
+
+        //tabFinal RGB
+        float tabFinalR[256];
+        float tabFinalG[256];
+        float tabFinalB[256];
+
+        for(i=0; i<256; i++){
+            tabFinalR[i]=tabProbCumulR[i]*256;
+            tabFinalG[i]=tabProbCumulG[i]*256;
+            tabFinalB[i]=tabProbCumulB[i]*256;
+        }
+
+        //on crée la nouvelle image
+
+        // BMP_image* new_bmp = BMP_get_copy(bmp);
+
+        for(i=0; i<bmp->height; i++){
+            for(j=0; j<bmp->width; j++){
+
+                bmp->pixels[i][j].r = tabFinalR[bmp->pixels[i][j].r];
+                bmp->pixels[i][j].g = tabFinalG[bmp->pixels[i][j].g];
+                bmp->pixels[i][j].b = tabFinalB[bmp->pixels[i][j].b];
+            }
+        }
+        return TRUE;
+    }
+    return FALSE;
+}
+
 e__bool BMP_set_FIR_1D_horizontal_filter_with_depth(BMP_image* const bmp, int depth)
 {
     if(bmp != NULL)
@@ -1362,83 +1453,4 @@ void free_BMP_histogram(BMP_histogram* const histogram)
         free(histogram->intensity_values);
         free(histogram);
     }
-}
-
-BMP_image* new_egalisation (BMP_image* ima)
-{
-
-    //DONNEES
-    int nbPixels = ima.width * ima.height;
-    int i,j;
-    //tabPixel RGB
-    int tabPixelR[256];
-    int tabPixelG[256];
-    int tabPixelB[256];
-    
-
-    //on initialise à zéro
-    for(i=0, i<256, i++){
-        tabPixelR[i]=0;
-        tabPixelG[i]=0;
-        tabPixelB[i]=0;
-    }
-
-    //on compte le nombre d'occurence
-    for(i=0, i<ima.width, i++){
-        for(j=0, j<ima.height, j++){
-            tabPixelR[ima->pixels[i][j].r]++;
-            tabPixelG[ima->pixels[i][j].g]++;
-            tabPixelB[ima->pixels[i][j].b]++;
-        }
-    }
-
-    //tabProb RGB
-    int tabProbR[256];
-    int tabProbG[256];
-    int tabProbB[256];
-
-    for(i=0, i<256, i++){
-        tabProbR[i]=tabPixelR[i]/nbPixels;
-        tabProbG[i]=tabPixelG[i]/nbPixels;
-        tabProbB[i]=tabPixelB[i]/nbPixels;
-    }
-
-    //tabProbCumulée RGB
-    int tabProbCumulR[256];
-    int tabProbCumulG[256];
-    int tabProbCumulB[256];
-    //initialisation
-    tabProbCumulR[0]=tabProbR[0];
-    tabProbCumulG[0]=tabProbG[0];
-    tabProbCumulB[0]=tabProbB[0];
-
-    for(i=1, i<256, i++){
-        tabProbCumulR[i]=tabProbCumulR[i-1]+tabPro0bR[i];
-        tabProbCumulG[i]=tabProbCumulG[i-1]+tabProbG[i];
-        tabProbCumulB[i]=tabProbCumulB[i-1]+tabProbB[i];
-    }
-
-    //tabFinal RGB
-    int tabFinalR[256];
-    int tabFinalG[256];
-    int tabFinalB[256];
-
-    for(i=0, i<256, i++){
-        tabFinal[i]=tabProbCumul[i]*256;
-    }
-
-    //on crée la nouvelle image
-
-    BMP_image* new_ima = BMP_get_copy(ima);
-
-    for(i=0, i<ima.width, i++){
-        for(j=0, j<j.height, j++){
-
-            new_ima->pixels[i][j].r = tabFinalR[ima->pixels[i][j].r];
-            new_ima->pixels[i][j].g = tabFinalG[ima->pixels[i][j].g];
-            new_ima->pixels[i][j].b = tabFinalB[ima->pixels[i][j].b];
-        }
-    }
-
-    return new_ima;
 }

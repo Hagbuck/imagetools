@@ -188,13 +188,13 @@ void BMP_window(SDL_Window* const window, SDL_Renderer* const renderer, BMP_imag
 
     Btn_list* btn = create_HUD_Btn_list(renderer);
 
-    int hud_width = btn->button[0].dest.w + btn->button[5].dest.w + 16*3;
+    int hud_width = btn->button[0].dest.w + btn->button[5].dest.w + btn->button[10].dest.w + 16*4;
     int hud_height = 16;
     int picture_y_offset = 0;
 
     int time_a = 0;
 
-    for(i = 0; i < btn->size/2; ++i)
+    for(i = 0; i < btn->size/3; ++i)
         hud_height += btn->button[i].dest.h + 16;
 
     if(bmp->height > hud_height)        // HUD smaller than the picture
@@ -253,6 +253,14 @@ void BMP_window(SDL_Window* const window, SDL_Renderer* const renderer, BMP_imag
                             BMP_set_FIR_2D_border_filter_y(bmp);
                         else if(strcmp(hud_button_clicked, "sobel") == 0)
                             BMP_set_sobel_filter(bmp);
+                        else if(strcmp(hud_button_clicked, "histogram") == 0)
+                        {
+
+                        }
+                        else if(strcmp(hud_button_clicked, "histogram-color") == 0)
+                        {
+
+                        }
                     }
                 }
                 mouse_down = TRUE;
@@ -385,7 +393,7 @@ Btn_list* create_HUD_Btn_list(SDL_Renderer* const renderer)
 {
     Btn_list* btn = malloc(sizeof(Btn_list));
 
-    btn->size = 10;
+    btn->size = 12;
 
     btn->name = malloc(btn->size * sizeof(char*));
 
@@ -409,6 +417,10 @@ Btn_list* create_HUD_Btn_list(SDL_Renderer* const renderer)
     strcpy(btn->name[8], "fir2d-y");
     btn->name[9] = malloc(strlen("sobel") * sizeof(char));
     strcpy(btn->name[9], "sobel");
+    btn->name[10] = malloc(strlen("histogram") * sizeof(char));
+    strcpy(btn->name[10], "histogram");
+    btn->name[11] = malloc(strlen("histogram-color") * sizeof(char));
+    strcpy(btn->name[11], "histogram-color");
 
     btn->button = malloc(btn->size * sizeof(GEntity));
 
@@ -444,6 +456,16 @@ Btn_list* create_HUD_Btn_list(SDL_Renderer* const renderer)
     loadGEntity(&btn->button[9], renderer, "rc/sobel_button.png");
     GEntity_set_pos(&btn->button[9], btn->button[4].dest.x + btn->button[4].dest.w + 16, btn->button[4].dest.y);
 
+    /** THIRD COL **/
+
+    loadGEntity(&btn->button[10], renderer, "rc/histogram_button.png");
+    GEntity_set_pos(&btn->button[10], btn->button[5].dest.x + btn->button[5].dest.w + 16, btn->button[0].dest.y);
+
+    loadGEntity(&btn->button[11], renderer, "rc/histogram_color_button.png");
+    GEntity_set_pos(&btn->button[11], btn->button[6].dest.x + btn->button[6].dest.w + 16, btn->button[1].dest.y);
+
+
+
     btn->hover = malloc(btn->size * sizeof(GEntity));
 
     loadGEntity(&btn->hover[0], renderer, "rc/save_button_hover.png");
@@ -477,6 +499,14 @@ Btn_list* create_HUD_Btn_list(SDL_Renderer* const renderer)
 
     loadGEntity(&btn->hover[9], renderer, "rc/sobel_button_hover.png");
     GEntity_set_pos(&btn->hover[9], btn->button[9].dest.x, btn->button[9].dest.y);
+
+    /** THIRD COL HOVER **/
+
+    loadGEntity(&btn->hover[10], renderer, "rc/histogram_button_hover.png");
+    GEntity_set_pos(&btn->hover[10], btn->button[10].dest.x, btn->button[10].dest.y);
+
+    loadGEntity(&btn->hover[11], renderer, "rc/histogram_color_button_hover.png");
+    GEntity_set_pos(&btn->hover[11], btn->button[11].dest.x, btn->button[11].dest.y);
 
     return btn;
 }
