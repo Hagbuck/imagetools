@@ -28,9 +28,9 @@
 typedef enum e__bool e__bool;
 enum e__bool{FALSE, TRUE};
 
-FILE*   get_file(char* file_name, char* method);
-e__bool save_string_into_file(char* str, FILE* file);
-void    str_to_int(char* str, int* integer);
-int     get_int_from_str(char* str);
+FILE*   get_file(char* const file_name, char* const method);
+e__bool save_string_into_file(char* const str, FILE* const file);
+void    str_to_int(char* const str, int* const integer);
+int     get_int_from_str(char* const str);
 
 #endif

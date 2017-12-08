@@ -14,7 +14,7 @@
  *
  * @return     The BMP_image
  */
-BMP_image* BMP_get_image_from_file(FILE* file)
+BMP_image* BMP_get_image_from_file(FILE* const file)
 {
     if(file != NULL)
     {

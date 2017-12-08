@@ -15,7 +15,7 @@
  *
  * @return     The PGM_P2_image
  */
-PGM_P2_image* PGM_P2_get_image_from_file(FILE* file)
+PGM_P2_image* PGM_P2_get_image_from_file(FILE* const file)
 {
     if(file)
     {
@@ -212,7 +212,7 @@ e__bool PGM_P2_set_reversed_filter(PGM_P2_image* const img)
  *
  * @return     the new image reversed
  */
-PGM_P2_image* PGM_P2_reversed_filter(PGM_P2_image *img)
+PGM_P2_image* PGM_P2_reversed_filter(PGM_P2_image* const img)
 {
     PGM_P2_image* reversed = PGM_P2_get_copy(img);
     PGM_P2_set_reversed_filter(reversed);
@@ -689,7 +689,7 @@ e__bool PGM_P2_convolution_with_Matrix(PGM_P2_image* const pgm, Matrix* const ma
  *
  * @return     The histogram of img
  */
-PGM_P2_histogram* PGM_P2_get_histogram(PGM_P2_image *img)
+PGM_P2_histogram* PGM_P2_get_histogram(PGM_P2_image* const img)
 {
     PGM_P2_histogram* histogram = malloc(sizeof(PGM_P2_histogram));
     int i, j;
@@ -729,7 +729,7 @@ PGM_P2_histogram* PGM_P2_get_histogram(PGM_P2_image *img)
  *
  * @return     TRUE if the save success, FALSE otherwise
  */
-e__bool PGM_P2_save_image_into_file(PGM_P2_image* pgm, FILE* file)
+e__bool PGM_P2_save_image_into_file(PGM_P2_image* const pgm, FILE* const file)
 {
     int width = pgm->width;
     int height = pgm->height;
@@ -776,7 +776,7 @@ e__bool PGM_P2_save_image_into_file(PGM_P2_image* pgm, FILE* file)
  *
  * @return     TRUE if success, FALSE otherwise
  */
-e__bool PGM_P2_save_histogram_as_PGM_P2_file(PGM_P2_histogram* histogram, FILE* file)
+e__bool PGM_P2_save_histogram_as_PGM_P2_file(PGM_P2_histogram* const histogram, FILE* const file)
 {
     PGM_P2_image* pgm_histogram = PGM_P2_get_PGM_P2_image_from_PGM_P2_histogram(histogram);
     e__bool res = PGM_P2_save_image_into_file(pgm_histogram, file);
@@ -791,7 +791,7 @@ e__bool PGM_P2_save_histogram_as_PGM_P2_file(PGM_P2_histogram* histogram, FILE* 
  *
  * @return     the copy of img
  */
-PGM_P2_image* PGM_P2_get_copy(PGM_P2_image* img)
+PGM_P2_image* PGM_P2_get_copy(PGM_P2_image* const img)
 {
     PGM_P2_image* copy = malloc(sizeof(PGM_P2_image));
     int i,j;
@@ -820,7 +820,7 @@ PGM_P2_image* PGM_P2_get_copy(PGM_P2_image* img)
  *
  * @return     The PGM_P2_image which represent the Histogram
  */
-PGM_P2_image* PGM_P2_get_PGM_P2_image_from_PGM_P2_histogram(PGM_P2_histogram* histogram)
+PGM_P2_image* PGM_P2_get_PGM_P2_image_from_PGM_P2_histogram(PGM_P2_histogram* const histogram)
 {
     if(histogram != NULL)
     {
@@ -899,7 +899,7 @@ e__bool is_separator(char char_readed)
     return FALSE;
 }
 
-void free_PGM_P2_pixels(PGM_P2_image* pgm)
+void free_PGM_P2_pixels(PGM_P2_image* const pgm)
 {
     if(pgm != NULL)
     {
@@ -915,7 +915,7 @@ void free_PGM_P2_pixels(PGM_P2_image* pgm)
  *
  * @param      pgm   The pgm
  */
-void free_PGM_P2_image(PGM_P2_image* pgm)
+void free_PGM_P2_image(PGM_P2_image* const pgm)
 {
     if(pgm != NULL)
     {
@@ -929,7 +929,7 @@ void free_PGM_P2_image(PGM_P2_image* pgm)
  *
  * @param      histogram  The histogram
  */
-void free_PGM_P2_histogram(PGM_P2_histogram* histogram)
+void free_PGM_P2_histogram(PGM_P2_histogram* const histogram)
 {
     if(histogram!= NULL)
     {
@@ -943,7 +943,7 @@ void free_PGM_P2_histogram(PGM_P2_histogram* histogram)
  *
  * @param      pgm   The pgm
  */
-void display_PGM_P2_image(PGM_P2_image* pgm)
+void display_PGM_P2_image(PGM_P2_image* const pgm)
 {
     int i, j;
 
@@ -964,7 +964,7 @@ void display_PGM_P2_image(PGM_P2_image* pgm)
  *
  * @param      histogram  The histogram
  */
-void display_PGM_P2_histogram(PGM_P2_histogram* histogram)
+void display_PGM_P2_histogram(PGM_P2_histogram* const histogram)
 {
     int i;
 

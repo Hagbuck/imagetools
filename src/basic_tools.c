@@ -14,7 +14,7 @@
  *
  * @return     The file.
  */
-FILE * get_file(char* file_name, char* method)
+FILE * get_file(char* const file_name, char* const method)
 {
     FILE * file;
     file = fopen(file_name, method);
@@ -35,7 +35,7 @@ FILE * get_file(char* file_name, char* method)
  *
  * @return     { TRUE if success, otherwise FALSE }
  */
-e__bool save_string_into_file(char* str, FILE* file)
+e__bool save_string_into_file(char* const str, FILE* const file)
 {
     if(file)
     {
@@ -51,7 +51,7 @@ e__bool save_string_into_file(char* str, FILE* file)
  * @param      str      The string
  * @param      integer  The integer
  */
-void str_to_int(char* str, int* integer)
+void str_to_int(char* const str, int* const integer)
 {
     int i = 0;
     char c;
@@ -77,7 +77,7 @@ void str_to_int(char* str, int* integer)
  *
  * @return     The integer
  */
-int get_int_from_str(char* str)
+int get_int_from_str(char* const str)
 {
     int i = 0;
     char c;

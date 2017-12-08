@@ -48,9 +48,9 @@ struct PGM_P2_histogram
 };
 
 
-PGM_P2_image*       PGM_P2_get_image_from_file(FILE* file);
+PGM_P2_image*       PGM_P2_get_image_from_file(FILE* const file);
 e__bool             PGM_P2_set_reversed_filter(PGM_P2_image* const img);
-PGM_P2_image*       PGM_P2_reversed_filter(PGM_P2_image *img);
+PGM_P2_image*       PGM_P2_reversed_filter(PGM_P2_image* const img);
 e__bool             PGM_P2_set_horizontal_reversed(PGM_P2_image* const img);
 e__bool             PGM_P2_set_vertical_reversed(PGM_P2_image* const img);
 e__bool             PGM_P2_set_FIR_1D_horizontal_filter(PGM_P2_image* const img);
@@ -61,19 +61,19 @@ e__bool             PGM_P2_set_FIR_2D_border_filter_x(PGM_P2_image* const pgm);
 e__bool             PGM_P2_set_FIR_2D_border_filter_y(PGM_P2_image* const pgm);
 e__bool             PGM_P2_set_sobel_filter(PGM_P2_image* const pgm);
 e__bool             PGM_P2_convolution_with_Matrix(PGM_P2_image* const pgm, Matrix* const matrix);
-PGM_P2_histogram*   PGM_P2_get_histogram(PGM_P2_image *img);
-e__bool             PGM_P2_save_image_into_file(PGM_P2_image* pgm, FILE* file);
-e__bool             PGM_P2_save_histogram_as_PGM_P2_file(PGM_P2_histogram* histogram, FILE* file);
+PGM_P2_histogram*   PGM_P2_get_histogram(PGM_P2_image* const img);
+e__bool             PGM_P2_save_image_into_file(PGM_P2_image* pgm, FILE* const file);
+e__bool             PGM_P2_save_histogram_as_PGM_P2_file(PGM_P2_histogram* const histogram, FILE* const file);
 
-PGM_P2_image*       PGM_P2_get_copy(PGM_P2_image* img);
-PGM_P2_image*       PGM_P2_get_PGM_P2_image_from_PGM_P2_histogram(PGM_P2_histogram* histogram);
+PGM_P2_image*       PGM_P2_get_copy(PGM_P2_image* const img);
+PGM_P2_image*       PGM_P2_get_PGM_P2_image_from_PGM_P2_histogram(PGM_P2_histogram* const histogram);
 
 e__bool             is_separator(char char_readed);
 
-void                free_PGM_P2_pixels(PGM_P2_image* pgm);
-void                free_PGM_P2_image(PGM_P2_image* pgm);
-void                free_PGM_P2_histogram(PGM_P2_histogram* histogram);
-void                display_PGM_P2_image(PGM_P2_image* pgm);
-void                display_PGM_P2_histogram(PGM_P2_histogram* histogram);
+void                free_PGM_P2_pixels(PGM_P2_image* const pgm);
+void                free_PGM_P2_image(PGM_P2_image* const pgm);
+void                free_PGM_P2_histogram(PGM_P2_histogram* const histogram);
+void                display_PGM_P2_image(PGM_P2_image* const pgm);
+void                display_PGM_P2_histogram(PGM_P2_histogram* const histogram);
 
 #endif

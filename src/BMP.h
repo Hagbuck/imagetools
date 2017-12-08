@@ -73,7 +73,7 @@ struct BMP_histogram
 };
 
 // BMP struct manipulating
-BMP_image*      BMP_get_image_from_file(FILE* file);
+BMP_image*      BMP_get_image_from_file(FILE* const file);
 e__bool         BMP_fill_header(BMP_image* const bmp, FILE* const file);
 e__bool         BMP_header_to_str(BMP_image* const bmp, unsigned char* str);
 e__bool         BMP_fill_pixels(BMP_image* const bmp, FILE* const file);
