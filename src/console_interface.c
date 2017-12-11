@@ -6,6 +6,9 @@
 
 #include "console_interface.h"
 
+/**
+ * @brief      Shows the logo.
+ */
 void show_logo(void)
 {
     puts("\t+---------------------------------------+");
@@ -14,6 +17,11 @@ void show_logo(void)
     puts("\t+---------------------------------------+");
 }
 
+/**
+ * @brief      Main menu function
+ *             Usefull to select which kind of image 
+ *             will be manipulate
+ */ 
 void main_menu(void)
 {
     e__bool is_end = FALSE;
@@ -58,6 +66,12 @@ void main_menu(void)
     }while(is_end == FALSE);
 }
 
+/**
+ * @brief      Gets the action.
+ *             It's a scanf function to get a char   
+ * 
+ * @return     The action.
+ */
 char get_action(void)
 {
     // char action;
@@ -87,6 +101,12 @@ char get_action(void)
     return action;
 }
 
+/**
+ * @brief      Gets the number.
+ *             it's a scanf function to get a integer
+ *
+ * @return     The number.
+ */
 int get_number(void)
 {
     // int nb;
@@ -118,6 +138,9 @@ int get_number(void)
     return nb;
 }
 
+/**
+ * @brief      The BMP window
+ */
 void bmp_menu(void)
 {
     e__bool is_end = FALSE;
@@ -505,6 +528,9 @@ void bmp_menu(void)
     }while(is_end == FALSE);
 }
 
+/**
+ * @brief      The PGM window
+ */
 void pgm_p2_menu(void)
 {
     e__bool is_end = FALSE;
@@ -864,6 +890,10 @@ void pgm_p2_menu(void)
     }while(is_end == FALSE);
 }
 
+/**
+ * @brief      Display a jump
+ *             To clear the window
+ */
 void jump_clear(void)
 {
     int i;

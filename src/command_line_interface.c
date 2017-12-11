@@ -6,6 +6,12 @@
 
 #include "command_line_interface.h"
 
+/**
+ * @brief      Command line interface function
+ *
+ * @param[in]  argc  The argc
+ * @param      argv  The argv
+ */
 void cli(int argc, char** argv)
 {
     PGM_P2_image* pgm = NULL;

@@ -6,6 +6,11 @@
 
 #include "gui_interface.h"
 
+/**
+ * @brief      Main window of the gui interface
+ *
+ * @return     exit return
+ */
 int main_window(void)
 {
     init_SDL();
@@ -105,6 +110,13 @@ int main_window(void)
     return 0;
 }
 
+/**
+ * @brief      Temporary function to get and load a BMP from the 
+ *             terminal
+ *
+ * @param      window    The window
+ * @param      renderer  The renderer
+ */
 void load_BMP(SDL_Window* const window, SDL_Renderer* const renderer)
 {
     char file_path[256] = "";
@@ -147,6 +159,12 @@ void load_BMP(SDL_Window* const window, SDL_Renderer* const renderer)
     }
 }
 
+/**
+ * @brief      Temporary function to save a BMP from the 
+ *             terminal
+ *
+ * @param      bmp   The bitmap
+ */
 void save_BMP(BMP_image* const bmp)
 {
     char file_path[256] = "";
@@ -177,6 +195,14 @@ void save_BMP(BMP_image* const bmp)
     }
 }
 
+/**
+ * @brief      The BMP management window
+ *
+ * @param      window     The window
+ * @param      renderer   The renderer
+ * @param      bmp        The bitmap
+ * @param      file_path  The file path
+ */
 void BMP_window(SDL_Window* const window, SDL_Renderer* const renderer, BMP_image* bmp, char* const file_path)
 {
     e__bool is_end = FALSE;
@@ -308,6 +334,13 @@ void BMP_window(SDL_Window* const window, SDL_Renderer* const renderer, BMP_imag
     free_Btn_list(btn);
 }
 
+/**
+ * @brief      Temporary function to get and load a PGM from the 
+ *             terminal
+ *
+ * @param      window    The window
+ * @param      renderer  The renderer
+ */
 void load_PGM(SDL_Window* const window, SDL_Renderer* const renderer)
 {
     char file_path[256] = "";
@@ -349,6 +382,14 @@ void load_PGM(SDL_Window* const window, SDL_Renderer* const renderer)
     }
 }
 
+/**
+ * @brief      The PGM management window
+ *
+ * @param      window     The window
+ * @param      renderer   The renderer
+ * @param      pgm        The pgm
+ * @param      file_path  The file path
+ */
 void PGM_window(SDL_Window* const window, SDL_Renderer* const renderer, PGM_P2_image* pgm, char* const file_path)
 {
     e__bool is_end = FALSE;
@@ -394,6 +435,13 @@ void PGM_window(SDL_Window* const window, SDL_Renderer* const renderer, PGM_P2_i
     free_PGM_P2_image(pgm);
 }
 
+/**
+ * @brief      Get a list of all button for the HUD
+ *
+ * @param      renderer  The renderer
+ *
+ * @return     The button list
+ */
 Btn_list* create_HUD_Btn_list(SDL_Renderer* const renderer)
 {
     Btn_list* btn = malloc(sizeof(Btn_list));
@@ -523,6 +571,14 @@ Btn_list* create_HUD_Btn_list(SDL_Renderer* const renderer)
     return btn;
 }
 
+/**
+ * @brief      Draws a button list.
+ *
+ * @param      btn       The button
+ * @param      renderer  The renderer
+ * @param[in]  mouse_x   The mouse x
+ * @param[in]  mouse_y   The mouse y
+ */
 void draw_Btn_list(Btn_list* const btn, SDL_Renderer* const renderer, int mouse_x, int mouse_y)
 {
     if(btn != NULL)
@@ -538,6 +594,15 @@ void draw_Btn_list(Btn_list* const btn, SDL_Renderer* const renderer, int mouse_
     }
 }
 
+/**
+ * @brief      Gets the button name hunder the mouse
+ *
+ * @param      btn      The button
+ * @param[in]  mouse_x  The mouse x
+ * @param[in]  mouse_y  The mouse y
+ *
+ * @return     The button name hunder the mouse.
+ */
 char* get_button_name_hunder_mouse_into_Btn_list(Btn_list* const btn, int mouse_x, int mouse_y)
 {
     if(btn != NULL)
@@ -552,6 +617,11 @@ char* get_button_name_hunder_mouse_into_Btn_list(Btn_list* const btn, int mouse_
     return NULL;
 }
 
+/**
+ * @brief      Free memory of Btn_list
+ *
+ * @param      btn   The button
+ */
 void free_Btn_list(Btn_list* const btn)
 {
     if(btn != NULL)
@@ -571,7 +641,9 @@ void free_Btn_list(Btn_list* const btn)
     }
 }
 
-
+/**
+ * @brief      Initialize SDL
+ */
 void init_SDL(void)
 {
     // Initialisation de la SDL
@@ -583,6 +655,15 @@ void init_SDL(void)
     }
 }
 
+/**
+ * @brief      Creates a sdl window.
+ *
+ * @param      win_title   The window title
+ * @param[in]  win_width   The window width
+ * @param[in]  win_height  The window height
+ *
+ * @return     The window
+ */
 SDL_Window* create_SDL_Window(char* const win_title, int win_width, int win_height)
 {
     // Création de la fenêtre
@@ -597,6 +678,13 @@ SDL_Window* create_SDL_Window(char* const win_title, int win_width, int win_heig
     return window;
 }
 
+/**
+ * @brief      Creates a sdl renderer.
+ *
+ * @param      window  The window
+ *
+ * @return     The renderer
+ */
 SDL_Renderer* create_SDL_Renderer(SDL_Window* window)
 {
     // Création du render
@@ -609,12 +697,27 @@ SDL_Renderer* create_SDL_Renderer(SDL_Window* window)
     return renderer;
 }
 
+/**
+ * @brief      Loads a GEntity.
+ *
+ * @param      entity    The entity
+ * @param      renderer  The renderer
+ * @param      address   The address
+ */
 void loadGEntity(GEntity* const entity, SDL_Renderer* renderer, char* const address)
 {
     entity->text = loadTexture(renderer, address);
     SDL_QueryTexture(entity->text, NULL, NULL, &entity->dest.w, &entity->dest.h); // Capt the size of the texture
 }
 
+/**
+ * @brief      Loads a texture.
+ *
+ * @param      renderer  The renderer
+ * @param      address   The address
+ *
+ * @return     The texture
+ */
 SDL_Texture* loadTexture(SDL_Renderer* renderer, char* const address)
 {
     SDL_Surface* surf = NULL;
@@ -635,6 +738,15 @@ SDL_Texture* loadTexture(SDL_Renderer* renderer, char* const address)
     return text;
 }
 
+/**
+ * @brief      Loads a texture with destination.
+ *
+ * @param      renderer  The renderer
+ * @param      address   The address
+ * @param      dest      The destination
+ *
+ * @return     The texture
+ */
 SDL_Texture* loadTextureWithDest(SDL_Renderer* renderer, char* const address, SDL_Rect *dest)
 {
     SDL_Texture *text = loadTexture(renderer, address);
@@ -642,6 +754,15 @@ SDL_Texture* loadTextureWithDest(SDL_Renderer* renderer, char* const address, SD
     return text;
 }
 
+/**
+ * @brief      Test collider between a point and a square
+ *
+ * @param[in]  x     x position of the point
+ * @param[in]  y     y position of the point
+ * @param[in]  r     the quare (SDL_Rect)
+ *
+ * @return     TRUE if they collide, otherwise FALSE
+ */
 e__bool testCollider(int x, int y, SDL_Rect r)
 {
     if(x > r.x + r.w    // More at the right
@@ -653,32 +774,70 @@ e__bool testCollider(int x, int y, SDL_Rect r)
         return TRUE;
 }
 
+/**
+ * @brief      Set the position of a GEntity
+ *
+ * @param      entity  The entity
+ * @param[in]  x       x position for the entity
+ * @param[in]  y       y position for the entity
+ */
 void GEntity_set_pos(GEntity* const entity, int x, int y)
 {
     entity->dest.x = x;
     entity->dest.y = y;
 }
 
+/**
+ * @brief      Set x position of a GEntity
+ *
+ * @param      entity  The entity
+ * @param[in]  x       the x positon for the entity
+ */
 void GEntity_set_x(GEntity* const entity, int x)
 {
     entity->dest.x = x;
 }
 
+/**
+ * @brief      Set y position of a GEntity
+ *
+ * @param      entity  The entity
+ * @param[in]  y       the y position for the entity
+ */
 void GEntity_set_y(GEntity* const entity, int y)
 {
     entity->dest.y = y;
 }
 
+/**
+ * @brief      set the x coordonate of a GEntity at the middle of the width
+ *
+ * @param      entity     The entity
+ * @param[in]  win_width  The window width
+ */
 void GEntity_center_x(GEntity* const entity, int win_width)
 {
     entity->dest.x = win_width / 2 - entity->dest.w / 2;
 }
 
+/**
+ * @brief      set the y coordonate of a GEntity at the middle of the width
+ *
+ * @param      entity     The entity
+ * @param[in]  win_height The window height
+ */
 void GEntity_center_y(GEntity* const entity, int win_height)
 {
     entity->dest.y = win_height / 2 - entity->dest.h / 2;
 }
 
+/**
+ * @brief      Set the GEntity coordonate at the middle of the box(window)
+ *
+ * @param      entity      The entity
+ * @param[in]  win_width   The window width
+ * @param[in]  win_height  The window height
+ */
 void GEntity_center(GEntity* const entity, int win_width, int win_height)
 {
     GEntity_center_x(entity, win_width);
