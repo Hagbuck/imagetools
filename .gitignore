@@ -111,6 +111,8 @@ obj/*
 
 #Images
 #img/*
+out_img/
+out_img/*
 
 #IGNO FOLDER
 igno/
