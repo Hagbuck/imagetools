@@ -976,3 +976,77 @@ void display_PGM_P2_histogram(PGM_P2_histogram* const histogram)
         printf("> %d : %d\n", i, histogram->intensity_value[i]);
     }
 }
+
+
+
+
+/**
+ * @brief      Set equalize histogram filter on PGM_P2
+ *
+ * @param      pgm   The bitmap
+ *
+ * @return     TRUE if sucess, FALSE otherwise
+ */
+e__bool PGM_P2_set_equalize_histogram(PGM_P2_image* const pgm)
+{
+    if(pgm != NULL)
+    {
+        //DONNEES
+        float nbPixels = pgm->width * pgm->height;
+
+        int i,j;
+        int taille=pgm->v_max;
+        //tabPixel nuance de gris
+        float tabPixel;
+        
+
+        //on initialise à zéro
+        for(i=0; i<taille; i++){
+            tabPixel[i]=0;
+        }
+
+        //on compte le nombre d'occurence
+        for(i=0; i<pgm->height; i++){
+            for(j=0; j<pgm->width; j++){
+                tabPixel[pgm->pixels[i][j]]++;
+            }
+        }
+
+        //tabProb nuance de gris
+        float tabProb[taille];
+
+        for(i=0; i<taille; i++){
+            tabProb[i]=tabPixel[i]/nbPixels;
+        }
+
+        //tabProbCumulée nuance de gris
+        float tabProbCumul[taille];
+
+        //initialisation
+        tabProbCumul[0]=tabProb[0];
+
+        for(i=1; i<taille; i++){
+            tabProbCumul[i]=tabProbCumul[i-1]+tabProb[i];
+        }
+
+        //tabFinal nuance de gris
+        float tabFinal[taille];
+
+        for(i=0; i<taille; i++){
+            tabFinal[i]=tabProbCumul[i]*taille;
+        }
+
+        //on crée la nouvelle image
+
+        // PGM_P2_image* new_pgm = PGM_P2_image_get_copy(pgm);
+
+        for(i=0; i<pgm->height; i++){
+            for(j=0; j<pgm->width; j++){
+
+                pgm->pixels[i][j] = tabFinal[pgm->pixels[i][j]];
+            }
+        }
+        return TRUE;
+    }
+    return FALSE;
+}
