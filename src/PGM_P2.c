@@ -960,7 +960,7 @@ void display_PGM_P2_image(PGM_P2_image* const pgm)
 }
 
 /**
- * @brief      Display an histogram in the terminak
+ * @brief      Display a histogram in the terminal
  *
  * @param      histogram  The histogram
  */

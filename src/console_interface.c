@@ -283,14 +283,45 @@ void bmp_menu(void)
             case 'J':
                 if(bmp != NULL)
                 {
+                    puts("\t> RED       : r");
+                    puts("\t> GREEN     : g");
+                    puts("\t> BLUE      : b");
+                    puts("\t> INTENSITY : i");
+                    printf("\tHISTOGRAM COMPONENT : ");
+                    action = get_action();
                     BMP_histogram* hist = NULL;
-                    puts("\t> Loading histogram ...");
-                    hist = BMP_get_histogram(bmp, INTENSITY);
+
+                    switch(action)
+                    {
+                        case 'r':
+                        case 'R':
+                            puts("\t> Loading RED histogram ...");
+                            hist = BMP_get_histogram(bmp, RED);
+                        break;
+
+                        case 'g':
+                        case 'G':
+                            puts("\t> Loading GREEN histogram ...");
+                            hist = BMP_get_histogram(bmp, GREEN);
+                        break;
+
+                        case 'b':
+                        case 'B':
+                            puts("\t> Loading BLUE histogram ...");
+                            hist = BMP_get_histogram(bmp, BLUE);
+                        break;
+
+                        default:
+                            puts("\t> Loading INTENSITY histogram ...");
+                            hist = BMP_get_histogram(bmp, INTENSITY);
+                        break;
+                    }
 
                     if(hist != NULL)
                     {
                         puts("\t> Loading histogram successful");
-                        // display_BMP_histogram(hist);
+                        display_BMP_histogram(hist);
+                        free_BMP_histogram(hist);
                     }
                     else
                     {
@@ -307,9 +338,48 @@ void bmp_menu(void)
             case 'K':
                 if(bmp != NULL)
                 {
+                    puts("\t> RED            : r");
+                    puts("\t> GREEN          : g");
+                    puts("\t> BLUE           : b");
+                    puts("\t> INTENSITY      : i");
+                    puts("\t> All COMPONENT  : c");
+                    printf("\tHISTOGRAM COMPONENT (r,g,b,i,c) : ");
+                    action = get_action();
                     BMP_histogram* hist = NULL;
-                    puts("\t> Loading histogram ...");
-                    hist = BMP_get_histogram(bmp, INTENSITY);
+                    e__bool all_component = FALSE;
+
+                    switch(action)
+                    {
+                        case 'r':
+                        case 'R':
+                            puts("\t> Loading RED histogram ...");
+                            hist = BMP_get_histogram(bmp, RED);
+                        break;
+
+                        case 'g':
+                        case 'G':
+                            puts("\t> Loading GREEN histogram ...");
+                            hist = BMP_get_histogram(bmp, GREEN);
+                        break;
+
+                        case 'b':
+                        case 'B':
+                            puts("\t> Loading BLUE histogram ...");
+                            hist = BMP_get_histogram(bmp, BLUE);
+                        break;
+
+                        case 'c':
+                        case 'C':
+                            puts("\t> Loading INTENSITY histogram for All COMPONENT ...");
+                            hist = BMP_get_histogram(bmp, INTENSITY);
+                            all_component = TRUE;
+                        break;
+
+                        default:
+                            puts("\t> Loading INTENSITY histogram ...");
+                            hist = BMP_get_histogram(bmp, INTENSITY);
+                        break;
+                    }
 
                     if(hist != NULL)
                     {
@@ -327,7 +397,27 @@ void bmp_menu(void)
                         else
                         {
                             printf("\t> Openning [%s] succesfull !\n", save_path);
-                            BMP_save_histogram_as_BMP_file(hist, out);
+                            if(all_component) // WE NEED TO LOAD ALL COMPONENTS HISTOGRAM
+                            {
+                                puts("\t> Loading RED histogram for All COMPONENT ...");
+                                BMP_histogram* hist_r = BMP_get_histogram(bmp, RED);
+                                puts("\t> Loading GREEN histogram for All COMPONENT ...");
+                                BMP_histogram* hist_g = BMP_get_histogram(bmp, GREEN);
+                                puts("\t> Loading BLUE histogram for All COMPONENT ...");
+                                BMP_histogram* hist_b = BMP_get_histogram(bmp, BLUE);
+
+                                BMP_image* hist_color = BMP_get_BMP_image_from_all_BMP_histogram(hist, hist_r, hist_g, hist_b);
+                                BMP_save_image_into_file(hist_color, out);
+
+                                free_BMP_image(hist_color);
+                                free_BMP_histogram(hist_r);
+                                free_BMP_histogram(hist_g);
+                                free_BMP_histogram(hist_b);
+                            }
+                            else    // ONLY ONE COMPONENT LOADED TO SAVE
+                            {
+                                BMP_save_histogram_as_BMP_file(hist, out);
+                            }
                             fclose(out);
                             printf("\t> [%s] saved into [%s] successfull !\n", file_path, save_path);
                         }

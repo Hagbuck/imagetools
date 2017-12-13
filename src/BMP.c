@@ -1461,3 +1461,19 @@ void free_BMP_histogram(BMP_histogram* const histogram)
         free(histogram);
     }
 }
+
+/**
+ * @brief      Display a histogram in the terminal
+ *
+ * @param      histogram  The histogram
+ */
+void display_BMP_histogram(BMP_histogram* const histogram)
+{
+    int i;
+
+    puts("Val : Int");
+    for(i = 0; i < histogram->size; ++i)
+    {
+        printf("> %d : %d\n", i, histogram->intensity_values[i]);
+    }
+}

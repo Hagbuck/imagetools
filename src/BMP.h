@@ -110,5 +110,6 @@ void            BMP_show_header(const BMP_image* const bmp);
 void            free_BMP_pixels(BMP_image* const bmp);
 void            free_BMP_image(BMP_image* const bmp);
 void            free_BMP_histogram(BMP_histogram* const histogram);
+void            display_BMP_histogram(BMP_histogram* const histogram);
 
 #endif
