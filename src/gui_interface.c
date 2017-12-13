@@ -219,7 +219,7 @@ void BMP_window(SDL_Window* const window, SDL_Renderer* const renderer, BMP_imag
 
     int time_a = 0;
 
-    for(i = 0; i < btn->size/3; ++i)
+    for(i = 0; i < NB_BUTTON_IN_COL; ++i)
         hud_height += btn->button[i].dest.h + 16;
 
     if(bmp->height > hud_height)        // HUD smaller than the picture
@@ -461,7 +461,7 @@ void PGM_window(SDL_Window* const window, SDL_Renderer* const renderer, PGM_P2_i
 
     int time_a = 0;
 
-    for(i = 0; i < btn->size/3; ++i)
+    for(i = 0; i < NB_BUTTON_IN_COL; ++i)
         hud_height += btn->button[i].dest.h + 16;
 
     if(pgm->height > hud_height)        // HUD smaller than the picture

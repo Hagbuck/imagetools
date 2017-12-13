@@ -18,8 +18,9 @@
 #include "BMP.h"
 #include "Matrix.h"
 
-#define WINDOW_WIDTH    512
-#define WINDOW_HEIGHT   512
+#define WINDOW_WIDTH        512
+#define WINDOW_HEIGHT       512
+#define NB_BUTTON_IN_COL    5
 
 typedef struct GEntity GEntity;
 struct GEntity

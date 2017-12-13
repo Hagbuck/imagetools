@@ -229,22 +229,13 @@ e__bool PGM_P2_set_reversed_filter(PGM_P2_image* const img)
  */
 PGM_P2_image* PGM_P2_reversed_filter(PGM_P2_image* const img)
 {
-    PGM_P2_image* reversed = PGM_P2_get_copy(img);
-    PGM_P2_set_reversed_filter(reversed);
-    // int i,j;
-    // int pixel_value;
-
-    // for(i = 0; i < reversed->height; ++i)
-    // {
-    //     for(j = 0; j < reversed->width; ++j)
-    //     {
-    //         pixel_value = reversed->pixels[i][j];           // Get the pixel value
-    //         pixel_value = reversed->v_max - pixel_value;    // Reverse pixel value
-
-    //         reversed->pixels[i][j] = pixel_value;           // Set the new pixel value
-    //     }
-    // }
-    return reversed;
+    if(img != NULL)
+    {
+        PGM_P2_image* reversed = PGM_P2_get_copy(img);
+        PGM_P2_set_reversed_filter(reversed);
+        return reversed;
+    }
+    return NULL;
 }
 
 /**
@@ -309,40 +300,6 @@ e__bool PGM_P2_set_vertical_reversed(PGM_P2_image* const img)
 e__bool PGM_P2_set_FIR_1D_horizontal_filter(PGM_P2_image* const img)
 {
     return PGM_P2_set_FIR_1D_horizontal_filter_with_depth(img, 1);
-    // if(img != NULL)
-    // {
-    //     int     i, j;
-    //     int**   pixels_out = NULL;
-
-    //     // Allocate memory for the pixels out
-    //     pixels_out = malloc(img->height * sizeof(int*));
-    //     for(i = 0; i < img->height; ++i)
-    //     {
-    //         pixels_out[i] = malloc(img->width * sizeof(int));
-            
-    //         // Copy the first and last value for each line (because the filter will not copy them)
-    //         // And it's not necessary to copy the whole matrix because the next loop will fill it
-    //         pixels_out[i][0] = img->pixels[i][0];
-    //         pixels_out[i][img->width -1] = img->pixels[i][img->width -1];
-    //     }
-
-    //     // Set the FIR 1D filter
-    //     for(i = 0; i < img->height; ++i) // HEIGHT
-    //     {
-    //         for(j = 1; j < img->width - 1; ++j) // WIDTH [+1;-1]
-    //         {
-    //             pixels_out[i][j] = (img->pixels[i][j - 1] + img->pixels[i][j] + img->pixels[i][j + 1]) / 3;
-    //         }
-    //     }
-
-    //     // Free the last pixels array, and set the new
-    //     for(i = 0; i < img->height; ++i)
-    //         free(img->pixels[i]);
-    //     free(img->pixels);
-    //     img->pixels = pixels_out;
-    //     return TRUE;
-    // }
-    // return FALSE;
 }
 
 /**
@@ -504,17 +461,21 @@ e__bool PGM_P2_set_FIR_1D_vertical_filter_with_depth(PGM_P2_image* const img, in
  */
 e__bool PGM_P2_set_FIR_2D_border_filter_x(PGM_P2_image* const pgm)
 {
-    Matrix* matrix = create_Matrix(3,3);
-    set_value_into_Matrix(matrix, 0, 0, -1);
-    set_value_into_Matrix(matrix, 0, 1, -2);
-    set_value_into_Matrix(matrix, 0, 2, -1);
+    if(pgm != NULL)
+    {
+        Matrix* matrix = create_Matrix(3,3);
+        set_value_into_Matrix(matrix, 0, 0, -1);
+        set_value_into_Matrix(matrix, 0, 1, -2);
+        set_value_into_Matrix(matrix, 0, 2, -1);
 
-    set_value_into_Matrix(matrix, 2, 0, 1);
-    set_value_into_Matrix(matrix, 2, 1, 2);
-    set_value_into_Matrix(matrix, 2, 2, 1);
+        set_value_into_Matrix(matrix, 2, 0, 1);
+        set_value_into_Matrix(matrix, 2, 1, 2);
+        set_value_into_Matrix(matrix, 2, 2, 1);
 
-    e__bool res = PGM_P2_convolution_with_Matrix(pgm, matrix);
-    return res;
+        e__bool res = PGM_P2_convolution_with_Matrix(pgm, matrix);
+        return res;
+    }
+    return FALSE;
 }
 
 /**
@@ -526,17 +487,21 @@ e__bool PGM_P2_set_FIR_2D_border_filter_x(PGM_P2_image* const pgm)
  */
 e__bool PGM_P2_set_FIR_2D_border_filter_y(PGM_P2_image* const pgm)
 {
-    Matrix* matrix = create_Matrix(3,3);
-    set_value_into_Matrix(matrix, 0, 0, -1);
-    set_value_into_Matrix(matrix, 1, 0, -2);
-    set_value_into_Matrix(matrix, 2, 0, -1);
+    if(pgm != NULL)
+    {
+        Matrix* matrix = create_Matrix(3,3);
+        set_value_into_Matrix(matrix, 0, 0, -1);
+        set_value_into_Matrix(matrix, 1, 0, -2);
+        set_value_into_Matrix(matrix, 2, 0, -1);
 
-    set_value_into_Matrix(matrix, 0, 2, 1);
-    set_value_into_Matrix(matrix, 1, 2, 2);
-    set_value_into_Matrix(matrix, 2, 2, 1);
+        set_value_into_Matrix(matrix, 0, 2, 1);
+        set_value_into_Matrix(matrix, 1, 2, 2);
+        set_value_into_Matrix(matrix, 2, 2, 1);
 
-    e__bool res = PGM_P2_convolution_with_Matrix(pgm, matrix);
-    return res;
+        e__bool res = PGM_P2_convolution_with_Matrix(pgm, matrix);
+        return res;
+    }
+    return FALSE;
 }
 
 /**
@@ -706,33 +671,37 @@ e__bool PGM_P2_convolution_with_Matrix(PGM_P2_image* const pgm, Matrix* const ma
  */
 PGM_P2_histogram* PGM_P2_get_histogram(PGM_P2_image* const img)
 {
-    PGM_P2_histogram* histogram = malloc(sizeof(PGM_P2_histogram));
-    int i, j;
-    int pixel_value;
-
-    histogram->size = img->v_max + 1;       // We need 0 to v_max included [0;v_max]
-    histogram->intensity_value = malloc(histogram->size * sizeof(int)); // Allocate as many array space as the number of potentials pixels values in img 
-
-    for(i = 0; i < histogram->size; ++i)    // Set all intensity value to 0
+    if(img != NULL)
     {
-        histogram->intensity_value[i] = 0;
-    }
+        PGM_P2_histogram* histogram = malloc(sizeof(PGM_P2_histogram));
+        int i, j;
+        int pixel_value;
 
-    for(i = 0; i < img->height; ++i)    // Foreach pixel
-    {
-        for(j = 0; j < img->width; ++j)
+        histogram->size = img->v_max + 1;       // We need 0 to v_max included [0;v_max]
+        histogram->intensity_value = malloc(histogram->size * sizeof(int)); // Allocate as many array space as the number of potentials pixels values in img 
+
+        for(i = 0; i < histogram->size; ++i)    // Set all intensity value to 0
         {
-            /**
-             * Each case of the array is a intensity
-             * So for each pixel
-             * Increment the intensity which match with this pixel intensity
-             */
-            pixel_value = img->pixels[i][j];
-
-            ++(histogram->intensity_value[pixel_value]);
+            histogram->intensity_value[i] = 0;
         }
+
+        for(i = 0; i < img->height; ++i)    // Foreach pixel
+        {
+            for(j = 0; j < img->width; ++j)
+            {
+                /**
+                 * Each case of the array is a intensity
+                 * So for each pixel
+                 * Increment the intensity which match with this pixel intensity
+                 */
+                pixel_value = img->pixels[i][j];
+
+                ++(histogram->intensity_value[pixel_value]);
+            }
+        }
+        return histogram;
     }
-    return histogram;
+    return NULL;
 }
 
 /**
@@ -746,40 +715,44 @@ PGM_P2_histogram* PGM_P2_get_histogram(PGM_P2_image* const img)
  */
 e__bool PGM_P2_save_image_into_file(PGM_P2_image* const pgm, FILE* const file)
 {
-    int width = pgm->width;
-    int height = pgm->height;
-    // char str_pgm[FILE_MAX_SIZE];        // A string which contain the pgm as a string
-    
-    char* str_pgm = malloc((HEADER_PGM_SIZE * sizeof(char))   // Space for the header
-        + ((8 * width * height) + height) * sizeof(char));    // Space for pixels (8 for maximal int size + ' ' (7+1)) (+height for each '\n')
-
-    char str_number[NUMBER_MAX_SIZE];   // A string which contain a number, used to collect the pixel value
-
-    sprintf(str_pgm, "P2\n%d %d\n%d\n", width, height, pgm->v_max); // Add the headers values into the string
-
-    int str_pgm_index = strlen(str_pgm);
-
-    /**
-     * For each pixels
-     */
-    int i, j, k;
-    for(i = 0; i < height; ++i)
+    if(pgm != NULL && file != NULL)
     {
-        for(j = 0; j < width; ++j)
+        int width = pgm->width;
+        int height = pgm->height;
+        // char str_pgm[FILE_MAX_SIZE];        // A string which contain the pgm as a string
+        
+        char* str_pgm = malloc((HEADER_PGM_SIZE * sizeof(char))   // Space for the header
+            + ((8 * width * height) + height) * sizeof(char));    // Space for pixels (8 for maximal int size + ' ' (7+1)) (+height for each '\n')
+
+        char str_number[NUMBER_MAX_SIZE];   // A string which contain a number, used to collect the pixel value
+
+        sprintf(str_pgm, "P2\n%d %d\n%d\n", width, height, pgm->v_max); // Add the headers values into the string
+
+        int str_pgm_index = strlen(str_pgm);
+
+        /**
+         * For each pixels
+         */
+        int i, j, k;
+        for(i = 0; i < height; ++i)
         {
-            sprintf(str_number, "%d ", pgm->pixels[i][j]);  // Add the pixel value
-            k = 0;
-            while(str_number[k] != '\0')        // Add the pixel value into the str_pgm
+            for(j = 0; j < width; ++j)
             {
-                str_pgm[str_pgm_index] = str_number[k];
-                ++str_pgm_index;
-                ++k;
+                sprintf(str_number, "%d ", pgm->pixels[i][j]);  // Add the pixel value
+                k = 0;
+                while(str_number[k] != '\0')        // Add the pixel value into the str_pgm
+                {
+                    str_pgm[str_pgm_index] = str_number[k];
+                    ++str_pgm_index;
+                    ++k;
+                }
             }
+            str_pgm[str_pgm_index] = '\n';
+            ++str_pgm_index;
         }
-        str_pgm[str_pgm_index] = '\n';
-        ++str_pgm_index;
+        return save_string_into_file(str_pgm, file);
     }
-    return save_string_into_file(str_pgm, file);
+    return FALSE;
 }
 
 /**
@@ -793,10 +766,14 @@ e__bool PGM_P2_save_image_into_file(PGM_P2_image* const pgm, FILE* const file)
  */
 e__bool PGM_P2_save_histogram_as_PGM_P2_file(PGM_P2_histogram* const histogram, FILE* const file)
 {
-    PGM_P2_image* pgm_histogram = PGM_P2_get_PGM_P2_image_from_PGM_P2_histogram(histogram);
-    e__bool res = PGM_P2_save_image_into_file(pgm_histogram, file);
-    free_PGM_P2_image(pgm_histogram);
-    return res;
+    if(histogram != NULL && file != NULL)
+    {
+        PGM_P2_image* pgm_histogram = PGM_P2_get_PGM_P2_image_from_PGM_P2_histogram(histogram);
+        e__bool res = PGM_P2_save_image_into_file(pgm_histogram, file);
+        free_PGM_P2_image(pgm_histogram);
+        return res;
+    }
+    return FALSE;
 }
 
 /**
@@ -879,24 +856,31 @@ e__bool PGM_P2_set_equalize_histogram(PGM_P2_image* const pgm)
  */
 PGM_P2_image* PGM_P2_get_copy(PGM_P2_image* const img)
 {
-    PGM_P2_image* copy = malloc(sizeof(PGM_P2_image));
-    int i,j;
-
-    copy->height = img->height;
-    copy->width  = img->width;
-    copy->v_max  = img->v_max;
-
-    // Allocate the memory for a 2D array which will contain the pixels
-    copy->pixels = malloc(copy->height * sizeof(int*));
-    for(i = 0; i < copy->height; ++i)
+    if(img != NULL)
     {
-        copy->pixels[i] = malloc(copy->width * sizeof(int));
-        for(j = 0; j < copy->width; ++j)
+        PGM_P2_image* copy = malloc(sizeof(PGM_P2_image));
+        if(copy != NULL)
         {
-            copy->pixels[i][j] = img->pixels[i][j];
+            int i,j;
+
+            copy->height = img->height;
+            copy->width  = img->width;
+            copy->v_max  = img->v_max;
+
+            // Allocate the memory for a 2D array which will contain the pixels
+            copy->pixels = malloc(copy->height * sizeof(int*));
+            for(i = 0; i < copy->height; ++i)
+            {
+                copy->pixels[i] = malloc(copy->width * sizeof(int));
+                for(j = 0; j < copy->width; ++j)
+                {
+                    copy->pixels[i][j] = img->pixels[i][j];
+                }
+            }
+            return copy;
         }
     }
-    return copy;
+    return NULL;
 }
 
 /**
@@ -1031,17 +1015,20 @@ void free_PGM_P2_histogram(PGM_P2_histogram* const histogram)
  */
 void display_PGM_P2_image(PGM_P2_image* const pgm)
 {
-    int i, j;
-
-    printf("PGM(%d, %d) vmax : %d\n", pgm->width, pgm->height, pgm->v_max);
-
-    for(i = 0; i < pgm->height; ++i)
+    if(pgm != NULL)
     {
-        for(j = 0; j < pgm->width; ++j)
+        int i, j;
+
+        printf("PGM(%d, %d) vmax : %d\n", pgm->width, pgm->height, pgm->v_max);
+
+        for(i = 0; i < pgm->height; ++i)
         {
-            printf("%d ", pgm->pixels[i][j]);
+            for(j = 0; j < pgm->width; ++j)
+            {
+                printf("%d ", pgm->pixels[i][j]);
+            }
+            printf("\n");
         }
-        printf("\n");
     }
 }
 
@@ -1052,11 +1039,14 @@ void display_PGM_P2_image(PGM_P2_image* const pgm)
  */
 void display_PGM_P2_histogram(PGM_P2_histogram* const histogram)
 {
-    int i;
-
-    puts("Val : Int");
-    for(i = 0; i < histogram->size; ++i)
+    if(histogram != NULL)
     {
-        printf("> %d : %d\n", i, histogram->intensity_value[i]);
+        int i;
+
+        puts("Val : Int");
+        for(i = 0; i < histogram->size; ++i)
+        {
+            printf("> %d : %d\n", i, histogram->intensity_value[i]);
+        }
     }
 }
