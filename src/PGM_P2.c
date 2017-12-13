@@ -66,9 +66,11 @@ PGM_P2_image* PGM_P2_get_image_from_file(FILE* const file)
                         }while(char_readed != '\n');
                         buffer[buffer_index] = '\0';
 
-                        if(strcmp(buffer, "P2\n") != 0) // The magic number is not P2
+                        // if(strcmp(buffer, "P2\n") != 0) // The magic number is not P2
+                        if(buffer[0] != 'P'
+                        || buffer[1] != '2')
                         {
-                            printf("ERRO : %d\n", ERR_IMAGE_FILE_IS_INCORRECT);
+                            printf("ERROR : %d\n", ERR_IMAGE_FILE_IS_INCORRECT);
                             exit(ERR_IMAGE_FILE_IS_INCORRECT);
                         }
                     break;
@@ -805,7 +807,7 @@ PGM_P2_image* PGM_P2_get_copy(PGM_P2_image* const img)
     for(i = 0; i < copy->height; ++i)
     {
         copy->pixels[i] = malloc(copy->width * sizeof(int));
-        for(int j = 0; j < copy->width; ++j)
+        for(j = 0; j < copy->width; ++j)
         {
             copy->pixels[i][j] = img->pixels[i][j];
         }
@@ -884,16 +886,16 @@ PGM_P2_image* PGM_P2_get_PGM_P2_image_from_PGM_P2_histogram(PGM_P2_histogram* co
 e__bool is_separator(char char_readed)
 {
     // if(char_readed == ' ' || char_readed == '\n' || char_readed == '\t' || char_readed == 'EOF' || char_readed == 'LF' || char_readed == 0)
-    if(char_readed == ' ' 
-    || char_readed == '\n' 
-    || char_readed == '\t' 
-    || char_readed == EOF 
-    || char_readed == 'LF'
-    || char_readed == 'VT'
-    || char_readed == 'BS' 
-    || char_readed == 'CR' 
-    || char_readed == 'TAB' 
-    || char_readed == 'FF' 
+    if(char_readed == ' '
+    || char_readed == '\n'
+    || char_readed == '\t'
+    || char_readed == EOF
+    || char_readed == 0x0A
+    || char_readed == 0x0B
+    || char_readed == 0x08
+    || char_readed == 0x0D
+    || char_readed == 0x09
+    || char_readed == 0x14
     || char_readed == 0)
         return TRUE;
     return FALSE;

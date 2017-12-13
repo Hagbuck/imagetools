@@ -147,7 +147,7 @@ void load_BMP(SDL_Window* const window, SDL_Renderer* const renderer)
         {
             puts("\t> Creating manipulated structure succesfull !");
 
-            BMP_window(window, renderer, bmp, file_path);
+            BMP_window(window, renderer, bmp);
         }
         else
         {
@@ -201,9 +201,8 @@ void save_BMP(BMP_image* const bmp)
  * @param      window     The window
  * @param      renderer   The renderer
  * @param      bmp        The bitmap
- * @param      file_path  The file path
  */
-void BMP_window(SDL_Window* const window, SDL_Renderer* const renderer, BMP_image* bmp, char* const file_path)
+void BMP_window(SDL_Window* const window, SDL_Renderer* const renderer, BMP_image* bmp)
 {
     e__bool is_end = FALSE;
     int     i, j;
@@ -388,7 +387,7 @@ void load_PGM(SDL_Window* const window, SDL_Renderer* const renderer)
         if(pgm != NULL)
         {
             puts("\t> Creating manipulated structure succesfull !");
-            PGM_window(window, renderer, pgm, file_path);
+            PGM_window(window, renderer, pgm);
         }
         else
         {
@@ -408,7 +407,7 @@ void load_PGM(SDL_Window* const window, SDL_Renderer* const renderer)
  * @param      pgm        The pgm
  * @param      file_path  The file path
  */
-void PGM_window(SDL_Window* const window, SDL_Renderer* const renderer, PGM_P2_image* pgm, char* const file_path)
+void PGM_window(SDL_Window* const window, SDL_Renderer* const renderer, PGM_P2_image* pgm)
 {
     e__bool is_end = FALSE;
     int     i, j;

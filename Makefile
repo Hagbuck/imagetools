@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-W -Wall -pedantic
+CFLAGS=-W -Wall
 LDFLAGS= -lm
 SDLFLAG= -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf
 EXEC=imagetools

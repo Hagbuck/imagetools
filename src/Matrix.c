@@ -103,6 +103,7 @@ int get_value_from_Matrix(Matrix* const matrix, int x, int y)
             return matrix->values[y][x];
         }
     }
+    return 0; // Only for jump the warning
 }
 
 /**
