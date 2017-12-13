@@ -110,7 +110,7 @@ obj/
 obj/*
 
 #Images
-img/*
+#img/*
 
 #IGNO FOLDER
 igno/
