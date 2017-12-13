@@ -35,6 +35,12 @@ PGM_P2_image* PGM_P2_get_image_from_file(FILE* const file)
         {
             char_readed = fgetc(file);
 
+            // if(line_number > 2)
+            // {
+            //     if(is_separator(char_readed) == TRUE)
+            //         while(is_separator(char_readed = fgetc(file)) == TRUE);
+            // }
+
             if(char_readed == '#')          // If this line is a commentary
             {
                 while(fgetc(file) != '\n'); // Go to the next line
@@ -43,6 +49,13 @@ PGM_P2_image* PGM_P2_get_image_from_file(FILE* const file)
             {
                 if(line_number <= 3)            // On the third first line we use the first char of the line as the first char .... Obviously
                 {
+                    if(is_separator(char_readed) == TRUE && char_readed != EOF)
+                    {
+                        while(is_separator(char_readed) == TRUE)
+                        {
+                            char_readed = fgetc(file);
+                        }
+                    }
                     buffer[0] = char_readed;
                     buffer_index = 1;
                 }
