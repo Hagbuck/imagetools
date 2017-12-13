@@ -282,11 +282,29 @@ void BMP_window(SDL_Window* const window, SDL_Renderer* const renderer, BMP_imag
                             BMP_set_sobel_filter(bmp);
                         else if(strcmp(hud_button_clicked, "histogram") == 0)
                         {
+                            BMP_histogram* hist = BMP_get_histogram(bmp, INTENSITY);
 
+                            BMP_image* hist_bmp = BMP_get_BMP_image_from_BMP_histogram(hist);
+                            save_BMP(hist_bmp);
+
+                            free_BMP_image(hist_bmp);
+                            free_BMP_histogram(hist);
                         }
                         else if(strcmp(hud_button_clicked, "histogram-color") == 0)
                         {
+                            BMP_histogram* hist_i = BMP_get_histogram(bmp, INTENSITY);
+                            BMP_histogram* hist_r = BMP_get_histogram(bmp, RED);
+                            BMP_histogram* hist_g = BMP_get_histogram(bmp, GREEN);
+                            BMP_histogram* hist_b = BMP_get_histogram(bmp, BLUE);
 
+                            BMP_image* hist_color = BMP_get_BMP_image_from_all_BMP_histogram(hist_i, hist_r, hist_g, hist_b);
+                            save_BMP(hist_color);
+
+                            free_BMP_image(hist_color);
+                            free_BMP_histogram(hist_i);
+                            free_BMP_histogram(hist_r);
+                            free_BMP_histogram(hist_g);
+                            free_BMP_histogram(hist_b);
                         }
                         else if(strcmp(hud_button_clicked, "equalized") == 0)
                         {
