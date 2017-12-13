@@ -14,17 +14,26 @@ do
     sobel_path="$OUT_FOLDER/$file_name.sobel.$file_extension"
     equalize_path="$OUT_FOLDER/$file_name.equalize.$file_extension"
     histogram_equalized_path="$OUT_FOLDER/$file_name._histogram.equalize.$file_extension"
+    rif1dh_path="$OUT_FOLDER/$file_name.fir1dh.$file_extension"
+    rif2dx_path="$OUT_FOLDER/$file_name.fir2dx.$file_extension"
+    rif2dy_path="$OUT_FOLDER/$file_name.fir2dy.$file_extension"
 
     if [ $file_extension = "bmp" ]
     then
         echo "> $entry -> BMP"
         ./imagetools-cli.out -b $entry --histogram c $histogram_path --sobel -s $sobel_path
         ./imagetools-cli.out -b $entry --equalize-hist -s $equalize_path --histogram c $histogram_equalized_path
+        ./imagetools-cli.out -b $entry --fir1d-h 4 -s $rif1dh_path
+        ./imagetools-cli.out -b $entry --fir2d-x -s $rif2dx_path
+        ./imagetools-cli.out -b $entry --fir2d-y -s $rif2dy_path
     elif [ $file_extension = "pgm" ]
     then
         echo "> $entry -> PGM"
-        ./imagetools-cli.out -p $entry --histogram i $histogram_path --sobel -s $sobel_path
-        ./imagetools-cli.out -p $entry --equalize-hist -s $equalize_path --histogram i $histogram_equalized_path
+        ./imagetools-cli.out -p $entry --histogram c $histogram_path --sobel -s $sobel_path
+        ./imagetools-cli.out -p $entry --equalize-hist -s $equalize_path --histogram c $histogram_equalized_path
+        ./imagetools-cli.out -p $entry --fir1d-h 4 -s $rif1dh_path
+        ./imagetools-cli.out -p $entry --fir2d-x -s $rif2dx_path
+        ./imagetools-cli.out -p $entry --fir2d-y -s $rif2dy_path
     else
         echo "> $entry is not an image readable by imagtools"
     fi
