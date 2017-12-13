@@ -400,6 +400,42 @@ void load_PGM(SDL_Window* const window, SDL_Renderer* const renderer)
 }
 
 /**
+ * @brief      Temporary function to save a PGM from the 
+ *             terminal
+ *
+ * @param      pgm   The pgm
+ */
+void save_PGM(PGM_P2_image* const pgm)
+{
+    char file_path[256] = "";
+    FILE* file = NULL;
+ 
+    if(pgm != NULL)
+    {
+        printf("\tSAVE FILE PATH : ");
+        scanf("%[^\n]%*c", file_path);
+        printf("\t> Openning %s...\n", file_path);
+        file = get_file(file_path, "wb");
+        if(file == NULL)
+        {
+            printf("\t> Openning [%s] failed !", file_path);
+            strcpy(file_path, "");
+        }
+        else
+        {
+            printf("\t> Openning [%s] succesfull !\n", file_path);
+            PGM_P2_save_image_into_file(pgm, file);
+            fclose(file);
+            printf("\t> [%s] saved into [%s] successfull !\n", file_path, file_path);
+        }
+    }
+    else
+    {
+        puts("\t> ERROR any PGM_image is load !");
+    }
+}
+
+/**
  * @brief      The PGM management window
  *
  * @param      window     The window
@@ -412,10 +448,32 @@ void PGM_window(SDL_Window* const window, SDL_Renderer* const renderer, PGM_P2_i
     e__bool is_end = FALSE;
     int     i, j;
 
+    char*   hud_button_clicked = NULL;
     int     mouse_x, mouse_y;
-    int     pixel_value;
+    e__bool mouse_down = FALSE;
 
-    SDL_SetWindowSize(window, pgm->width, pgm->height);
+    Btn_list* btn = create_HUD_Btn_list(renderer);
+
+    int hud_width = btn->button[0].dest.w + btn->button[5].dest.w + btn->button[10].dest.w + 16*4;
+    int hud_height = 16;
+    int picture_y_offset = 0;
+    int pixel_value;    // Int for be sure the calculation will not overflow
+
+    int time_a = 0;
+
+    for(i = 0; i < btn->size/3; ++i)
+        hud_height += btn->button[i].dest.h + 16;
+
+    if(pgm->height > hud_height)        // HUD smaller than the picture
+    {
+        SDL_SetWindowSize(window, pgm->width + hud_width + 16, pgm->height + 16*2);
+        picture_y_offset = 16;
+    }
+    else                                // HUD bigger than the picture
+    {
+        SDL_SetWindowSize(window, pgm->width + hud_width + 16, hud_height);
+        picture_y_offset = (hud_height - pgm->height) / 2;
+    }
 
     SDL_Event event;
     while (is_end == FALSE)
@@ -428,28 +486,96 @@ void PGM_window(SDL_Window* const window, SDL_Renderer* const renderer, PGM_P2_i
                 is_end = TRUE;
             break;
 
-            case SDL_KEYDOWN:
+            case SDL_KEYUP:
+                // printf("%d UP\n", event.key.keysym.sym);
                 if (event.key.keysym.sym == SDLK_ESCAPE)
                 {
                     is_end = TRUE;
                 }
             break;
+
+            case SDL_MOUSEBUTTONDOWN:
+                if(mouse_down == FALSE)
+                {
+                    hud_button_clicked = get_button_name_hunder_mouse_into_Btn_list(btn, mouse_x, mouse_y);
+                    if(hud_button_clicked != NULL)
+                    {
+                        printf("> %s\n", hud_button_clicked);
+                        if(strcmp(hud_button_clicked, "save") == 0)
+                            save_PGM(pgm);
+                        else if(strcmp(hud_button_clicked, "gray") == 0)
+                            puts("No effect");
+                        else if(strcmp(hud_button_clicked, "reversed") == 0)
+                            PGM_P2_set_reversed_filter(pgm);
+                        else if(strcmp(hud_button_clicked, "h-rotated") == 0)
+                            PGM_P2_set_horizontal_reversed(pgm);
+                        else if(strcmp(hud_button_clicked, "v-rotated") == 0)
+                            PGM_P2_set_vertical_reversed(pgm);
+                        else if(strcmp(hud_button_clicked, "fir1d-h") == 0)
+                            PGM_P2_set_FIR_1D_horizontal_filter_with_depth(pgm, 1);
+                        else if(strcmp(hud_button_clicked, "fir1d-v") == 0)
+                            PGM_P2_set_FIR_1D_vertical_filter_with_depth(pgm, 1);
+                        else if(strcmp(hud_button_clicked, "fir2d-x") == 0)
+                            PGM_P2_set_FIR_2D_border_filter_x(pgm);
+                        else if(strcmp(hud_button_clicked, "fir2d-y") == 0)
+                            PGM_P2_set_FIR_2D_border_filter_y(pgm);
+                        else if(strcmp(hud_button_clicked, "sobel") == 0)
+                            PGM_P2_set_sobel_filter(pgm);
+                        else if(strcmp(hud_button_clicked, "histogram") == 0
+                             || strcmp(hud_button_clicked, "histogram-color") == 0)
+                        {
+                            PGM_P2_histogram* hist = PGM_P2_get_histogram(pgm);
+                            PGM_P2_image* hist_pgm = PGM_P2_get_PGM_P2_image_from_PGM_P2_histogram(hist);
+                            save_PGM(hist_pgm);
+
+                            free_PGM_P2_image(hist_pgm);
+                            free_PGM_P2_histogram(hist);
+                        }
+                        else if(strcmp(hud_button_clicked, "equalized") == 0)
+                        {
+                            PGM_P2_set_equalize_histogram(pgm);
+                        }
+                    }
+                }
+                mouse_down = TRUE;
+            break;
+
+            case SDL_MOUSEBUTTONUP:
+                mouse_down = FALSE;
+            break;
+
+            case SDL_MOUSEMOTION:
+                // printf("(%d:%d)\n", mouse_x, mouse_y);
+            break;                
         }
 
-        SDL_RenderClear(renderer);
+        
 
-        for(i = 0; i < pgm->height; ++i)
+        if(SDL_GetTicks() - time_a >= 80)
         {
-            for(j = 0; j < pgm->width; ++j)
+            SDL_RenderClear(renderer);
+            for(i = 0; i < pgm->height; ++i)
             {
-                pixel_value = (pgm->pixels[i][j] * 255 / pgm->v_max);
-                SDL_SetRenderDrawColor(renderer, pixel_value, pixel_value, pixel_value, 255);
-                SDL_RenderDrawPoint(renderer, j, i);
+                for(j = 0; j < pgm->width; ++j)
+                {
+                    pixel_value = pgm->pixels[i][j] * 255 / pgm->v_max;
+                    SDL_SetRenderDrawColor(renderer, pixel_value, pixel_value, pixel_value, 255);
+                    SDL_RenderDrawPoint(renderer, j + hud_width, i + picture_y_offset);
+                }
             }
+
+
+            SDL_SetRenderDrawColor(renderer, 30,30,30,255);
+            draw_Btn_list(btn, renderer, mouse_x, mouse_y);
+
+
+            SDL_RenderPresent(renderer);
+            time_a = SDL_GetTicks();
+            SDL_Delay(20);
         }
-        SDL_RenderPresent(renderer);
     }
     free_PGM_P2_image(pgm);
+    free_Btn_list(btn);
 }
 
 /**
