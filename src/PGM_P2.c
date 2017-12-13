@@ -800,6 +800,22 @@ e__bool PGM_P2_save_histogram_as_PGM_P2_file(PGM_P2_histogram* const histogram, 
 }
 
 /**
+ * @brief      Set equalization filter into PGM_P2_image
+ *
+ * @param      pgm   The pgm
+ *
+ * @return     { description_of_the_return_value }
+ */
+e__bool PGM_P2_set_equalize_histogram(PGM_P2_image* const pgm)
+{
+    if(pgm != NULL)
+    {
+        return TRUE;
+    }
+    return FALSE;
+}
+
+/**
  * @brief      copy a PGM_P2_image and return the new instance
  *
  * @param      img   The image
