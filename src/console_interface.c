@@ -331,6 +331,7 @@ void bmp_menu(void)
                             fclose(out);
                             printf("\t> [%s] saved into [%s] successfull !\n", file_path, save_path);
                         }
+                        free_BMP_histogram(hist);
                     }
                     else
                     {
@@ -719,6 +720,7 @@ void pgm_p2_menu(void)
                             fclose(out);
                             printf("\t> [%s] saved into [%s] successfull !\n", file_path, save_path);
                         }
+                        free_PGM_P2_histogram(hist);
                     }
                     else
                     {
