@@ -133,9 +133,7 @@ void cli(int argc, char** argv)
             if(bmp != NULL)
                 BMP_set_equalize_histogram(bmp);
             if(pgm != NULL)
-            {
-                // PGM_P2_set_equalize_histogram(pgm);
-            }
+                PGM_P2_set_equalize_histogram(pgm);
         }
 
         /**
